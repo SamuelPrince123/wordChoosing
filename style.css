@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+
+    /* Background image setup */
+    background-image: url('./images/background.png'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the whole page */
+    background-position: center; /* Centers the image */
+    background-attachment: fixed; /* Keeps the image fixed when scrolling */
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* Radial gradient to create multiple blur zones */
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0) 0%,   /* No blur at the edges */
+        rgba(255, 255, 255, 0.1) 20%, /* Slight blur */
+        rgba(255, 255, 255, 0.3) 40%, /* Moderate blur */
+        rgba(255, 255, 255, 0.5) 60%, /* Noticeable blur */
+        rgba(255, 255, 255, 0.8) 80%, /* Strong blur */
+        rgba(255, 255, 255, 1) 100%   /* Maximum blur at the center */
+    );
+
+    /* Apply the blur effect */
+    filter: blur(40px); /* Adjust overall blur intensity */
+    background-size: cover;
+    background-position: center;
+
+    z-index: -1; /* Ensure the effect stays behind the content */
+}
+
+
+#start-screen {
+    font-size: 24px;
+    margin-top: 100px;
+}
+
+#start-button {
+    padding: 20px 40px;
+    font-size: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#start-button:hover {
+    background-color: #45a049;
+}
+
+#game-container {
+    margin-top: 50px;
+}
+
+.image {
+    width: 100%; /* Set to 100% of the parent container width */
+    max-width: 300px; /* Ensure the image does not exceed 300px in width */
+    max-height: 280px; /* Ensure the image does not exceed 300px in height */
+    height: auto; /* Maintain the aspect ratio */
+    border: 5px solid transparent;
+    border-radius: 20px;
+}
+
+.word-button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.word-button:hover {
+    background-color: #45a049;
+}
+
+.green-outline {
+    border: 5px solid green;
+}
+
+#message {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.mute-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgb(10, 10, 10);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .mute-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .mute-button:focus {
+    outline: none;
+  }
+  

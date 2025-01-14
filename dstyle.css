@@ -1,0 +1,85 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #212121; /* Dark background for a game vibe */
+    color: #f4f4f9; /* Light text for contrast */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111; /* Dark header for gaming aesthetic */
+    padding: 20px 30px;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Adding shadow for depth */
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .logo img {
+    width: 50px;
+    height: auto;
+}
+
+header .logo h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 2px; /* Adds a more techy look */
+}
+
+header .profile, header .language {
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+header .profile:hover, header .language:hover {
+    color: #ff9800; /* Highlight color when hovered */
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    gap: 40px;
+}
+
+nav {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #f4f4f9; /* Light color for the text */
+    font-size: 20px;
+    padding: 12px 25px;
+    background: #212121; /* Same as background */
+    border: none; /* No border */
+    transition: color 0.3s ease; /* Transition for color change */
+}
+
+nav a:not(:last-child) {
+    border-right: 2px solid #444; /* Add a subtle border between the buttons */
+}
+
+nav a:hover {
+    color: #ff9800; /* Change text color on hover to orange */
+}
+
+footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+}

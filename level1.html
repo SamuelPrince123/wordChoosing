@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .back-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
+    </button>
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'grade1.html'; // Replace with your fallback page URL
+            }
+        }
+    </script>
+
+    <!-- Start Screen with a "Start" Button -->
+    <div id="start-screen">
+        <h1>Welcome to the Game!</h1>
+        <button id="start-button">Start</button>
+    </div>
+
+    <!-- Game Content (Hidden Initially) -->
+    <div id="game-container" style="display:none;">
+        <img id="current-image" src="images/apple.jpg" alt="image" class="image">
+        <p id="message"></p>
+        <div>
+            <button onclick="checkWord('apple')" class="word-button">Apple</button>
+            <button onclick="checkWord('banana')" class="word-button">Banana</button>
+            <button onclick="checkWord('cherry')" class="word-button">Cherry</button>
+            <button onclick="checkWord('annoy')" class="word-button">Annoy</button>
+            <button onclick="checkWord('attention')" class="word-button">Attention</button>
+            <button onclick="checkWord('calm')" class="word-button">Calm</button>
+            <button onclick="checkWord('comfortable')" class="word-button">Comfortable</button>
+        </div>
+    </div>
+    <button id="mute-button" class="mute-button">Mute</button>
+
+    <audio id="background-music" loop>
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

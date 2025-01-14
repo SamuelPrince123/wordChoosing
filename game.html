@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Categories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="gstyle.css">
+
+
+</head>
+<body>
+<header>
+<style>
+    .back-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+    </head>
+    <body>
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
+        </button>    
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html'; // Replace with your fallback page URL
+                }
+            }
+        </script>
+        <h1>Grade Categories</h1>
+    </header>
+
+    <div class="categories">
+        <a href="grade1.html" class="category">Grade 1</a>
+        <a href="grade2.html" class="category">Grade 2</a>
+        <a href="grade3.html" class="category">Grade 3</a>
+        <a href="grade4.html" class="category">Grade 4</a>
+        <a href="grade5.html" class="category">Grade 5</a>
+        <a href="grade6.html" class="category">Grade 6</a>
+        <a href="grade7.html" class="category">Grade 7</a>
+        <a href="grade8.html" class="category">Grade 8</a>
+        <a href="grade9.html" class="category">Grade 9</a>
+        <a href="grade10.html" class="category">Grade 10</a>
+        <a href="grade11.html" class="category">Grade 11</a>
+        <a href="grade12.html" class="category">Grade 12</a>
+    </div>
+
+    <footer>
+        &copy; 2025 Grade Categories Project. All rights reserved.
+    </footer>
+</body>
+</html>

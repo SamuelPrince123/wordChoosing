@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="1style.css">
+
+</head>
+<body>
+    <header>
+        <style>
+            .back-button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+    
+            .back-button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
+        </button>    
+        <script>
+            function goBack() {
+                if (document.referrer) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'game.html'; // Replace with your fallback page URL
+                }
+            }
+        </script>
+        <h1>Select a Level</h1>
+    </header>
+
+    <div class="levels-container">
+        <a href="level1.html" class="level">Level 1</a>
+        <a href="level1t.html" class="level">Test 1</a>
+        <a href="level2.html" class="level">Level 2</a>
+        <a href="level1t.html" class="level">Test 2</a>
+
+        <a href="level3.html" class="level">Level 3</a>
+        <a href="level1t.html" class="level">Test 3</a>
+
+        <a href="level4.html" class="level">Level 4</a>
+        <a href="level1t.html" class="level">Test 4</a>
+
+        <a href="level5.html" class="level">Level 5</a>
+        <a href="level1t.html" class="level">Test 5</a>
+
+        <a href="level6.html" class="level">Level 6</a>
+        <a href="level1t.html" class="level">Test 6</a>
+
+        <a href="level7.html" class="level">Level 7</a>
+        <a href="level1t.html" class="level">Test 7</a>
+
+        <a href="level8.html" class="level">Level 8</a>
+        <a href="level1t.html" class="level">Test 8</a>
+
+        <a href="level9.html" class="level">Level 9</a>
+        <a href="level1t.html" class="level">Test 9</a>
+
+        <a href="level10.html" class="level">Level 10</a>
+        <a href="level1t.html" class="level">Test 10</a>
+
+    </div>
+
+    <footer>
+        &copy; 2025 Levels Project. All rights reserved.
+    </footer>
+</body>
+</html>

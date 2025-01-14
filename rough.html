@@ -1,0 +1,118 @@
+<button onclick="checkWord('consequences')" class="word-button">Consequences of fight</button>
+<button onclick="checkWord('curious')" class="word-button">Curious</button>
+<button onclick="checkWord('curve')" class="word-button">Curved line</button>
+<button onclick="checkWord('decide')" class="word-button">Decide/Think/Direction</button>
+<button onclick="checkWord('discover')" class="word-button">Discover</button>
+<button onclick="checkWord('dissapoint')" class="word-button">Dissapoint/Embarrassed</button>
+<button onclick="checkWord('enormous')" class="word-button">Enormous Pineapple</button>
+<button onclick="checkWord('exhausted')" class="word-button">Exhausted</button>
+<button onclick="checkWord('explore')" class="word-button">Explore</button>
+<button onclick="checkWord('facinating')" class="word-button">Fascinating/Excited</button>
+<button onclick="checkWord('feast')" class="word-button">Feast</button>
+
+
+"consequences",
+"curious",
+"curve",
+"decide",
+"discover",
+"dissapoint",
+"enormous",
+"exhausted",
+"explore",
+"facinating",
+"feast",
+
+
+"images/consequences.jpg",
+  "images/curious.jpg",
+  "images/curve.jpg",
+  "images/decide.jpg",
+  "images/discover.jpg",
+  "images/dissapoint.jpg",
+  "images/enormous.jpg",
+  "images/exhausted.jpg",
+  "images/explore.jpg",
+  "images/facinating.jpg",
+  "images/feast.jpg",
+
+
+
+
+
+
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Game</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .back-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">Go Back</button>
+
+    <script>
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'grade1.html'; // Replace with your fallback page URL
+            }
+        }
+    </script>
+</head>
+<body>
+  
+
+
+<!-- Start Screen with a "Start" Button -->
+<div id="start-screen">
+    <h1>Welcome to the Game!</h1>
+    <button id="start-button">Start</button>
+</div>
+
+<!-- Game Content (Hidden Initially) -->
+<div id="game-container" style="display:none;">
+    <img id="current-image" src="images/apple.jpg" alt="image" class="image">
+    <p id="message"></p>
+    <div>
+        <button onclick="checkWord('apple')" class="word-button">Apple</button>
+        <button onclick="checkWord('banana')" class="word-button">Banana</button>
+        <button onclick="checkWord('cherry')" class="word-button">Cherry</button>
+        <button onclick="checkWord('annoy')" class="word-button">Annoy</button>
+<button onclick="checkWord('attention')" class="word-button">attention</button>
+<button onclick="checkWord('calm')" class="word-button">Calm</button>
+<button onclick="checkWord('comfortable')" class="word-button">comfortable</button>
+
+       
+
+    </div>
+</div>
+<button id="mute-button" class="mute-button">Mute</button>
+
+<audio id="background-music" loop>
+    Your browser does not support the audio element.
+</audio>
+
+<script src="script.js"></script>
+</body>
+</html>
