@@ -1,60 +1,106 @@
-body {
-    font-family: 'Arial', sans-serif;
+ /* General Styles */
+ body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #212121; /* Dark background for gaming vibe */
-    color: #f4f4f9; /* Light text color for contrast */
+    background: linear-gradient(to bottom, #ffe6f7, #ffb3d9);
+    color: #333;
 }
 
-header {
-    background-color: #111; /* Dark header to match the gaming style */
-    color: #fff;
-    padding: 20px;
+h1 {
     text-align: center;
+    font-size: 2.5rem;
+    color: #ff80bf;
+    margin-top: 10px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 2px; /* Adds a more techy look */
-}
-
-.levels-container {
+/* Back Button Styles */
+.back-button {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
-    gap: 20px;
-}
-
-.level {
-    background-color: #333; /* Dark background for level blocks */
-    border: 1px solid #444; /* Slightly lighter border to differentiate levels */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 120px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff80bf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    background-color: #ff4da6;
+}
+
+.back-button i {
+    font-size: 18px;
+}
+
+.roadmap-container {
+    position: relative;
+    width: 80%;
+    margin: 60px auto;
+    height: 1200px; /* Adjust based on total levels */
+}
+
+/* Level Button Styles */
+.level {
+    display: block;
+    width: 150px;
+    padding: 10px;
     text-align: center;
+    background: #ffb3d9;
+    color: #fff;
     text-decoration: none;
-    color: #f4f4f9; /* Light text color for contrast */
-    font-size: 20px;
+    border-radius: 50px;
     font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s;
+    position: absolute;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .level:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background: #ff80bf;
+}
+
+/* Positioning Levels */
+.level1 { top: 50px; left: 20%; }
+.test1 { top: 150px; left: 60%; }
+.level2 { top: 250px; left: 20%; }
+.test2 { top: 350px; left: 60%; }
+.level3 { top: 450px; left: 20%; }
+.test3 { top: 550px; left: 60%; }
+.level4 { top: 650px; left: 20%; }
+.test4 { top: 750px; left: 60%; }
+.level5 { top: 850px; left: 20%; }
+.test5 { top: 950px; left: 60%; }
+
+/* SVG Styles */
+.road {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.road path {
+    fill: none;
+    stroke: #ff80bf;
+    stroke-width: 10;
+    stroke-linecap: round;
+}
+
+.road path.dashed {
+    stroke-dasharray: 15;
 }
 
 footer {
     text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 14px;
-    color: #888;
+    padding: 20px 0;
+    background: #ffb3d9;
+    color: white;
+    position: relative;
 }

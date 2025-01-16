@@ -235,8 +235,10 @@ function showFinalScore() {
   const modal = document.getElementById("final-score-modal");
   modal.style.display = "block";
 
-  // Play a dramatic sound effect (optional)
-  const finalSound = new Audio("PopUP/finalscore.mp3");
+  // Play a dramatic sound effect
+  const finalSound = new Audio(
+    "music/hand-clap-with-together-sound-effect-263698.mp3"
+  );
   finalSound.play();
 
   // Add an animation to the modal (zoom-in effect)
@@ -254,7 +256,7 @@ function showFinalScore() {
   setTimeout(() => {
     modal.style.display = "none";
     startLoading(); // Start the loading animation after 10 seconds if not closed
-  }, 10000); // Close the modal after 10 seconds (adjustable)
+  }, 10000); // Close the modal after 10 seconds
 }
 
 // Function to handle the loading animation from 0% to 100%

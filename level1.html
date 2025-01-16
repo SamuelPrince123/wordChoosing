@@ -6,9 +6,27 @@
     <title>PicScribe</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+     
+
+    </style>
 </head>
 <body>
-    <!-- Loading Screen (Will be visible before the game starts) -->
+    <button class="back-button" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
+    </button>
+
+   <!-- Timer -->
+   <div id="timer-container">
+    <span id="timer">01:00</span> <!-- Timer starts at 01:00 (60 seconds) -->
+</div>
+
+    <!-- Coins Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">50/100 Coins</div>
+    </div>
+
+    <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-bar">
             <div class="loading-progress"></div>
@@ -16,23 +34,53 @@
         <p id="loading-text">Loading... 0%</p>
     </div>
 
-    <button class="back-button" onclick="goBack()">
-        <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
-    </button>
     <script>
         function goBack() {
-            if (document.referrer) {
-                window.history.back();
-            } else {
-                window.location.href = 'grade1.html'; // Replace with your fallback page URL
-            }
+            window.location.href = 'grade1.html'; // Directly go to 'game.html' when back button is clicked
         }
+
+        // Set a default time (in seconds)
+        let timeLeft = 60; // Set your time here (e.g., 60 seconds)
+        
+        // Function to start the countdown
+        function startTimer() {
+              const timerElement = document.getElementById('timer');
+  
+              // Update the timer every second
+              const timerInterval = setInterval(() => {
+                  if (timeLeft <= 0) {
+                      clearInterval(timerInterval);
+                      alert('Time is up!');
+                      // You can trigger the end of the game here
+                  } else {
+                      let minutes = Math.floor(timeLeft / 60); // Get minutes
+                      let seconds = timeLeft % 60; // Get seconds
+  
+                      // Format the minutes and seconds to always have two digits
+                      minutes = minutes < 10 ? '0' + minutes : minutes;
+                      seconds = seconds < 10 ? '0' + seconds : seconds;
+  
+                      timerElement.textContent = minutes + ':' + seconds; // Update the timer display
+                      timeLeft--; // Decrease time by 1 second
+                  }
+              }, 1000);
+          }
+
+          document.addEventListener('DOMContentLoaded', function () {
+      // Trigger the timer when the game starts (e.g., after clicking a "Start" button)
+      document.getElementById('start-button').addEventListener('click', function () {
+          startTimer(); // Start the countdown
+          document.getElementById('start-screen').style.display = 'none'; // Hide the start screen
+          document.getElementById('game-container').style.display = 'block'; // Show the game content
+      });
+  });
     </script>
 
     <!-- Start Screen with a "Start" Button -->
-    <div id="start-screen" style="display: none;">
+    <div id="start-screen" style="display: block;">
         <h1 class="lightning-text">PicScribe</h1>
         <button id="start-button">Start</button>
+        <h2 class="lightning-text1">Finish it within 1 minute</h1>
     </div>
 
     <!-- Game Content (Hidden Initially) -->
@@ -51,7 +99,6 @@
             <p id="final-score-message">Your score will appear here.</p>
             <button id="close-modal">Close</button>
         </div>
-        
     </div>
   
     <button id="mute-button" class="mute-button">Mute</button>
@@ -61,5 +108,6 @@
     </audio>
 
     <script src="script.js"></script>
+    <script src="script1.js"></script>
 </body>
 </html>
