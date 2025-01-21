@@ -13,3 +13,26 @@ function updateCoins(amount) {
 
 // // Example: Add 10 coins every 3 seconds
 setInterval(() => updateCoins(10), 3000);
+
+//for the profiles
+
+let currentLevel = 1;
+let progress = 0;
+
+function increaseProgress(amount) {
+  const progressFill = document.getElementById("progressFill1");
+  progress += amount;
+  if (progress >= 100) {
+    progress = 0;
+    currentLevel++;
+    document.querySelector(
+      ".progress-label1"
+    ).textContent = `Lv. ${currentLevel}`;
+  }
+  progressFill.style.width = `${progress}%`;
+}
+
+// Simulate the progress increment for demonstration
+setInterval(() => {
+  increaseProgress(10);
+}, 1000);

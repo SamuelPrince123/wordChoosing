@@ -100,14 +100,18 @@ body::before {
 }
 
 .image {
+  position: relative;
     width: 100%; /* Set to 100% of the parent container width */
     max-width: 300px; /* Ensure the image does not exceed 300px in width */
     max-height: 280px; /* Ensure the image does not exceed 300px in height */
     height: auto; /* Maintain the aspect ratio */
     border: 5px solid transparent;
     border-radius: 20px;
+    top: -80px;
 }
 #message {
+  position: relative;
+  top: -50px;
     font-size: 30px;
     font-weight: bold;
     margin-top: 20px;
@@ -190,6 +194,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     margin: 5px;
     position: relative;
+    top: -50px;
     overflow: hidden;
 }
 
@@ -363,8 +368,8 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   background: linear-gradient(to bottom, #fff0f5, #ffe6f2); /* Gradient background */
   margin: 10px auto;
   position: fixed;
-  top: 10px;
-  left: 40%;
+  top: 15px;
+  left: 62%;
   transform: translateX(-50%);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
   overflow: hidden;
@@ -390,7 +395,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
  #timer-container {
         position: fixed;
         top: 10px;
-        left: 75%;
+        left: 85%;
         transform: translateX(-50%);
         background-color: pink;
         border-radius: 50%;
@@ -405,9 +410,88 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
- 
-  
+.profile-container1 {
+  position: relative;
+  align-items: center;
+  background-color: #ffcce5;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  height: 35px;
+  left: 8%;
+  top: -6%;
+}
 
+.profile-picture1 {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+  border: 4px solid #ff99c2;
+  top: -14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffe6f0; /* Optional: Adds background in case of empty space */
+}
+
+.profile-picture1 img {
+  width: 100%; /* Ensures the image fits the width of the container */
+  height: 100%; /* Ensures the image fits the height of the container */
+  object-fit: fill; /* Displays the entire image without cropping */
+  display: block;
+}
+
+
+
+
+
+.progress-section1 {
+  flex: 1;
+}
+
+.progress-label1 {
+  position: relative;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff4d94;
+  margin-bottom: 5px;
+  top: -100px;
+  left: 130px;
+}
+
+.progress-bar1 {
+  position: relative;
+  width: 80%;
+  height: 15px;
+  background-color: #ffe6f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  top: -100px;
+  left: 75px;
+}
+
+.progress-bar-fill1 {
+  height: 100%;
+  background-color: #ff4d94;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+/* Username */
+.username {
+  position: relative;
+  top: -75px;
+  right: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #ff66a3; /* Pinkish tone for username */
+  margin-bottom: 5px; /* Space between username and progress section */
+}
 
 
 
