@@ -1,4 +1,5 @@
 // List of available music files
+
 const musicFiles = [
   "music/music1.mp3",
   "music/music2.mp3",
@@ -28,6 +29,10 @@ window.onload = function () {
     }
   }, 100); // Update every 100ms (adjust for speed)
 };
+
+function goBack() {
+  window.location.href = "grade1.html"; // Redirects to grade1.html
+}
 
 // Shuffle function to randomly reorder an array
 function shuffleArray(array) {

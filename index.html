@@ -13,13 +13,13 @@
             <h1>Game Dashboard</h1>
         </div>
         <div class="language">Languages</div>
-        <div class="profile">Profile</div>
+        <div class="profile" id="profile-section" style="display: none;">Profile</div>
+        <a href="login1.html" id="login-link">Go to Login</a>
     </header>
 
     <div class="dashboard">
-        <!-- Navigation -->
         <nav>
-            <a href="game.html">Game</a>
+            <a href="log.html">Game</a>
             <a href="scoreboard.html">Scoreboard</a>
             <a href="settings.html">Settings</a>
         </nav>
@@ -28,5 +28,38 @@
     <footer>
         &copy; 2025 Game Dashboard. All rights reserved.
     </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+            authDomain: "wordchoosing.firebaseapp.com",
+            projectId: "wordchoosing",
+            storageBucket: "wordchoosing.appspot.com",
+            messagingSenderId: "11998731462",
+            appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+            measurementId: "G-0JMJRW97WE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginLink = document.getElementById("login-link");
+        const profileSection = document.getElementById("profile-section");
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in
+                loginLink.style.display = "none";
+                profileSection.style.display = "block"; // Show profile
+            } else {
+                // User is not logged in
+                loginLink.style.display = "block";
+                profileSection.style.display = "none"; // Hide profile
+            }
+        });
+    </script>
 </body>
 </html>
