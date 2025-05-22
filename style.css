@@ -2015,7 +2015,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 /* ================================
    Responsive Styles: Phones
    ================================ */
-@media (max-width: 375px) {
+@media (max-width: opx) {
   body {
     transform: scale(0.75);
     transform-origin: top center;
@@ -2207,15 +2207,90 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     .lightning-text {
     top: 80px;
     font-size: 3rem;
-    left: 1%;
+    left: 16%;
+  }
+
+   .mute-button {
+    right: -25px;
+    padding: 8px 14px;
+    font-size: 13px;
+    width: 12%;
+  }
+
+  .back-button {
+    padding: 8px 14px;
+    font-size: 15px;
+    left: -190px;
   }
 
     #start-button {
     font-size: 18px;
     padding: 12px 24px;
-    top: 60px;
-    left: 5px;
+    top: 140px;
+    left: -130px;
   }
+    /* The actual progress bar */
+.progress-bar {
+  height: 100%;
+  width: 50%; /* Initial value for coins */
+  background: linear-gradient(to right, #ff80bf, #ff4d94); /* Gradient for the bar */
+  text-align: center;
+  line-height: 30px; /* Match container height */
+  font-weight: bold;
+  font-size: 16px; /* Slightly larger text */
+  color: #fff; /* White text for contrast */
+  border-radius: 20px; /* Rounded corners for bar */
+  transition: width 0.4s ease-in-out; /* Smooth animation */
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
+}
+.progress-container {
+    width: 85%;
+    top: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+#timer-container {
+    top: 150px;
+    width: 50px;
+    height: 50px;
+    font-size: 14px;
+    left: 190px;
+  }
+.profile-container1 {
+    position: relative;
+    align-items: center;
+    background-color: #ffcce5;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 270px;
+    height: 30px;
+    left: 7%;
+    top: -2%;
+  }
+.profile-picture1 {
+    width: 45px;
+    height: 45px;
+    margin: 0 auto;
+    top: -12px;
+    right: 115px;
+  }
+.progress-label1,
+.progress-bar1 {
+    left: 12px;
+    top: -94px;
+    text-align: right;
+  }
+
+  .progress-bar1 {
+    width: 80%;
+    margin-top: 10px;
+    left: 60px;
+  }
+  .progress-label1{
+    left: 1px;
+  }
+  
 
 }
 
