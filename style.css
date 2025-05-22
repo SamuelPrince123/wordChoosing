@@ -493,10 +493,19 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   margin-bottom: 5px; /* Space between username and progress section */
 }
 
+@media (min-width: 1025px) and (max-width: 1100px) {
+   .back-button {
+    padding: 9px 16px;
+    font-size: 13px;
+    left: -650px;
+  }
+
+}
+
 /* ================================
-   Responsive Styles: Between 1025px and 1109px
+   Responsive Styles: Between 1025px and 1209px
    ================================ */
-@media (min-width: 1025px) and (max-width: 1209px) {
+@media (min-width: 1025px) and (max-width: 1239px) {
   body {
     transform: scale(1);
     transform-origin: top center;
@@ -545,7 +554,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .back-button {
     padding: 9px 16px;
     font-size: 13px;
-    left: -500px;
+    left: -540px;
   }
 
   .word-button {
@@ -566,7 +575,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     width: 55px;
     height: 55px;
     font-size: 15px;
-    left: 950px;
+    left: 1040px;
   }
 
   .modal-content {
