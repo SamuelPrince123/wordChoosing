@@ -1898,7 +1898,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 325px;
+    width: 300px;
     height: 30px;
     left: 12%;
     top: -4%;
@@ -1925,9 +1925,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 70%;
+    width: 65%;
     top: 95px;
-    left: 52%;
+    left: 48%;
     transform: translateX(-50%);
   }
 
@@ -1996,7 +1996,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    width: 260px;
     height: 30px;
     left: 12%;
     top: -4%;
@@ -2006,7 +2006,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     height: 45px;
     margin: 0 auto;
     top: -12px;
-    right: 130px;
+    right: 120px;
   }
       /* The actual progress bar */
 .progress-bar {
@@ -2023,9 +2023,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 75%;
+    width: 65%;
     top: 95px;
-    left: 52%;
+    left: 48%;
     transform: translateX(-50%);
   }
 
@@ -2039,12 +2039,12 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .progress-bar1 {
     width: 85%;
     margin-top: 10px;
-    left: 60px;
+    left: 50px;
   }
   #timer-container {
     top: 150px;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     font-size: 14px;
     left: 220px;
   }
@@ -2094,7 +2094,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 280px;
+    width: 250px;
     height: 30px;
     left: 12%;
     top: -4%;
@@ -2104,7 +2104,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     height: 45px;
     margin: 0 auto;
     top: -12px;
-    right: 120px;
+    right: 110px;
   }
       /* The actual progress bar */
 .progress-bar {
@@ -2121,9 +2121,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 75%;
+    width: 63%;
     top: 95px;
-    left: 52%;
+    left: 47%;
     transform: translateX(-50%);
   }
 
@@ -2137,7 +2137,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .progress-bar1 {
     width: 85%;
     margin-top: 10px;
-    left: 60px;
+    left: 50px;
   }
   #timer-container {
     top: 150px;
@@ -2192,9 +2192,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 280px;
+    width: 250px;
     height: 30px;
-    left: 12%;
+    left: 11%;
     top: -4%;
   }
   .profile-picture1 {
@@ -2202,7 +2202,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     height: 45px;
     margin: 0 auto;
     top: -12px;
-    right: 120px;
+    right: 110px;
   }
       /* The actual progress bar */
 .progress-bar {
@@ -2219,9 +2219,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 75%;
+    width: 62%;
     top: 95px;
-    left: 52%;
+    left: 47%;
     transform: translateX(-50%);
   }
 
@@ -2242,7 +2242,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     width: 70px;
     height: 70px;
     font-size: 18px;
-    left: 220px;
+    left: 200px;
   }
 
   .username {
@@ -2291,7 +2291,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    width: 250px;
     height: 30px;
     left: 9%;
     top: -4%;
@@ -2301,7 +2301,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     height: 45px;
     margin: 0 auto;
     top: -12px;
-    right: 130px;
+    right: 110px;
   }
       /* The actual progress bar */
 .progress-bar {
@@ -2318,9 +2318,9 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 75%;
+    width: 62%;
     top: 95px;
-    left: 50%;
+    left: 42%;
     transform: translateX(-50%);
   }
 
@@ -2334,13 +2334,13 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .progress-bar1 {
     width: 85%;
     margin-top: 10px;
-    left: 60px;
+    left: 50px;
   }
   #timer-container {
     top: 150px;
-    width: 50px;
-    height: 50px;
-    font-size: 14px;
+    width: 70px;
+    height: 70px;
+    font-size: 16px;
     left: 200px;
   }
 
@@ -2400,16 +2400,16 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
 }
 .progress-container {
-    width: 85%;
+    width: 61%;
     top: 95px;
-    left: 50%;
+    left: 45%;
     transform: translateX(-50%);
   }
 #timer-container {
     top: 150px;
-    width: 50px;
-    height: 50px;
-    font-size: 14px;
+    width: 70px;
+    height: 70px;
+    font-size: 17px;
     left: 190px;
   }
 .profile-container1 {
@@ -2419,7 +2419,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 270px;
+    width: 250px;
     height: 30px;
     left: 7%;
     top: -2%;
@@ -2429,7 +2429,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     height: 45px;
     margin: 0 auto;
     top: -12px;
-    right: 115px;
+    right: 110px;
   }
 .progress-label1,
 .progress-bar1 {
@@ -2441,7 +2441,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .progress-bar1 {
     width: 80%;
     margin-top: 10px;
-    left: 60px;
+    left: 40px;
   }
   .progress-label1{
     left: 1px;
@@ -2517,17 +2517,17 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   }
 
   .progress-container {
-    width: 85%;
+    width: 60%;
     top: 85px;
-    left: 50%;
+    left: 40%;
     transform: translateX(-50%);
   }
 
   #timer-container {
     top: 150px;
-    width: 50px;
-    height: 50px;
-    font-size: 14px;
+    width: 65px;
+    height: 65px;
+    font-size: 16px;
     left: 160px;
   }
 
@@ -2601,7 +2601,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 220px;
+    width: 210px;
     height: 30px;
     left: 7%;
     top: -2%;
@@ -2625,7 +2625,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   .progress-bar1 {
     width: 80%;
     margin-top: 10px;
-    left: 62px;
+    left: 52px;
   }
   .progress-label1{
     left: 15px;
