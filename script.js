@@ -1,3 +1,30 @@
+function saveFinalScoreToFirestore(resultMessage) {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const scoreDocRef = db
+          .collection("users")
+          .doc(user.uid)
+          .collection("level_logs")
+          .doc("Level_1");
+
+        await scoreDocRef.set(
+          {
+            result: resultMessage, // ✅ Only updating the score
+          },
+          { merge: true } // ✅ Merges with existing data (does not overwrite)
+        );
+
+        console.log("✅ Final score updated in Firestore.");
+      } catch (error) {
+        console.error("❌ Error updating score:", error);
+      }
+    } else {
+      console.warn("⚠️ User not logged in. Score not saved.");
+    }
+  });
+}
+
 // List of available music files
 
 const musicFiles = [
@@ -209,10 +236,10 @@ const audioElement = document.getElementById("background-music");
 document.getElementById("mute-button").onclick = function () {
   if (isMuted) {
     audioElement.muted = false; // Unmute the audio
-    document.getElementById("mute-button").textContent = "Mute"; // Change button text to "Mute"
+    document.getElementById("mute-button").textContent = "🔊"; // Change button text to "Mute"
   } else {
     audioElement.muted = true; // Mute the audio
-    document.getElementById("mute-button").textContent = "Unmute"; // Change button text to "Unmute"
+    document.getElementById("mute-button").textContent = "🔇"; // Change button text to "Unmute"
   }
   isMuted = !isMuted; // Toggle mute state
 };
@@ -234,7 +261,11 @@ function showFinalScore() {
 
   // Display the message in the modal
   const finalScoreMessage = document.getElementById("final-score-message");
-  finalScoreMessage.textContent = `${message} ${additionalMessage}`;
+  const finalResultMessage = `${message} ${additionalMessage}`;
+  finalScoreMessage.textContent = finalResultMessage;
+
+  // ✅ Save to Firebase
+  saveFinalScoreToFirestore(finalResultMessage);
 
   // Show the modal with an animation
   const modal = document.getElementById("final-score-modal");
@@ -269,49 +300,52 @@ function startLoading() {
   // Dynamically add styles for the loading bar
   const style = document.createElement("style");
   style.innerHTML = `
+  @media (min-width: 769px) {
     /* Style for the loading screen */
     #loading-screen {
-       display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      z-index: 9999;
     }
 
     .loading-bar {
-    width: 70%;
-    height: 10px;
-    background-color: #ddd;
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
-    top:250px;
-    left:200px;
+      width: 70%;
+      height: 10px;
+      background-color: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+      top: 250px;
+      left: 230px;
     }
 
     .loading-progress {
-      width: 0%; /* Initial width is 0% */
-    height: 100%;
-    background-color: #ff69b4; /* Pinkish color */
-    border-radius: 5px;
+      width: 0%;
+      height: 100%;
+      background-color: #ff69b4;
+      border-radius: 5px;
     }
 
     #loading-text {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ff69b4; /* Pink text */
-    margin-top: 20px;
-    position: relative;
-    top:250px;
-    left:0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ff69b4;
+      margin-top: 20px;
+      position: relative;
+      top: 250px;
+      left: 0;
     }
-  `;
+  }
+`;
+
   document.head.appendChild(style);
 
   // Show the loading screen

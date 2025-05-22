@@ -1,171 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicScribe</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PicScribe</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
     #current-image1 {
-        position: relative;
-        top:-5px;
-        margin-top: 10px;
-        border-radius: 50%;
-        width: 55px;
-        height: 55px;
-        object-fit: fill; /* Ensures the profile picture is properly displayed in a circle */
+      position: relative;
+      top: -5px;
+      margin-top: 10px;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      object-fit: fill;
     }
-    </style>
+  </style>
 </head>
 <body>
-    <button class="back-button" onclick="goBack()">
-        <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
-    </button>
 
-    <!-- Timer -->
-    <div id="timer-container">
-        <span id="timer">01:00</span> <!-- Timer starts at 01:00 (60 seconds) -->
+  <!-- UI elements -->
+  <button class="back-button" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
+  <div id="timer-container"><span id="timer">00:00</span></div>
+  <div class="progress-container"><div class="progress-bar" id="progress-bar">50/100 Coins</div></div>
+
+  <div class="profile-container1">
+    <div class="profile-picture1">
+      <img id="current-image1" src="https://via.placeholder.com/150" alt="image" class="image" />
     </div>
-
-    <!-- Coins Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar">50/100 Coins</div>
-    </div>
-
-    <!-- Profile Progress Bar -->
-    <div class="profile-container1">
-        <div class="profile-picture1">
-            <!-- Profile picture will be updated dynamically here -->
-            <img id="current-image1" src="https://via.placeholder.com/150" alt="image" class="image" />
+    <div class="user-info">
+      <div class="username" id="username">Bot</div>
+      <div class="progress-section1">
+        <div class="progress-label1">Lv.1</div>
+        <div class="progress-bar1">
+          <div class="progress-bar-fill1" id="progressFill1"></div>
         </div>
-        <div class="user-info">
-            <div class="username" id="username">Sam</div> <!-- Placeholder username, will be updated dynamically -->
-            <div class="progress-section1">
-                <div class="progress-label1">Lv.1</div>
-                <div class="progress-bar1">
-                    <div class="progress-bar-fill1" id="progressFill1"></div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-        <p id="loading-text">Loading... 0%</p>
+  <div id="loading-screen">
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+    <p id="loading-text">Loading... 0%</p>
+  </div>
+
+  <div id="start-screen" style="display: block;">
+    <h1 class="lightning-text">PicScribe</h1>
+    <button id="start-button">Start</button>
+    <h2 class="lightning-text1">Finish it within 1 minute</h2>
+  </div>
+
+  <div id="game-container" style="display:none;">
+    <p id="message"></p>
+    <img id="current-image" src="images/apple.jpg" alt="image" class="image">
+    <div id="options-container"></div>
+  </div>
+
+  <div id="final-score-modal" class="modal">
+    <div class="modal-content">
+      <h2>Game Over</h2>
+      <p id="final-score-message">Your score will appear here.</p>
+      <button id="close-modal">Close</button>
     </div>
+  </div>
 
-    <!-- Start Screen with a "Start" Button -->
-    <div id="start-screen" style="display: block;">
-        <h1 class="lightning-text">PicScribe</h1>
-        <button id="start-button">Start</button>
-        <h2 class="lightning-text1">Finish it within 1 minute</h2>
-    </div>
+<button id="mute-button" class="mute-button">&#128266;</button> <!-- Speaker with sound waves -->
+  <audio id="background-music" loop>Your browser does not support the audio element.</audio>
 
-    <!-- Game Content (Hidden Initially) -->
-    <div id="game-container" style="display:none;">
-        <p id="message"></p>
-        <img id="current-image" src="images/apple.jpg" alt="image" class="image">
-        
-        <!-- Word Options -->
-        <div id="options-container"></div>
-    </div>
+  <!-- ✅ Firebase SDKs (non-modular, version 10+) -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
-    <!-- Final Score Modal -->
-    <div id="final-score-modal" class="modal">
-        <div class="modal-content">
-            <h2>Game Over</h2>
-            <p id="final-score-message">Your score will appear here.</p>
-            <button id="close-modal">Close</button>
-        </div>
-    </div>
-  
-    <button id="mute-button" class="mute-button">Mute</button>
-
-    <audio id="background-music" loop>
-        Your browser does not support the audio element.
-    </audio>
-
- <!-- Firebase SDK (Modular Imports via CDN for v9+) -->
-<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js"></script>
-
-<script type="module">
-    // Firebase configuration
+  <!-- ✅ Firebase config and initialization -->
+  <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-        authDomain: "wordchoosing.firebaseapp.com",
-        projectId: "wordchoosing",
-        storageBucket: "wordchoosing.firebasestorage.app",
-        messagingSenderId: "11998731462",
-        appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-        measurementId: "G-0JMJRW97WE",
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
     };
 
-    // Initialize Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Get the profile picture and username elements
     const currentImage = document.getElementById('current-image1');
     const usernameElement = document.getElementById('username');
 
-    // Monitor authentication state
     auth.onAuthStateChanged((user) => {
-        if (user) {
-            console.log("User is logged in:", user.uid); // Log the UID of the logged-in user
+      if (user) {
+        console.log("User is logged in:", user.uid);
+        const userRef = db.collection("users").doc(user.uid);
 
-            // Reference to the user's document in Firestore
-            const userRef = doc(db, "users", user.uid); // Using the user's UID to fetch their document
-            getDoc(userRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data()); // Log the document data
-                    const firestoreUsername = docSnap.data().username || "Guest"; // Default to "Guest" if no username field in Firestore
-                    usernameElement.textContent = firestoreUsername; // Use the Firestore username (preferred)
-                } else {
-                    console.log("No user document found for UID:", user.uid);
-                    usernameElement.textContent = "Guest"; // Fallback in case the document is not found
-
-                    // Create a new user document if it doesn't exist
-                    setDoc(userRef, {
-                        username: user.displayName || "Guest",  // Store the username from Firebase Auth (or default)
-                        email: user.email || "",                // Store the email (optional)
-                        photoURL: user.photoURL || "https://via.placeholder.com/150"  // Set a default profile image URL
-                    })
-                    .then(() => {
-                        console.log("User document created!");
-                    })
-                    .catch((error) => {
-                        console.error("Error creating user document: ", error);
-                    });
-                }
-            }).catch((error) => {
-                console.error("Error fetching user data: ", error);
+        userRef.get().then((docSnap) => {
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            usernameElement.textContent = data.username || "Guest";
+          } else {
+            usernameElement.textContent = "Guest";
+            userRef.set({
+              username: user.displayName || "Guest",
+              email: user.email || "",
+              photoURL: user.photoURL || "https://via.placeholder.com/150"
             });
+          }
+        });
 
-            // Set the profile picture
-            currentImage.src = user.photoURL || "https://via.placeholder.com/150"; // Default to placeholder if no image
-        } else {
-            // If user is not logged in, set a default image or redirect
-            currentImage.src = "https://via.placeholder.com/150";
-            usernameElement.textContent = "Guest"; // Default username when not logged in
-        }
+        currentImage.src = user.photoURL || "https://via.placeholder.com/150";
+      } else {
+        currentImage.src = "https://via.placeholder.com/150";
+        usernameElement.textContent = "Guest";
+      }
     });
-    
-</script>
+  </script>
 
+  <!-- ✅ Your other scripts (game logic, score, etc.) -->
+  <script src="script.js"></script>
+ <script type="module" src="script1.js"></script>
 
-    <script src="script.js"></script>
-    <script src="script1.js"></script>
 </body>
 </html>

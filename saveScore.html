@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Save Score</title>
+  <style>
+    .modal {
+      display: block;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0; width: 100%; height: 100%;
+      overflow: auto; background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; padding: 20px;
+      border: 1px solid #888; width: 300px; text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Final Score Modal -->
+  <div id="final-score-modal" class="modal">
+    <div class="modal-content">
+      <h2>Game Over</h2>
+      <p id="final-score-message">Your score: 85</p>
+      <button id="close-modal">Save Score</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function saveScore(levelName, score, uid) {
+      const levelDocRef = doc(db, `users/${uid}/level_logs/${levelName.replace(" ", "_")}`);
+      await setDoc(levelDocRef, {
+        level: levelName,
+        score: score,
+        timestamp: new Date().toISOString(),
+        uid: uid
+      });
+    }
+
+    document.getElementById("close-modal").addEventListener("click", () => {
+      const scoreText = document.getElementById("final-score-message").textContent;
+      const score = parseInt(scoreText.match(/\d+/)[0], 10); // Extract number from "Your score: 85"
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          try {
+            await saveScore("Level 1", score, user.uid);
+            alert("Score saved successfully!");
+            // Hide the modal after saving
+            document.getElementById("final-score-modal").style.display = "none";
+          } catch (error) {
+            alert("Error saving score: " + error.message);
+          }
+        } else {
+          alert("You must be logged in to save scores.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

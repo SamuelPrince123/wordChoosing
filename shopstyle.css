@@ -1,0 +1,93 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #ffe6f2;
+    color: #333;
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #ff5f9e, #ff75b5);
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.4);
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: linear-gradient(135deg, #ff75b5, #ff5f9e);
+    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Coins Progress Bar */
+.progress-container {
+    width: 80%;
+    max-width: 400px;
+    background-color: #ffd6e8;
+    border-radius: 30px;
+    margin: 20px auto;
+    padding: 5px;
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.3);
+}
+
+.progress-bar {
+    width: 50%;
+    background: linear-gradient(135deg, #ff5f9e, #ff75b5);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: width 0.3s ease;
+}
+
+/* Coin Shop */
+.coin-shop {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.2);
+    width: 80%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.coin-shop h2 {
+    color: #ff5f9e;
+}
+
+/* Coin Purchase Buttons */
+.coin-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.coin-button {
+    background: linear-gradient(135deg, #ff5f9e, #ff75b5);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.4);
+    transition: all 0.3s ease;
+}
+
+.coin-button:hover {
+    background: linear-gradient(135deg, #ff75b5, #ff5f9e);
+    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.6);
+    transform: scale(1.05);
+}

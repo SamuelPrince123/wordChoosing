@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="shopstyle.css">
+</head>
+<body>
+
+    <!-- Back Button -->
+    <a href="grade1.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <h1>Buy Coins</h1>
+
+    <!-- Coins Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">50/100 Coins</div>
+    </div>
+
+    <!-- Coin Purchase Options -->
+    <div class="coin-shop">
+        <h2>Get More Coins</h2>
+        <div class="coin-options">
+            <button class="coin-button" onclick="buyCoins(10)">💰 10 Coins - $0.99</button>
+            <button class="coin-button" onclick="buyCoins(25)">💰 25 Coins - $1.99</button>
+            <button class="coin-button" onclick="buyCoins(55)">💰 55 Coins - $3.99</button>
+            <button class="coin-button" onclick="buyCoins(100)">💰 100 Coins - $6.99</button>
+        </div>
+    </div>
+
+    <script>
+        function buyCoins(amount) {
+            alert("You bought " + amount + " coins! 🎉");
+        }
+    </script>
+
+</body>
+</html>

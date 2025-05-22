@@ -1,20 +1,21 @@
- /* General Styles */
- body {
+/* General Styles */
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom, #ffe6f7, #ffb3d9);
     color: #333;
+    overflow-x: hidden;
 }
 
 h1 {
     text-align: center;
     font-size: 2.5rem;
     color: #ff80bf;
-    margin-top: 10px;
+    margin-top: 60px;
 }
 
-/* Back Button Styles */
+/* Back Button */
 .back-button {
     display: flex;
     align-items: center;
@@ -26,10 +27,10 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
     position: fixed;
     top: 15px;
     left: 15px;
+    z-index: 999;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -41,14 +42,43 @@ h1 {
     font-size: 18px;
 }
 
+/* Shop Button */
+.shop-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #ff5f9e, #ff75b5);
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.4);
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.shop-button:hover {
+    background: linear-gradient(135deg, #ff75b5, #ff5f9e);
+    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.6);
+    transform: translateY(-3px);
+}
+
+.shop-button i {
+    margin-right: 8px;
+}
+
+/* Roadmap Container */
 .roadmap-container {
     position: relative;
     width: 80%;
-    margin: 60px auto;
-    height: 1200px; /* Adjust based on total levels */
+    margin: 100px auto 60px;
+    height: 1200px;
 }
 
-/* Level Button Styles */
+/* Level Button */
 .level {
     display: block;
     width: 150px;
@@ -67,19 +97,7 @@ h1 {
     background: #ff80bf;
 }
 
-/* Positioning Levels */
-.level1 { top: 50px; left: 20%; }
-.test1 { top: 150px; left: 60%; }
-.level2 { top: 250px; left: 20%; }
-.test2 { top: 350px; left: 60%; }
-.level3 { top: 450px; left: 20%; }
-.test3 { top: 550px; left: 60%; }
-.level4 { top: 650px; left: 20%; }
-.test4 { top: 750px; left: 60%; }
-.level5 { top: 850px; left: 20%; }
-.test5 { top: 950px; left: 60%; }
-
-/* SVG Styles */
+/* SVG Road */
 .road {
     position: absolute;
     width: 100%;
@@ -97,10 +115,110 @@ h1 {
     stroke-dasharray: 15;
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 20px 0;
     background: #ffb3d9;
     color: white;
     position: relative;
+}
+
+/* Positioning Levels (Default - Desktop) */
+.level1 { top: 20px; left: 20%; }
+.test1 { top: 150px; left: 60%; }
+.level2 { top: 250px; left: 20%; }
+.test2 { top: 350px; left: 60%; }
+.level3 { top: 450px; left: 20%; }
+.test3 { top: 550px; left: 60%; }
+.level4 { top: 650px; left: 20%; }
+.test4 { top: 750px; left: 60%; }
+.level5 { top: 850px; left: 20%; }
+.test5 { top: 950px; left: 60%; }
+
+/* ============================
+   TABLET RESPONSIVE (iPads)
+   ============================ */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .roadmap-container {
+        width: 90%;
+        height: 1100px;
+    }
+
+    .level {
+        width: 130px;
+        font-size: 14px;
+    }
+
+    .level1 { top: 20px; left: 18%; }
+    .test1 { top: 140px; left: 55%; }
+    .level2 { top: 230px; left: 18%; }
+    .test2 { top: 320px; left: 55%; }
+    .level3 { top: 410px; left: 18%; }
+    .test3 { top: 500px; left: 65%; }
+    .level4 { top: 590px; left: 18%; }
+    .test4 { top: 680px; left: 60%; }
+    .level5 { top: 770px; left: 18%; }
+    .test5 { top: 860px; left: 55%; }
+}
+
+
+/* ============================
+   MOBILE RESPONSIVE
+   ============================ */
+@media (max-width: 600px) {
+ body {
+    transform: scale(0.9);
+    
+  }
+ 
+    h1 {
+        font-size: 1.5rem;
+        margin-top: 80px;
+    }
+
+    .roadmap-container {
+        width: 300px;
+        height: 500px;
+        top:-50px;
+    }
+
+    .level {
+        width: 50px;
+        height:10px;
+        font-size: 10px;
+    }
+
+    .level1 { top: 0px; left: 10%; }
+    .test1 { top: 38px; left: 40%; }
+    .level2 { top: 92px; left: 25%; }
+    .test2 { top: 135px; left: 58%; }
+    .level3 { top: 165px; left: 13%; }
+    .test3 { top: 210px; left: 64%; }
+    .level4 { top: 255px; left: 13%; }
+    .test4 { top: 300px; left: 60%; }
+    .level5 { top: 328px; left: 30%; }
+    .test5 { top: 380px; left: 50%; }
+
+    .back-button {
+        top: -85px;
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+
+    .shop-button {
+        top: -85px;
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 15px 0;
+        margin-top: -100px;
+    }
 }

@@ -9,17 +9,23 @@
 <body>
     <header>
         <div class="logo">
-            <img src="https://via.placeholder.com/50" alt="Logo">
-            <h1>Game Dashboard</h1>
+            <img src="./images/logo/logoWord.png" alt="Logo">
+            <h1>Dashboard</h1>
         </div>
-        <div class="language">Languages</div>
+        <div class="language" id="language-toggle">Languages
+            <div class="language-options" id="language-options">
+                <div class="lang-option" onclick="window.location.href='index.html'">English</div>
+                <div class="lang-option" onclick="window.location.href='dzongkha.html'">Dzongkha</div>
+            </div>
+        </div>
+        
         <div class="profile" id="profile-section" style="display: none;">Profile</div>
-        <a href="login1.html" id="login-link">Go to Login</a>
+        <a class="login-lin" href="login1.html" id="login-link">Sign Up</a>
     </header>
 
     <div class="dashboard">
         <nav>
-            <a href="log.html">Game</a>
+            <a href="game.html">Game</a>
             <a href="scoreboard.html">Scoreboard</a>
             <a href="settings.html">Settings</a>
         </nav>
@@ -61,5 +67,29 @@
             }
         });
     </script>
+
+    <script>
+        const languageToggle = document.getElementById("language-toggle");
+        const languageOptions = document.getElementById("language-options");
+    
+        languageToggle.addEventListener("click", () => {
+            languageOptions.style.display = 
+                languageOptions.style.display === "block" ? "none" : "block";
+        });
+    
+        // Optional: Hide dropdown if clicked outside
+        document.addEventListener("click", (e) => {
+            if (!languageToggle.contains(e.target)) {
+                languageOptions.style.display = "none";
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('profile-section').addEventListener('click', function () {
+            window.location.href = 'setting.html';
+        });
+    </script>
+    
+    
 </body>
 </html>

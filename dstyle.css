@@ -4,14 +4,19 @@ body {
     padding: 0;
     background-color: #212121; /* Dark background for a game vibe */
     color: #f4f4f9; /* Light text for contrast */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;   
 }
 
+/* HEADER */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #111; /* Dark header for gaming aesthetic */
-    padding: 20px 30px;
+    padding: 10px 30px;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Adding shadow for depth */
 }
@@ -19,31 +24,75 @@ header {
 header .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1px;
 }
 
 header .logo img {
-    width: 50px;
+    width: 65px;
     height: auto;
 }
 
 header .logo h1 {
     font-size: 30px;
     font-weight: bold;
-    margin: 0;
+    position: relative;
     letter-spacing: 2px; /* Adds a more techy look */
+    left: 20px;
 }
 
-header .profile, header .language {
+header .profile, 
+header .language,
+header .login-lin {
     font-size: 18px;
     cursor: pointer;
     transition: color 0.3s ease;
 }
-
-header .profile:hover, header .language:hover {
-    color: #ff9800; /* Highlight color when hovered */
+header {
+    position: relative;
 }
 
+.language {
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+    right: 350px;
+}
+
+
+
+
+header .profile:hover, 
+header .language:hover,
+header .login-lin:hover {
+    color: #ff9800; /* Highlight color when hovered */
+}
+/*dropdown language*/
+.language-options {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.lang-option {
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.lang-option:hover {
+    background-color: #555;
+}
+
+
+/* DASHBOARD */
 .dashboard {
     display: flex;
     flex-direction: column;
@@ -52,6 +101,7 @@ header .profile:hover, header .language:hover {
     gap: 40px;
 }
 
+/* NAVIGATION */
 nav {
     margin-bottom: 40px;
     display: flex;
@@ -77,9 +127,205 @@ nav a:hover {
     color: #ff9800; /* Change text color on hover to orange */
 }
 
+/* FOOTER */
 footer {
     margin-top: 50px;
     text-align: center;
     font-size: 16px;
     color: #888;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* For large screens (2048px and wider) */
+@media (min-width: 2048px) {
+    header {
+        padding: 20px 80px;
+    }
+
+    header .logo h1 {
+        font-size: 40px;
+    }
+
+    header .profile,
+    header .language,
+    header .login-lin {
+        font-size: 22px;
+    }
+
+    nav {
+        gap: 50px;
+    }
+
+    nav a {
+        font-size: 24px;
+        padding: 15px 30px;
+    }
+
+    .dashboard {
+        padding: 80px;
+        gap: 60px;
+    }
+
+    footer {
+        font-size: 18px;
+    }
+
+    /* Optional: Adjust language position */
+    .language {
+        left: 650px; /* More space on wide screens */
+        position: relative;
+        right: 350px;
+    }
+    
+}
+
+
+
+/* For tablets (iPad and similar devices) */
+@media (max-width: 1024px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    header .logo h1 {
+        font-size: 24px;
+    }
+
+  
+
+    nav a {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    .dashboard {
+        padding: 30px;
+    }
+    .language {
+        position: static;
+        transform: none;
+        margin-left: 10px;
+        position: relative;
+        right: 70px;
+    }
+    header .login-lin {
+        position: relative;
+        right: 65px;
+    }
+    header .profile{
+        position: relative;
+        left: -40px;
+
+    }
+    
+}
+
+@media (max-width: 568px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+        align-items: center;
+        padding: 10px;
+        text-align: center;
+        position: relative;
+        width: 100%;
+    }
+    header .logo img {
+        width: 55px;
+        height: auto;
+    }
+    header .logo h1 {
+        font-size: 20px;
+        font-weight: bold;
+        position: relative;
+        top:-10px
+
+       
+    }
+
+    .logo {
+        grid-column: 1 / 2;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        position: relative;
+        top: 12px;
+    }
+    .logo img {
+        max-width: 100%; /* prevent overflow */
+    }
+
+    .logo h1 {
+        grid-column: 2 / 3;
+        font-size: 20px;
+        margin: 0 auto;
+        justify-self: center;
+    }
+
+    .profile {
+        grid-column: 3 / 4;
+        justify-self: end;
+        font-size: 16px;
+    }
+
+    .language {
+        grid-column: 2 / 3;
+        grid-row: 2;
+        justify-self: center;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .language-options {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    header .language {
+        font-size: 14px;
+    }
+    header .login-lin {
+        font-size: 16px;
+    }
+    header .login-lin {
+        position: relative;
+        left: 75px;
+    }
+    header .language {
+        position: relative;
+       left: -60px;
+        top: -8px;
+    }
+    header .profile{
+        font-size: 16px;
+        position: relative;
+        left: -40px;
+
+    }
+  
+
+    .login-lin {
+        display: none; /* Optional: hide login link if profile is showing */
+       
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 10px;
+        gap: 10px;
+    }
+
+    .dashboard {
+        padding: 20px;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    footer {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 30px;
+    }
 }
