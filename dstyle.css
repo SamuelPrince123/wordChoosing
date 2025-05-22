@@ -180,6 +180,14 @@ footer {
     
 }
 
+@media (min-width: 1025px) and (max-width: 1109px) {
+         /* Optional: Adjust language position */
+    .language {
+        position: relative;
+        left:-250px;  
+    }
+    }
+
 
 
 /* For tablets (iPad and similar devices) */

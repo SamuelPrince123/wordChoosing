@@ -493,6 +493,152 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   margin-bottom: 5px; /* Space between username and progress section */
 }
 
+/* ================================
+   Responsive Styles: Between 1025px and 1109px
+   ================================ */
+@media (min-width: 1025px) and (max-width: 1109px) {
+  body {
+    transform: scale(1);
+    transform-origin: top center;
+  }
+
+  .lightning-text {
+    top: 10px;
+    font-size: 3.5rem;
+    left: 5%;
+  }
+
+  .lightning-text1 {
+    margin-top: 50px;
+    top: 280px;
+    font-size: 1.9rem;
+    color: #020202;
+    text-align: center;
+  }
+
+  #start-button {
+    font-size: 18px;
+    padding: 12px 26px;
+    top: 70px;
+    left: -150px;
+  }
+
+  .image {
+    max-width: 260px;
+    max-height: 260px;
+    top: 55px;
+  }
+
+  #message {
+    top: 70px;
+    font-size: 22px;
+    padding: 9px;
+  }
+
+  .mute-button {
+    right: 30px;
+    padding: 9px 16px;
+    font-size: 13px;
+    width: auto;
+  }
+
+  .back-button {
+    padding: 9px 16px;
+    font-size: 13px;
+    left: -500px;
+  }
+
+  .word-button {
+    top: 55px;
+    font-size: 16px;
+    padding: 7px 15px;
+  }
+
+  .progress-container {
+    width: 30%;
+    top: 15px;
+    left: 65%;
+    transform: translateX(-50%);
+  }
+
+  #timer-container {
+    top: 15px;
+    width: 55px;
+    height: 55px;
+    font-size: 15px;
+    left: 950px;
+  }
+
+  .modal-content {
+    width: 75%;
+    padding: 25px;
+  }
+
+  .modal {
+    top: 50px;
+    left: 10px;
+    width: 520px;
+    height: 650px;
+  }
+
+  /* Loading Screen */
+  #loading-screen {
+    font-size: 18px;
+    padding: 25px;
+  }
+
+  .loading-bar {
+    max-width: 350px;
+    height: 11px;
+  }
+
+  .loading-progress {
+    background-color: #ff69b4;
+  }
+
+  #loading-text {
+    font-size: 17px;
+  }
+
+  .profile-container1 {
+    width: 370px;
+    height: 45px;
+    padding: 22px;
+    top: -4;
+    left: 9%;
+  }
+
+  .profile-picture1 {
+    width: 55px;
+    height: 55px;
+    top: -11px;
+    right: 8px;
+  }
+
+  .progress-label1,
+  .progress-bar1 {
+    left: 63px;
+    top: -95px;
+    text-align: right;
+  }
+  .progress-label1{
+    left:-10px;
+
+  }
+
+  .progress-bar1 {
+    width: 83%;
+    margin-top: 10px;
+  }
+
+  .username {
+    top: -67px;
+    right: 0;
+    text-align: center;
+  }
+}
+
+
 
 /* ================================
    Responsive Styles: Tablets
@@ -599,7 +745,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 /* ================================
    Responsive Styles: Phones
    ================================ */
-@media (max-width: 768px) {
+@media (max-width: 366px) {
   body {
     transform: scale(0.75);
     transform-origin: top center;
@@ -778,3 +924,150 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 
 
 }
+
+/* ================================
+   Responsive Styles: 367px–799px
+   ================================ */
+@media (min-width: 367px) and (max-width: 799px) {
+  body {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+  .lightning-text {
+    top: 100px;
+    font-size: 3.5rem;
+    left: 12%;
+  }
+
+  .lightning-text1 {
+    position: relative;
+    margin-top: 40px;
+    top: 130px;
+    font-size: 1.75rem;
+    color: #020202;
+    text-align: center;
+  }
+
+  #start-button {
+    font-size: 20px;
+    padding: 14px 28px;
+    top: 170px;
+    left: -155px;
+  }
+
+  .image {
+    max-width: 250px;
+    max-height: 250px;
+    top: 50px;
+  }
+
+  #message {
+    top: 60px;
+    font-size: 22px;
+    padding: 10px;
+  }
+
+  .mute-button {
+    right: -25px;
+    padding: 10px 16px;
+    font-size: 12px;
+    width: 14%;
+  }
+
+  .back-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    left: -240px;
+  }
+
+  .word-button {
+    top: 60px;
+    font-size: 15px;
+    padding: 8px 16px;
+  }
+
+  .progress-container {
+    width: 80%;
+    top: 110px;
+    left: 49%;
+    transform: translateX(-50%);
+  }
+
+  #timer-container {
+    top: 160px;
+    width: 55px;
+    height: 55px;
+    font-size: 16px;
+    left: 240px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 24px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 30px;
+    left: 55px;
+    width: 380px;
+    height: 620px;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    overflow: auto;
+    padding-top: 70px;
+    transition: opacity 0.5s ease;
+  }
+
+  #loading-screen {
+    padding: 25px;
+  }
+
+  .loading-bar {
+    width: 95%;
+  }
+
+  .loading-progress {
+    background-color: #ff69b4;
+  }
+
+  #loading-text {
+    font-size: 18px;
+  }
+
+  .profile-container1 {
+    width: 360px;
+    height: 35px;
+    left: 7%;
+    top: -2%;
+  }
+
+  .profile-picture1 {
+    width: 50px;
+    height: 50px;
+    top: -12px;
+    right: 155px;
+  }
+
+  .progress-label1,
+  .progress-bar1 {
+    left: 10px;
+    top: -90px;
+    text-align: right;
+  }
+
+  .progress-bar1 {
+    width: 85%;
+    margin-top: 10px;
+    left: 60px;
+  }
+
+  .username {
+    top: -65px;
+    right: 0;
+    text-align: center;
+  }
+}
+

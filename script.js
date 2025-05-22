@@ -292,7 +292,7 @@ function showFinalScore() {
   setTimeout(() => {
     modal.style.display = "none";
     startLoading(); // Start the loading animation after 10 seconds if not closed
-  }, 10000); // Close the modal after 10 seconds
+  }, 1000000); // Close the modal after 10 seconds
 }
 
 // Function to handle the loading animation from 0% to 100%
