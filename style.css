@@ -496,7 +496,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 /* ================================
    Responsive Styles: Between 1025px and 1109px
    ================================ */
-@media (min-width: 1025px) and (max-width: 1109px) {
+@media (min-width: 1025px) and (max-width: 1209px) {
   body {
     transform: scale(1);
     transform-origin: top center;
