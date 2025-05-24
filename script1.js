@@ -1,82 +1,3 @@
-// Initialize coins and max coins
-let currentCoins = 50;
-const maxCoins = 100;
-
-// Function to update the coins progress bar
-function updateCoins(amount) {
-  const progressBar = document.getElementById("progress-bar");
-  currentCoins = Math.max(0, Math.min(maxCoins, currentCoins + amount)); // Ensure within range
-  const progressPercentage = (currentCoins / maxCoins) * 100; // Calculate width in %
-  progressBar.style.width = progressPercentage + "%";
-  progressBar.textContent = `${currentCoins}/${maxCoins} Coins`;
-}
-
-// // Example: Add 10 coins every 3 seconds
-setInterval(() => updateCoins(10), 3000);
-
-//for the profiles
-
-let currentLevel = 1;
-let progress = 0;
-
-function increaseProgress(amount) {
-  const progressFill = document.getElementById("progressFill1");
-  progress += amount;
-  if (progress >= 100) {
-    progress = 0;
-    currentLevel++;
-    document.querySelector(
-      ".progress-label1"
-    ).textContent = `Lv. ${currentLevel}`;
-  }
-  progressFill.style.width = `${progress}%`;
-}
-
-// Simulate the progress increment for demonstration
-setInterval(() => {
-  increaseProgress(10);
-}, 1000);
-
-// Set a default time (in seconds)
-let timeLeft = 30; // Set your time here (e.g., 60 seconds)
-
-// Function to start the countdown
-function startTimer() {
-  const timerElement = document.getElementById("timer");
-
-  // Update the timer every second
-  const timerInterval = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-
-      // Trigger the final score modal instead of an alert
-      showFinalScore();
-    } else {
-      let minutes = Math.floor(timeLeft / 60); // Get minutes
-      let seconds = timeLeft % 60; // Get seconds
-
-      // Format the minutes and seconds to always have two digits
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      timerElement.textContent = minutes + ":" + seconds; // Update the timer display
-      timeLeft--; // Decrease time by 1 second
-    }
-  }, 1000);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Trigger the timer when the game starts (e.g., after clicking a "Start" button)
-  document
-    .getElementById("start-button")
-    .addEventListener("click", function () {
-      startTimer(); // Start the countdown
-      document.getElementById("start-screen").style.display = "none"; // Hide the start screen
-      document.getElementById("game-container").style.display = "block"; // Show the game content
-    });
-});
-
-//for username to use in the profile
 import {
   getAuth,
   onAuthStateChanged,
@@ -93,7 +14,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
   authDomain: "wordchoosing.firebaseapp.com",
   projectId: "wordchoosing",
-  storageBucket: "wordchoosing.firebasestorage.app",
+  storageBucket: "wordchoosing.appspot.com",
   messagingSenderId: "11998731462",
   appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
   measurementId: "G-0JMJRW97WE",
@@ -104,21 +25,112 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Listen for authentication state changes
+// Coins progress bar setup
+const maxCoins = 200;
+
+function showCoinsFromFirebase(energyValue) {
+  const progressBar = document.getElementById("progress-bar");
+
+  if (!progressBar) {
+    console.error("❌ Element with ID 'progress-bar' not found.");
+    return;
+  }
+
+  const coins = energyValue || 0;
+  const percent = Math.min(100, (coins / maxCoins) * 100);
+
+  console.log("✅ Updating progress bar: ", coins, "/", maxCoins);
+
+  progressBar.style.width = percent + "%";
+  progressBar.textContent = `${coins}/${maxCoins} Coins`;
+}
+
+// Level progress (not related to coins)
+let currentLevel = 1;
+let progress = 0;
+
+function increaseProgress(amount) {
+  const progressFill = document.getElementById("progressFill1");
+  if (!progressFill) return;
+
+  progress += amount;
+  if (progress >= 100) {
+    progress = 0;
+    currentLevel++;
+    const label = document.querySelector(".progress-label1");
+    if (label) label.textContent = `Lv. ${currentLevel}`;
+  }
+  progressFill.style.width = `${progress}%`;
+}
+
+// Timer logic
+let timeLeft = 30;
+
+function startTimer() {
+  const timerElement = document.getElementById("timer");
+
+  const timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      showFinalScore();
+    } else {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      timerElement.textContent = minutes + ":" + seconds;
+      timeLeft--;
+    }
+  }, 1000);
+}
+
+// Start the game on button click
+document.addEventListener("DOMContentLoaded", function () {
+  const startButton = document.getElementById("start-button");
+  if (startButton) {
+    startButton.addEventListener("click", function () {
+      startTimer();
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+    });
+  }
+});
+
+// Load user info from Firestore
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // Fetch username from Firestore
+    console.log("✅ User is signed in:", user.uid);
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
-      const username = userDoc.data().name; // Retrieve username from Firestore
-      // Update the username in the HTML
-      document.querySelector(".username").textContent = username;
+      const userData = userDoc.data();
+      const username = userData.name || "User";
+
+      const usernameElement = document.querySelector(".username");
+      if (usernameElement) {
+        usernameElement.textContent = username;
+      } else {
+        console.warn("⚠️ No element with class 'username' found.");
+      }
+
+      // Now fetch energy from nested level_logs/Level_1 doc
+      const levelDocRef = doc(db, "users", user.uid, "level_logs", "Level_1");
+      const levelDoc = await getDoc(levelDocRef);
+
+      let energy = 0;
+      if (levelDoc.exists()) {
+        energy = levelDoc.data().energy || 0;
+        console.log("⚡ Energy from Firestore (Level_1):", energy);
+      } else {
+        console.warn("⚠️ No Level_1 document found in level_logs.");
+      }
+
+      showCoinsFromFirebase(energy);
     } else {
-      console.log("User data not found in Firestore.");
+      console.warn("⚠️ User document not found in Firestore.");
     }
   } else {
-    console.log("No user is signed in.");
+    console.log("❌ No user is signed in.");
   }
 });
