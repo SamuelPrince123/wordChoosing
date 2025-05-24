@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto Grade Calculator</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      updateDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function processGrades(user) {
+      const logsCollectionRef = collection(db, `users/${user.uid}/level_logs`);
+
+      try {
+        const querySnapshot = await getDocs(logsCollectionRef);
+
+        for (const docSnap of querySnapshot.docs) {
+          const data = docSnap.data();
+          const levelField = data.level || "";
+          const resultField = data.result || "";
+
+          const levelMatch = levelField.match(/Level\s*(\d+)/i);
+          const correctMatch = resultField.match(/Correct:\s*(\d+)/i);
+
+          if (!levelMatch || !correctMatch) continue;
+
+          const levelNum = parseInt(levelMatch[1]);
+          const correct = parseInt(correctMatch[1]);
+
+          const percentage = Number((((correct * 100) / 12 / 100) * 2).toFixed(10));
+          const gradeKey = `grade ${levelNum}`;
+
+          const levelDocRef = doc(db, `users/${user.uid}/level_logs/${docSnap.id}`);
+          await updateDoc(levelDocRef, {
+            [gradeKey]: `${percentage}%`
+          });
+
+          console.log(`✅ ${gradeKey} = ${percentage}% saved.`);
+        }
+
+        console.log("🎉 All grades processed.");
+      } catch (error) {
+        console.error("❌ Error during grade processing:", error);
+      }
+    }
+
+    // Run when user logs in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("👤 User logged in, starting grade processing...");
+        processGrades(user);
+      } else {
+        console.log("⏳ Waiting for user to log in...");
+      }
+    });
+  </script>
+</head>
+<body>
+  <h2 style="text-align:center;">Waiting for User Login and Auto-Grading...</h2>
+</body>
+</html>

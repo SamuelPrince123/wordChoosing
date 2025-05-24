@@ -45,24 +45,6 @@ function showCoinsFromFirebase(energyValue) {
   progressBar.textContent = `${coins}/${maxCoins} Coins`;
 }
 
-// Level progress (not related to coins)
-let currentLevel = 1;
-let progress = 0;
-
-function increaseProgress(amount) {
-  const progressFill = document.getElementById("progressFill1");
-  if (!progressFill) return;
-
-  progress += amount;
-  if (progress >= 100) {
-    progress = 0;
-    currentLevel++;
-    const label = document.querySelector(".progress-label1");
-    if (label) label.textContent = `Lv. ${currentLevel}`;
-  }
-  progressFill.style.width = `${progress}%`;
-}
-
 // Timer logic
 let timeLeft = 30;
 
@@ -114,13 +96,43 @@ onAuthStateChanged(auth, async (user) => {
         console.warn("⚠️ No element with class 'username' found.");
       }
 
-      // Now fetch energy from nested level_logs/Level_1 doc
+      // Fetch energy & level from nested level_logs/Level_1 doc
       const levelDocRef = doc(db, "users", user.uid, "level_logs", "Level_1");
       const levelDoc = await getDoc(levelDocRef);
 
       let energy = 0;
+
       if (levelDoc.exists()) {
-        energy = levelDoc.data().energy || 0;
+        const levelData = levelDoc.data();
+        energy = levelData.energy || 0;
+
+        // ✅ Update level label (e.g., "Lv. 2") from `level` field
+        if (levelData.level) {
+          const match = levelData.level.match(/Level\s*(\d+)/i);
+          if (match) {
+            const levelNum = match[1];
+            const label = document.querySelector(".progress-label1");
+            if (label) label.textContent = `Lv.${levelNum}`;
+          }
+        }
+
+        // ✅ Update progress bar fill from `levelNumber` field
+        if (typeof levelData.levelNumber === "number") {
+          const levelNumber = levelData.levelNumber;
+          const progressPercent = Math.min(100, levelNumber * 10);
+
+          const progressFill = document.getElementById("progressFill1");
+          if (progressFill) {
+            progressFill.style.width = `${progressPercent}%`;
+          }
+
+          console.log(
+            `📊 Level progress set to ${progressPercent}% for levelNumber = ${levelNumber}`
+          );
+        } else {
+          console.warn("⚠️ levelNumber is missing or invalid.");
+        }
+
         console.log("⚡ Energy from Firestore (Level_1):", energy);
       } else {
         console.warn("⚠️ No Level_1 document found in level_logs.");
