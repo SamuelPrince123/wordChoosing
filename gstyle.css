@@ -1,60 +1,130 @@
+:root {
+  --neon: #00ffd5;
+  --text: #fff;
+  --bg-dark: #0f0c29;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #212121; /* Dark background for a more gaming vibe */
-    color: #f4f4f9; /* Light text color for contrast */
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark), #302b63, #24243e);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  backdrop-filter: blur(10px);
 }
 
 header {
-    background-color: #111; /* Dark header to match the gaming style */
-    color: #fff;
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-header h1 {
-    margin: 0;
-    font-size: 30px;
-    font-weight: bold;
-    letter-spacing: 2px; /* Adds a more techy look */
+.back-button {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background-color: transparent;
+  border: 2px solid var(--neon);
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: var(--neon);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: var(--neon);
+  color: black;
+  box-shadow: 0 0 15px var(--neon);
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px var(--neon);
 }
 
 .categories {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 40px 20px;
+  flex: 1;
+}
+
+.section-title {
+  grid-column: 1/-1;
+  font-size: 1.6rem;
+  margin: 20px 0 10px;
+  text-align: left;
+  padding-left: 10px;
+  font-weight: bold;
 }
 
 .category {
-    background-color: #333; /* Dark background for categories */
-    border: 1px solid #444; /* Slightly lighter border to differentiate categories */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 150px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
-    color: #f4f4f9; /* Light text color for contrast */
-    font-size: 18px;
-    font-weight: bold;
-    transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: var(--text);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* Custom Designs per level */
+.babies {
+  background: linear-gradient(145deg, #ffe9ec, #fff5e1);
+  color: #6d2e46;
+}
+
+.primary {
+  background: linear-gradient(145deg, #d0f0c0, #e6f9af);
+  color: #2e4a32;
+}
+
+.middle {
+  background: linear-gradient(145deg, #cce0ff, #d3d3f8);
+  color: #1f2a5c;
+}
+
+.high {
+  background: linear-gradient(145deg, #ffefd5, #ffe4b5);
+  color: #4a2600;
+}
+
+.bachelor {
+  background: linear-gradient(145deg, #cfe2f3, #c1d0f1);
+  color: #2d2a4a;
+}
+
+.master {
+  background: linear-gradient(145deg, #e4c1f9, #d6b3f7);
+  color: #3d1f4a;
+}
+
+.phd {
+  background: linear-gradient(145deg, #333, #555);
+  color: #00ffd5;
 }
 
 .category:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 0 15px var(--neon);
 }
 
 footer {
-    text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 14px;
-    color: #888;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  background-color: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  .category { font-size: 1.1rem; padding: 15px; }
 }

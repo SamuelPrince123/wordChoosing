@@ -136,6 +136,50 @@ footer {
 .level5 { top: 850px; left: 20%; }
 .test5 { top: 950px; left: 60%; }
 
+/* Energy Animation */
+.energy-feedback {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(1.2rem, 4vw, 2rem); /* Responsive font size */
+    color: red;
+    background-color: rgba(255, 0, 0, 0.1);
+    /* Removed border */
+    padding: 10px 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.energy-feedback.visible {
+    opacity: 1;
+    transform: translate(-50%, -50px) scale(1.1);
+    animation: floatUp 1s ease-out forwards;
+}
+
+.energy-feedback.hidden {
+    opacity: 0;
+    transform: translate(-50%, -90px);
+}
+
+@keyframes floatUp {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -30px) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -90px) scale(1.3);
+    }
+}
+
+
+
+
 /* ============================
    TABLET RESPONSIVE (iPads)
    ============================ */
@@ -222,3 +266,4 @@ footer {
         margin-top: -100px;
     }
 }
+

@@ -34,10 +34,6 @@ const musicFiles = [
   "music/music4.mp3",
 ];
 
-// Correct and Incorrect audio files
-const correctAudio = new Audio("PopUP/correct.mp3"); // Correct audio
-const incorrectAudio = new Audio("PopUP/incorrect.mp3"); // Incorrect audio
-
 // Function to simulate loading progress from 0% to 100%
 window.onload = function () {
   let progress = 0;
@@ -98,11 +94,31 @@ function playRandomMusic() {
 }
 
 // Define words and image paths
-const words = ["apple", "calm", "comfortable"];
+const words = [
+  "apple",
+  "calm",
+  "comfortable",
+  "Cat",
+  "Dog",
+  "Barrel",
+  "Pendent",
+  "Hammock",
+  "Keys",
+  "Pistol",
+  "Rifel",
+];
 const imagePaths = [
   "images/apple.jpg",
   "images/calm.jpg",
   "images/comfortable.jpg",
+  "images/Cat.jpeg",
+  "images/Dog.jpeg",
+  "images/Barrel.jpeg",
+  "images/Pendent.jpeg",
+  "images/Hammock.jpeg",
+  "images/Keys.jpeg",
+  "images/Pistol.jpeg",
+  "images/Rifel.jpg",
 ];
 
 // Create an array of objects combining words and their corresponding image paths
@@ -186,7 +202,7 @@ function checkWord(word) {
   }
 }
 
-// Function to display three random word options for each image
+// Function to display five random word options for each image
 function showOptions() {
   const optionsContainer = document.getElementById("options-container");
   optionsContainer.innerHTML = ""; // Clear existing options
@@ -195,7 +211,7 @@ function showOptions() {
   const options = [shuffledWords[currentImageIndex]]; // Start with the correct word
 
   // Add two more random words that are not the current word
-  while (options.length < 3) {
+  while (options.length < 5) {
     const randomWord =
       shuffledWords[Math.floor(Math.random() * shuffledWords.length)];
     if (!options.includes(randomWord)) {
@@ -233,15 +249,28 @@ document.getElementById("start-button").onclick = function () {
 // Mute/unmute functionality
 let isMuted = false;
 const audioElement = document.getElementById("background-music");
+
 document.getElementById("mute-button").onclick = function () {
   if (isMuted) {
-    audioElement.muted = false; // Unmute the audio
-    document.getElementById("mute-button").textContent = "🔊"; // Change button text to "Mute"
+    audioElement.muted = false;
+    document.getElementById("mute-button").textContent = "🔊";
   } else {
-    audioElement.muted = true; // Mute the audio
-    document.getElementById("mute-button").textContent = "🔇"; // Change button text to "Unmute"
+    audioElement.muted = true;
+    document.getElementById("mute-button").textContent = "🔇";
   }
-  isMuted = !isMuted; // Toggle mute state
+  isMuted = !isMuted;
+};
+
+const correctAudio = new Audio("PopUP/correct.mp3");
+const incorrectAudio = new Audio("PopUP/incorrect.mp3");
+
+// Update their mute state to follow the global mute toggle
+document.getElementById("mute-button").onclick = function () {
+  isMuted = !isMuted;
+  audioElement.muted = isMuted;
+  correctAudio.muted = isMuted;
+  incorrectAudio.muted = isMuted;
+  document.getElementById("mute-button").textContent = isMuted ? "🔇" : "🔊";
 };
 
 // Function to show the final score in a dramatic pop-up modal and redirect
@@ -271,11 +300,14 @@ function showFinalScore() {
   const modal = document.getElementById("final-score-modal");
   modal.style.display = "block";
 
-  // Play a dramatic sound effect
-  const finalSound = new Audio(
-    "music/hand-clap-with-together-sound-effect-263698.mp3"
-  );
-  finalSound.play();
+  // Function to play final sound
+  function playFinalSound() {
+    const finalSound = new Audio(
+      "music/hand-clap-with-together-sound-effect-263698.mp3"
+    );
+    finalSound.muted = isMuted; // Respect the mute state
+    finalSound.play();
+  }
 
   // Add an animation to the modal (zoom-in effect)
   setTimeout(() => {
@@ -292,7 +324,7 @@ function showFinalScore() {
   setTimeout(() => {
     modal.style.display = "none";
     startLoading(); // Start the loading animation after 10 seconds if not closed
-  }, 1000000); // Close the modal after 10 seconds
+  }, 10000); // Close the modal after 10 seconds
 }
 
 // Function to handle the loading animation from 0% to 100%

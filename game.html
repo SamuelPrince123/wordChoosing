@@ -1,66 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade Categories</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="gstyle.css">
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grade Categories</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link rel="stylesheet" href="gstyle.css">
 </head>
 <body>
-<header>
-<style>
-    .back-button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
+
+  <header>
+    <button class="back-button" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <h1>Grade Categories</h1>
+  </header>
+
+  <div class="categories">
+    <!-- Babies -->
+    <div class="section-title babies">👶 Babies</div>
+    <a href="grade0.html" class="category babies">Grade 0</a>
+    <a href="test0.html" class="category babies">Test 0</a>
+
+    <!-- Primary (1–6) -->
+    <div class="section-title primary">📚 Primary School</div>
+    <a href="login1.html" id="grade1-link" class="category primary">Grade 1</a>
+    <a href="test1.html" class="category primary">Test 1</a>
+    <a href="grade2.html" class="category primary">Grade 2</a>
+    <a href="test2.html" class="category primary">Test 2</a>
+    <a href="grade3.html" class="category primary">Grade 3</a>
+    <a href="test3.html" class="category primary">Test 3</a>
+    <a href="grade4.html" class="category primary">Grade 4</a>
+    <a href="test4.html" class="category primary">Test 4</a>
+    <a href="grade5.html" class="category primary">Grade 5</a>
+    <a href="test5.html" class="category primary">Test 5</a>
+    <a href="grade6.html" class="category primary">Grade 6</a>
+    <a href="test6.html" class="category primary">Test 6</a>
+
+    <!-- Middle (7–10) -->
+    <div class="section-title middle">🏫 Middle School</div>
+    <a href="grade7.html" class="category middle">Grade 7</a>
+    <a href="test7.html" class="category middle">Test 7</a>
+    <a href="grade8.html" class="category middle">Grade 8</a>
+    <a href="test8.html" class="category middle">Test 8</a>
+    <a href="grade9.html" class="category middle">Grade 9</a>
+    <a href="test9.html" class="category middle">Test 9</a>
+    <a href="grade10.html" class="category middle">Grade 10</a>
+    <a href="test10.html" class="category middle">Test 10</a>
+
+    <!-- High (11–12) -->
+    <div class="section-title high">🎓 High School</div>
+    <a href="grade11.html" class="category high">Grade 11</a>
+    <a href="test11.html" class="category high">Test 11</a>
+    <a href="grade12.html" class="category high">Grade 12</a>
+    <a href="test12.html" class="category high">Test 12</a>
+
+    <!-- Bachelor (13–15) -->
+    <div class="section-title bachelor">🎓 Bachelor’s</div>
+    <a href="grade13.html" class="category bachelor">Grade 13</a>
+    <a href="test13.html" class="category bachelor">Test 13</a>
+    <a href="grade14.html" class="category bachelor">Grade 14</a>
+    <a href="test14.html" class="category bachelor">Test 14</a>
+    <a href="grade15.html" class="category bachelor">Grade 15</a>
+    <a href="test15.html" class="category bachelor">Test 15</a>
+
+    <!-- Master (16–17) -->
+    <div class="section-title master">🎓 Master’s</div>
+    <a href="grade16.html" class="category master">Grade 16</a>
+    <a href="test16.html" class="category master">Test 16</a>
+    <a href="grade17.html" class="category master">Grade 17</a>
+    <a href="test17.html" class="category master">Test 17</a>
+
+    <!-- PhD (18–20) -->
+    <div class="section-title phd">🎓 PhD</div>
+    <a href="grade18.html" class="category phd">Grade 18</a>
+    <a href="test18.html" class="category phd">Test 18</a>
+    <a href="grade19.html" class="category phd">Grade 19</a>
+    <a href="test19.html" class="category phd">Test 19</a>
+    <a href="grade20.html" class="category phd">Grade 20</a>
+    <a href="test20.html" class="category phd">Test 20</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Grade Categories Project. All rights reserved.
+  </footer>
+
+  <script>
+    function goBack() {
+      window.location.href = 'index.html';
     }
+  </script>
 
-    .back-button:hover {
-        background-color: #0056b3;
-    }
-</style>
-    </head>
-    <body>
-        <button class="back-button" onclick="goBack()">
-            <i class="fas fa-arrow-left"></i> <!-- Backward Arrow Icon -->
-        </button>    
-        <script>
-            function goBack() {
-                
-                    
-                
-                    window.location.href = 'index.html'; // Replace with your fallback page URL
-                
-            }
-        </script>
-        <h1>Grade Categories</h1>
-    </header>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
 
-    <div class="categories">
-        <a href="log.html" class="category">Grade 1</a>
-        <a href="grade2.html" class="category">Grade 2</a>
-        <a href="grade3.html" class="category">Grade 3</a>
-        <a href="grade4.html" class="category">Grade 4</a>
-        <a href="grade5.html" class="category">Grade 5</a>
-        <a href="grade6.html" class="category">Grade 6</a>
-        <a href="grade7.html" class="category">Grade 7</a>
-        <a href="grade8.html" class="category">Grade 8</a>
-        <a href="grade9.html" class="category">Grade 9</a>
-        <a href="grade10.html" class="category">Grade 10</a>
-        <a href="grade11.html" class="category">Grade 11</a>
-        <a href="grade12.html" class="category">Grade 12</a>
-    </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
+    };
 
-    <footer>
-        &copy; 2025 Grade Categories Project. All rights reserved.
-    </footer>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const grade1Link = document.getElementById("grade1-link");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        grade1Link.setAttribute("href", "grade1.html");
+      }
+    });
+  </script>
 </body>
 </html>

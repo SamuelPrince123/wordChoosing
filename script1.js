@@ -38,7 +38,7 @@ setInterval(() => {
 }, 1000);
 
 // Set a default time (in seconds)
-let timeLeft = 10; // Set your time here (e.g., 60 seconds)
+let timeLeft = 30; // Set your time here (e.g., 60 seconds)
 
 // Function to start the countdown
 function startTimer() {

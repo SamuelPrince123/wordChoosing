@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>27 Coins Reward</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ff80bf, #ff4b91);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: white;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5em;
+      text-shadow: 2px 2px 4px #ff0080;
+    }
+
+    .coin {
+      font-size: 6rem;
+      animation: bounce 1s infinite;
+      margin-bottom: 1em;
+      color: gold;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 1.5em;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: #ff0080;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #ffb3e6;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .button:hover {
+      background: #e60073;
+      transform: scale(1.05);
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* Tablet and Small Desktop */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .coin {
+        font-size: 5rem;
+      }
+      .button {
+        font-size: 1rem;
+        padding: 12px 24px;
+      }
+    }
+
+    /* Mobile Devices */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .coin {
+        font-size: 4rem;
+      }
+      .button {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 You’ve Received</h1>
+    <div class="coin">💰 27 Coins!</div>
+    <a href="index.html" class="button">← Back to Home</a>
+  </div>
+
+  <audio autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2d3fbe4fd8.mp3?filename=game-notification-199739.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</body>
+</html>
