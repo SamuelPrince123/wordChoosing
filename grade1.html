@@ -19,6 +19,8 @@
         <i class="fas fa-shopping-cart"></i> Shop
     </a>
 
+    
+
     <h1>Select a Level</h1>
     <div class="roadmap-container">
         <!-- SVG for Road -->
@@ -46,11 +48,80 @@
     </div>
 <div id="energy-feedback" class="energy-feedback">-3 coins</div>
 
+<!-- Glowing Grade Display at Bottom -->
+<div id="grade-display" class="glow-grade">
+  Loading your level scores...
+</div>
+
 
     <footer>
         &copy; 2025 Levels Project. All rights reserved.
     </footer>
     
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+    authDomain: "wordchoosing.firebaseapp.com",
+    projectId: "wordchoosing",
+    storageBucket: "wordchoosing.appspot.com",
+    messagingSenderId: "11998731462",
+    appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+    measurementId: "G-0JMJRW97WE"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) return;
+
+    try {
+      const logsRef = db.collection(`users/${user.uid}/level_logs`);
+      const snapshot = await logsRef.get();
+      const gradeMap = {};
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        for (const key in data) {
+          if (key.startsWith("pure_grade ")) {
+            gradeMap[key] = data[key];
+          }
+        }
+      });
+
+      const display = document.getElementById("grade-display");
+      if (Object.keys(gradeMap).length === 0) {
+        display.textContent = "No grades found.";
+        return;
+      }
+
+      display.innerHTML = ""; // Clear old content
+      Object.keys(gradeMap)
+        .sort((a, b) => {
+          const numA = parseInt(a.match(/\d+/));
+          const numB = parseInt(b.match(/\d+/));
+          return numA - numB;
+        })
+        .forEach((key) => {
+          const level = key.match(/\d+/)[0];
+          const grade = gradeMap[key];
+          const line = document.createElement("div");
+          line.textContent = `Level ${level} Score: ${grade} completed`;
+          display.appendChild(line);
+        });
+    } catch (e) {
+      console.error("Error loading grades:", e);
+      document.getElementById("grade-display").textContent = "Error loading scores.";
+    }
+  });
+</script>
+
 
     <script>
        function goBack() {
@@ -58,6 +129,7 @@
 }
     </script>
 <script type="module" src="levelLogger.js"></script>
+
 
     
 </body>

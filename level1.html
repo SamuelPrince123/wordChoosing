@@ -76,42 +76,51 @@
 
   <script>
   document.getElementById("close-modal").addEventListener("click", () => {
-    runGradeCalculation(); // ✅ run without opening any page
+    runGradeCalculation();
   });
 
   async function runGradeCalculation() {
-  const user = firebase.auth().currentUser;
-  if (!user) return;
+    const user = firebase.auth().currentUser;
+    if (!user) return;
 
-  const db = firebase.firestore();
-  const logsRef = db.collection(`users/${user.uid}/level_logs`);
+    const db = firebase.firestore();
+    const logsRef = db.collection(`users/${user.uid}/level_logs`);
 
-  try {
-    const snapshot = await logsRef.get();
+    try {
+      const snapshot = await logsRef.get();
 
-    snapshot.forEach(async (doc) => {
-      const data = doc.data();
-      const levelMatch = data.level?.match(/Level\s*(\d+)/i);
-      const correctMatch = data.result?.match(/Correct:\s*(\d+)/i);
+      snapshot.forEach(async (doc) => {
+        const data = doc.data();
+        const levelMatch = data.level?.match(/Level\s*(\d+)/i);
+        const correctMatch = data.result?.match(/Correct:\s*(\d+)/i);
 
-      if (!levelMatch || !correctMatch) return;
+        if (!levelMatch || !correctMatch) return;
 
-      const levelNum = parseInt(levelMatch[1]);
-      const correct = parseInt(correctMatch[1]);
-      const percentage = Number((((correct * 100) / 12 / 100) * 2).toFixed(10));
-      const gradeKey = `grade ${levelNum}`;
+        const levelNum = parseInt(levelMatch[1]);
+        const correct = parseInt(correctMatch[1]);
 
-      await doc.ref.update({ [gradeKey]: `${percentage}%` });
-      console.log(`✅ ${gradeKey} = ${percentage}% saved.`);
-    });
+        // 🎯 Two grades:
+        const multipliedPercentage = Number((((correct * 100) / 12 / 100) * 2).toFixed(10));
+        const rawPercentage = Number(((correct * 100) / 12).toFixed(2));
 
-    console.log("🎉 All grades processed.");
-  } catch (e) {
-    console.error("❌ Grade calculation error:", e);
+        const gradeKey = `grade ${levelNum}`;
+        const pureGradeKey = `pure_grade ${levelNum}`;
+
+        await doc.ref.update({
+          [gradeKey]: `${multipliedPercentage}%`,
+          [pureGradeKey]: `${rawPercentage}%`
+        });
+
+        console.log(`✅ ${gradeKey} = ${multipliedPercentage}%, ✅ ${pureGradeKey} = ${rawPercentage}% saved.`);
+      });
+
+      console.log("🎉 All grades processed.");
+    } catch (e) {
+      console.error("❌ Grade calculation error:", e);
+    }
   }
-}
-
 </script>
+
 
 
 

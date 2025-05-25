@@ -177,6 +177,32 @@ footer {
     }
 }
 
+/* Glowing Grade Display - Responsive & Fancy */
+.glow-grade {
+  position: relative;
+  text-align: center;
+  font-size: clamp(1rem, 2.5vw, 1.4rem); /* Scales nicely from mobile to desktop */
+  font-weight: bold;
+  margin: 30px auto 20px;
+  padding: 10px 15px;
+  color: #ff69b4;
+  text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 15px #ff1493;
+  max-width: 90%;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
+
+/* Ensure spacing is nice even on ultra-small phones */
+@media (max-width: 400px) {
+  .glow-grade {
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+}
+
+
+
 
 
 
@@ -266,4 +292,5 @@ footer {
         margin-top: -100px;
     }
 }
+
 
