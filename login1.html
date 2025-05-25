@@ -11,51 +11,34 @@
   <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js" type="module"></script>
 
   <style>
-    :root {
-      --primary-color: #4f46e5;
-      --accent-color: #6366f1;
-      --bg-color: #f9fafb;
-      --text-color: #1f2937;
-      --shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      min-height: 100vh;
+      background-color: #f9fafb;
+      color: #1f2937;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      height: 100vh;
+      margin: 0;
     }
 
     .container {
       background: white;
       padding: 2rem;
       border-radius: 1rem;
-      box-shadow: var(--shadow);
-      max-width: 400px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
       width: 100%;
+      max-width: 400px;
       text-align: center;
     }
 
-    .container h1 {
-      font-size: clamp(1.5rem, 6vw, 2rem);
-      margin-bottom: 1rem;
-      color: var(--primary-color);
+    h1 {
+      color: #4f46e5;
     }
 
     .subtitle {
-      font-size: 1rem;
-      margin-bottom: 2rem;
       color: #6b7280;
+      margin-bottom: 1.5rem;
     }
 
     #google-login {
@@ -66,79 +49,94 @@
       background-color: white;
       color: #555;
       border: 1px solid #ddd;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem;
       border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
-      transition: box-shadow 0.2s, transform 0.2s;
       width: 100%;
     }
 
-    #google-login:hover {
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
+    #google-login:disabled {
+      background-color: #e5e7eb;
+      cursor: not-allowed;
+      color: #9ca3af;
     }
 
-    #google-login img {
-      height: 20px;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 1.5rem;
-      }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to PicScribe</h1>
-    <p class="subtitle">Sign in to access your learning platform</p>
-    <button id="google-login">
-      <img src="images/google.png" alt="Google logo" />
-      Sign in with Google
-    </button>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+<div class="container">
+  <h1>Welcome to PicScribe</h1>
+  <p class="subtitle">Enter your username before signing in</p>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-      authDomain: "wordchoosing.firebaseapp.com",
-      projectId: "wordchoosing",
-      storageBucket: "wordchoosing.appspot.com",
-      messagingSenderId: "11998731462",
-      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-      measurementId: "G-0JMJRW97WE",
-    };
+  <input type="text" id="username-input" placeholder="Enter a username..." />
+  <button id="google-login" disabled>
+    <img src="images/google.png" alt="Google" height="20"/>
+    Sign in with Google
+  </button>
+</div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
-    const loginBtn = document.getElementById('google-login');
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+    authDomain: "wordchoosing.firebaseapp.com",
+    projectId: "wordchoosing",
+    storageBucket: "wordchoosing.appspot.com",
+    messagingSenderId: "11998731462",
+    appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+    measurementId: "G-0JMJRW97WE",
+  };
 
-    loginBtn.addEventListener('click', async () => {
-      try {
-        const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-        const docRef = doc(db, `users/${user.uid}/level_logs/Level_1`);
-        await setDoc(docRef, {
-          energy: 27,
-          timestamp: new Date().toISOString(),
-        });
+  const loginBtn = document.getElementById('google-login');
+  const usernameInput = document.getElementById('username-input');
 
-        window.location.href = "27Coins.html";
-      } catch (error) {
-        console.error("Login failed:", error);
-        alert("Login failed: " + error.message);
-      }
-    });
-  </script>
+  // Enable login button only if username is entered
+  usernameInput.addEventListener('input', () => {
+    loginBtn.disabled = usernameInput.value.trim() === "";
+  });
+
+  loginBtn.addEventListener('click', async () => {
+    const username = usernameInput.value.trim();
+    if (!username) {
+      alert("Please enter a username first.");
+      return;
+    }
+
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Save username and energy in Firestore under user's UID
+      const userRef = doc(db, `users/${user.uid}`);
+      await setDoc(userRef, {
+        name: username,
+        energy: 40,
+        timestamp: new Date().toISOString()
+      }, { merge: true });
+
+      window.location.href = "27Coins.html";
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed: " + error.message);
+    }
+  });
+</script>
 </body>
 </html>

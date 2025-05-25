@@ -19,8 +19,10 @@
   <div class="categories">
     <!-- Babies -->
     <div class="section-title babies">👶 Babies</div>
-    <a href="grade0.html" class="category babies">Grade 0</a>
-    <a href="test0.html" class="category babies">Test 0</a>
+    <a href="login1.html" id="Pkg-link" class="category babies">PKG</a>
+    <a href="Lkg.html" class="category babies">LKG</a>
+     <a href="Ukg.html" class="category babies">UKG</a>
+     
 
     <!-- Primary (1–6) -->
     <div class="section-title primary">📚 Primary School</div>
@@ -109,10 +111,13 @@
     const auth = getAuth(app);
 
     const grade1Link = document.getElementById("grade1-link");
+    const PkgLink = document.getElementById("Pkg-link");
+
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
         grade1Link.setAttribute("href", "grade1.html");
+        PkgLink.setAttribute("href","Pkg.html")
       }
     });
   </script>

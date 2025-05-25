@@ -7,7 +7,6 @@ import {
   getFirestore,
   doc,
   getDoc,
-  updateDoc,
   setDoc,
 } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
@@ -47,34 +46,36 @@ function showEnergySubtractionAnimation(targetElement) {
   }, 1500);
 }
 
-// Logging level clicks and updating energy
+// Logging and updating level in Level_1, but energy is stored in root user doc
 function logLevelClick(levelName, levelNumber, redirectTo, currentEnergy) {
   const user = auth.currentUser;
   if (!user) return;
 
-  const levelKey = levelName.replace(" ", "_");
-  const levelDocRef = doc(db, `users/${user.uid}/level_logs/${levelKey}`);
+  const levelRef = doc(db, `users/${user.uid}/level_logs/Level_1`);
+  const userRef = doc(db, `users/${user.uid}`);
   const newEnergy = Math.max(currentEnergy - 3, 0);
 
-  getDoc(levelDocRef)
+  getDoc(levelRef)
     .then((docSnap) => {
-      const existingData = docSnap.exists() ? docSnap.data() : {};
-      const existingLevelNumber = existingData.levelNumber || 0;
+      const data = docSnap.exists() ? docSnap.data() : {};
+      const storedLevelNumber = data.levelNumber || 0;
 
-      if (levelNumber > existingLevelNumber) {
-        return setDoc(
-          levelDocRef,
-          {
-            level: levelName,
-            levelNumber: levelNumber,
-            timestamp: new Date().toISOString(),
-            energy: newEnergy,
-          },
-          { merge: true }
-        );
-      } else {
-        return updateDoc(levelDocRef, { energy: newEnergy });
-      }
+      const updatedLevelData =
+        levelNumber > storedLevelNumber
+          ? {
+              level: levelName,
+              levelNumber: levelNumber,
+              timestamp: new Date().toISOString(),
+            }
+          : {
+              timestamp: new Date().toISOString(),
+            };
+
+      // Save both: updated level info & energy in root
+      return Promise.all([
+        setDoc(levelRef, updatedLevelData, { merge: true }),
+        setDoc(userRef, { energy: newEnergy }, { merge: true }),
+      ]);
     })
     .then(() => {
       console.log("Level and energy updated");
@@ -98,32 +99,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const userRef = doc(db, `users/${user.uid}`);
       const levelName = btn.textContent.trim();
-      const levelKey = levelName.replace(" ", "_");
-      const levelDocRef = doc(db, `users/${user.uid}/level_logs/${levelKey}`);
 
       try {
-        const docSnap = await getDoc(levelDocRef);
-        const existingData = docSnap.exists() ? docSnap.data() : {};
-        const currentEnergy = existingData.energy ?? 0;
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.exists() ? userSnap.data() : {};
+        const currentEnergy = userData.energy ?? 0;
 
-        // If energy is less than 3, redirect to shop and stop
         if (currentEnergy < 3) {
           window.location.href = "shop.html";
           return;
         }
 
-        // Show animation
         showEnergySubtractionAnimation(btn);
 
-        // Get level number from button text or class
         const levelNumberMatch = levelName.match(/\d+/);
         const levelNumber = levelNumberMatch
           ? parseInt(levelNumberMatch[0])
           : 0;
         const redirectTo = btn.getAttribute("href") || "#";
 
-        // Log level
         logLevelClick(levelName, levelNumber, redirectTo, currentEnergy);
       } catch (err) {
         console.error("Error checking energy:", err);
