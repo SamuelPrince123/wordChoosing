@@ -74,6 +74,47 @@
 <button id="mute-button" class="mute-button">&#128266;</button> <!-- Speaker with sound waves -->
   <audio id="background-music" loop>Your browser does not support the audio element.</audio>
 
+  <script>
+  document.getElementById("close-modal").addEventListener("click", () => {
+    runGradeCalculation(); // ✅ run without opening any page
+  });
+
+  async function runGradeCalculation() {
+  const user = firebase.auth().currentUser;
+  if (!user) return;
+
+  const db = firebase.firestore();
+  const logsRef = db.collection(`users/${user.uid}/level_logs`);
+
+  try {
+    const snapshot = await logsRef.get();
+
+    snapshot.forEach(async (doc) => {
+      const data = doc.data();
+      const levelMatch = data.level?.match(/Level\s*(\d+)/i);
+      const correctMatch = data.result?.match(/Correct:\s*(\d+)/i);
+
+      if (!levelMatch || !correctMatch) return;
+
+      const levelNum = parseInt(levelMatch[1]);
+      const correct = parseInt(correctMatch[1]);
+      const percentage = Number((((correct * 100) / 12 / 100) * 2).toFixed(10));
+      const gradeKey = `grade ${levelNum}`;
+
+      await doc.ref.update({ [gradeKey]: `${percentage}%` });
+      console.log(`✅ ${gradeKey} = ${percentage}% saved.`);
+    });
+
+    console.log("🎉 All grades processed.");
+  } catch (e) {
+    console.error("❌ Grade calculation error:", e);
+  }
+}
+
+</script>
+
+
+
   <!-- ✅ Firebase SDKs (non-modular, version 10+) -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
