@@ -87,7 +87,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
@@ -123,14 +123,23 @@
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Save username and energy in Firestore under user's UID
       const userRef = doc(db, `users/${user.uid}`);
-      await setDoc(userRef, {
-        name: username,
-        energy: 40,
-        timestamp: new Date().toISOString()
-      }, { merge: true });
+      const docSnap = await getDoc(userRef);
 
+      if (!docSnap.exists()) {
+        // First time login - create user
+        await setDoc(userRef, {
+          name: username,
+          energy: 40,
+          timestamp: new Date().toISOString()
+        });
+        console.log("New user created.");
+      } else {
+        // Returning user - do not overwrite
+        console.log("Returning user detected:", docSnap.data());
+      }
+
+      // Redirect to game or dashboard
       window.location.href = "27Coins.html";
     } catch (error) {
       console.error("Login failed:", error);
