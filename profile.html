@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - Logout</title>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js" type="module"></script>
+</head>
+<body>
+  <h2>Welcome to your Profile</h2>
+  <button id="logout">Logout</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const logoutBtn = document.getElementById("logout");
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        alert("You have been logged out.");
+        window.location.href = "index.html"; // Go back to login
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    });
+  </script>
+</body>
+</html>
