@@ -63,13 +63,13 @@
   const scoreText = document.getElementById("final-score-message").textContent;
   const score = parseInt(scoreText.match(/\d+/)[0], 10); // e.g., 85 from "Your score: 85"
   
-  const levelName = "Level 1"; // ✅ Set the correct level path here
+  const levelName = "Level 4"; // ✅ Set the correct level path here
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         await saveScore(levelName, score, user.uid);
-        alert("Score saved successfully to Level 1!");
+        alert("Score saved successfully to Level 4!");
         document.getElementById("final-score-modal").style.display = "none";
       } catch (error) {
         alert("Error saving score: " + error.message);

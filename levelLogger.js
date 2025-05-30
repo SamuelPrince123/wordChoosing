@@ -79,13 +79,6 @@ function logLevelClick(levelName, levelNumber, redirectTo, currentEnergy) {
 
 // On DOM load
 document.addEventListener("DOMContentLoaded", () => {
-  // 1️⃣ Only run on play pages named like "levelP4.html", "levelP10.html", etc.
-  const file = window.location.pathname.split("/").pop();
-  if (!/^levelP\d+\.html$/.test(file)) {
-    return; // not a level-play page → do nothing
-  }
-
-  // 2️⃣ Now safely attach your handlers
   document.querySelectorAll("a.level").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();

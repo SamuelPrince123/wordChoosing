@@ -54,7 +54,7 @@ window.onload = function () {
 };
 
 function goBack() {
-  window.location.href = "grade1.html"; // Redirects to grade1.html
+  window.location.href = "Pkg.html"; // Redirects to grade1.html
 }
 
 // Shuffle function to randomly reorder an array

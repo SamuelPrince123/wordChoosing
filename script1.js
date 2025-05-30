@@ -6,7 +6,7 @@ function saveFinalScoreToFirestore(resultMessage) {
           .collection("users")
           .doc(user.uid)
           .collection("level_logs")
-          .doc("Level_1");
+          .doc("Level_4");
 
         await scoreDocRef.set(
           {
