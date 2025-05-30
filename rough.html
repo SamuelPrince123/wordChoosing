@@ -241,3 +241,161 @@ onAuthStateChanged(auth, async (user) => {
     console.log("❌ No user is signed in.");
   }
 });
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduLogin - Learn Smarter</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      color: #4f46e5;
+    }
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+    #google-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: white;
+      color: #555;
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+    }
+    #google-login:disabled {
+      background-color: #e5e7eb;
+      cursor: not-allowed;
+      color: #9ca3af;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Welcome to PicScribe</h1>
+  <p class="subtitle">Enter your username before signing in</p>
+  <input type="text" id="username-input" placeholder="Enter a username..." />
+  <button id="google-login" disabled>
+    <img src="images/google.png" alt="Google" height="20" />
+    Sign in with Google
+  </button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "1234567890",
+    appId: "1:1234567890:web:abcdefgh"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  const loginBtn = document.getElementById("google-login");
+  const usernameInput = document.getElementById("username-input");
+
+  // Check if user is already logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User logged in, redirect to app page
+      window.location.href = "27Coins.html";
+    } else {
+      // No user logged in, enable login button based on input
+      loginBtn.disabled = usernameInput.value.trim() === "";
+    }
+  });
+
+  usernameInput.addEventListener("input", () => {
+    loginBtn.disabled = usernameInput.value.trim() === "";
+  });
+
+  loginBtn.addEventListener("click", async () => {
+    try {
+      const username = usernameInput.value.trim();
+      if (!username) return;
+
+      localStorage.setItem("username", username);
+
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const userDocRef = doc(db, "users", user.uid);
+      const existingUser = await getDoc(userDocRef);
+
+      if (!existingUser.exists()) {
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          username: username,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      window.location.href = "27Coins.html";
+
+    } catch (error) {
+      alert("Login failed: " + error.message);
+      console.error("Sign-in error", error);
+    }
+  });
+</script>
+
+</body>
+</html>

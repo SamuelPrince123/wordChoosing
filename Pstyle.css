@@ -126,15 +126,15 @@ footer {
 
 /* Positioning Levels (Default - Desktop) */
 .level1 { top: 20px; left: 20%; }
-.test1 { top: 150px; left: 60%; }
-.level2 { top: 250px; left: 20%; }
-.test2 { top: 350px; left: 60%; }
-.level3 { top: 450px; left: 20%; }
-.test3 { top: 550px; left: 60%; }
-.level4 { top: 650px; left: 20%; }
-.test4 { top: 750px; left: 60%; }
-.level5 { top: 850px; left: 20%; }
-.test5 { top: 950px; left: 60%; }
+.level2 { top: 150px; left: 60%; }
+.level3 { top: 250px; left: 20%; }
+.level4 { top: 350px; left: 60%; }
+.level5 { top: 450px; left: 20%; }
+.level6 { top: 550px; left: 60%; }
+.level7 { top: 650px; left: 20%; }
+.level8 { top: 750px; left: 60%; }
+.level9 { top: 850px; left: 20%; }
+.level10 { top: 950px; left: 60%; }
 
 /* Energy Animation */
 .energy-feedback {
@@ -248,15 +248,15 @@ footer {
     }
 
     .level1 { top: 20px; left: 18%; }
-    .test1 { top: 140px; left: 55%; }
-    .level2 { top: 230px; left: 18%; }
-    .test2 { top: 320px; left: 55%; }
-    .level3 { top: 410px; left: 18%; }
-    .test3 { top: 500px; left: 65%; }
-    .level4 { top: 590px; left: 18%; }
-    .test4 { top: 680px; left: 60%; }
-    .level5 { top: 770px; left: 18%; }
-    .test5 { top: 860px; left: 55%; }
+    .level2 { top: 140px; left: 55%; }
+    .level3 { top: 230px; left: 18%; }
+    .level4 { top: 320px; left: 55%; }
+    .level5 { top: 410px; left: 18%; }
+    .level6 { top: 500px; left: 65%; }
+    .level7 { top: 590px; left: 18%; }
+    .level8 { top: 680px; left: 60%; }
+    .level9 { top: 770px; left: 18%; }
+    .level10 { top: 860px; left: 55%; }
 }
 
 
@@ -287,15 +287,15 @@ footer {
     }
 
     .level1 { top: 0px; left: 10%; }
-    .test1 { top: 38px; left: 40%; }
-    .level2 { top: 92px; left: 25%; }
-    .test2 { top: 135px; left: 58%; }
-    .level3 { top: 165px; left: 13%; }
-    .test3 { top: 210px; left: 64%; }
-    .level4 { top: 255px; left: 13%; }
-    .test4 { top: 300px; left: 60%; }
-    .level5 { top: 328px; left: 30%; }
-    .test5 { top: 380px; left: 50%; }
+    .level2 { top: 38px; left: 40%; }
+    .level3 { top: 92px; left: 25%; }
+    .level4 { top: 135px; left: 58%; }
+    .level5 { top: 165px; left: 13%; }
+    .level6 { top: 210px; left: 64%; }
+    .level7 { top: 255px; left: 13%; }
+    .level8 { top: 300px; left: 60%; }
+    .level9 { top: 328px; left: 30%; }
+    .level10 { top: 380px; left: 50%; }
 
     .back-button {
         top: -85px;

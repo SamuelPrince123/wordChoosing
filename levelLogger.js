@@ -55,30 +55,20 @@ function logLevelClick(levelName, levelNumber, redirectTo, currentEnergy) {
   const userRef = doc(db, `users/${user.uid}`);
   const newEnergy = Math.max(currentEnergy - 3, 0);
 
-  getDoc(levelRef)
-    .then((docSnap) => {
-      const data = docSnap.exists() ? docSnap.data() : {};
-      const storedLevelNumber = data.levelNumber || 0;
+  // Always update level and levelNumber regardless of previous value
+  const updatedLevelData = {
+    level: levelName,
+    levelNumber: levelNumber,
+    timestamp: new Date().toISOString(),
+  };
 
-      const updatedLevelData =
-        levelNumber > storedLevelNumber
-          ? {
-              level: levelName,
-              levelNumber: levelNumber,
-              timestamp: new Date().toISOString(),
-            }
-          : {
-              timestamp: new Date().toISOString(),
-            };
-
-      // Save both: updated level info & energy in root
-      return Promise.all([
-        setDoc(levelRef, updatedLevelData, { merge: true }),
-        setDoc(userRef, { energy: newEnergy }, { merge: true }),
-      ]);
-    })
+  Promise.all([
+    setDoc(levelRef, updatedLevelData, { merge: true }),
+    setDoc(userRef, { energy: newEnergy }, { merge: true }),
+  ])
     .then(() => {
       console.log("Level and energy updated");
+      console.log("Redirecting to:", redirectTo); // <-- Added this line to debug
       window.location.href = redirectTo;
     })
     .catch((error) => {
@@ -89,7 +79,14 @@ function logLevelClick(levelName, levelNumber, redirectTo, currentEnergy) {
 
 // On DOM load
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".level, .test").forEach((btn) => {
+  // 1️⃣ Only run on play pages named like "levelP4.html", "levelP10.html", etc.
+  const file = window.location.pathname.split("/").pop();
+  if (!/^levelP\d+\.html$/.test(file)) {
+    return; // not a level-play page → do nothing
+  }
+
+  // 2️⃣ Now safely attach your handlers
+  document.querySelectorAll("a.level").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
       const user = auth.currentUser;

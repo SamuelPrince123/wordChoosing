@@ -110,14 +110,15 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+     const PkgLink = document.getElementById("Pkg-link");
     const grade1Link = document.getElementById("grade1-link");
-    const PkgLink = document.getElementById("Pkg-link");
+   
 
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        PkgLink.setAttribute("href","Pkg.html");
         grade1Link.setAttribute("href", "grade1.html");
-        PkgLink.setAttribute("href","Pkg.html")
       }
     });
   </script>

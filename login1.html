@@ -158,7 +158,7 @@
 <div class="container">
   <h1>Welcome to PicScribe</h1>
   <p class="subtitle">Enter your username before signing in</p>
-  <input type="text" id="username-input" placeholder="Enter a username..." />
+<input type="text" id="username-input" placeholder="Enter a username..." maxlength="14" />
   <button id="google-login" disabled>
     <img src="images/google.png" alt="Google" />
     Sign in with Google
@@ -237,13 +237,24 @@
 
       } else {
         // New user: create document
-        await setDoc(userRef, {
-          name: username,
-          energy: 40,
-          timestamp: new Date().toISOString()
-        });
-        alert("New account created.");
-        window.location.href = "27Coins.html";
+await setDoc(userRef, {
+  name: username,
+  energy: 40,
+  timestamp: new Date().toISOString()
+});
+
+// Show modal with success message
+modal.querySelector('h2').textContent = "Account Created";
+modalMessage.textContent = `Welcome, ${username}! Your account has been created successfully.`;
+
+modal.style.display = "flex";
+
+modalProceedBtn.onclick = () => {
+  modal.style.display = "none";
+  window.location.href = "27Coins.html";
+};
+
+       
       }
     } catch (error) {
       console.error("Login failed:", error);
