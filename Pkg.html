@@ -86,7 +86,7 @@
     if (!user) return;
 
     try {
-      const logsRef = db.collection(`users/${user.uid}/level_logs`);
+      const logsRef = db.collection(`users/${user.uid}/level_logs/Level_1`);
       const snapshot = await logsRef.get();
       const gradeMap = {};
 
