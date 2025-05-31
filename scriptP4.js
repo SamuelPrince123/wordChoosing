@@ -405,5 +405,5 @@ function startLoading() {
 
 // Function to handle redirection to the desired page
 function redirectToPage() {
-  window.location.href = "grade1.html"; // Replace with your target page
+  window.location.href = "Pkg.html"; // Replace with your target page
 }
