@@ -86,45 +86,45 @@
     if (!user) return;
 
     try {
-      const logsRef = db.collection(`users/${user.uid}/level_logs`);
-      const snapshot = await logsRef.get();
-      const gradeMap = {};
-
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        for (const key in data) {
-          if (key.startsWith("pure_grade ")) {
-            gradeMap[key] = data[key];
-          }
-        }
-      });
+      // ✅ Correct reference to the Level_1 document (not a collection)
+      const level1Ref = db.doc(`users/${user.uid}/level_logs/Level_4`);
+      const docSnap = await level1Ref.get();
 
       const display = document.getElementById("grade-display");
-      if (Object.keys(gradeMap).length === 0) {
-        display.textContent = "No grades found.";
+
+      if (!docSnap.exists) {
+        display.textContent = "Level 4 data not found.";
         return;
       }
 
-      display.innerHTML = ""; // Clear old content
-      Object.keys(gradeMap)
-        .sort((a, b) => {
+      const data = docSnap.data();
+      const grades = Object.entries(data)
+        .filter(([key]) => key.startsWith("pure_grade "))
+        .sort(([a], [b]) => {
           const numA = parseInt(a.match(/\d+/));
           const numB = parseInt(b.match(/\d+/));
           return numA - numB;
-        })
-        .forEach((key) => {
-          const level = key.match(/\d+/)[0];
-          const grade = gradeMap[key];
-          const line = document.createElement("div");
-          line.textContent = `Level ${level} Score: ${grade} completed`;
-          display.appendChild(line);
         });
+
+      if (grades.length === 0) {
+        display.textContent = "No Level 4 grades found.";
+        return;
+      }
+
+      display.innerHTML = "";
+      grades.forEach(([key, grade]) => {
+        const level = key.match(/\d+/)[0];
+        const line = document.createElement("div");
+        line.textContent = `Level ${level} Score: ${grade} completed`;
+        display.appendChild(line);
+      });
     } catch (e) {
       console.error("Error loading grades:", e);
       document.getElementById("grade-display").textContent = "Error loading scores.";
     }
   });
 </script>
+
 
 
     <script>
