@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PicScribe</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    #current-image1 {
+      position: relative;
+      top: -5px;
+      margin-top: 10px;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      object-fit: fill;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UI elements -->
+  <button class="back-button" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+
+  <div id="timer-container"><span id="timer">00:00</span></div>
+
+
+  <div class="progress-container"><div class="progress-bar" id="progress-bar">0 Coins</div></div>
+
+  <div class="profile-container1">
+    <div class="profile-picture1">
+      <img id="current-image1" src="https://via.placeholder.com/150" alt="image" class="image" />
+    </div>
+    <div class="user-info">
+      <div class="username" id="username">Bot</div>
+      <div class="progress-section1">
+        <div class="progress-label1">Lv.1</div>
+        <div class="progress-bar1">
+          <div class="progress-bar-fill1" id="progressFill1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading-screen">
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+    <p id="loading-text">Loading... 0%</p>
+  </div>
+
+  <div id="start-screen" style="display: block;">
+    <h1 class="lightning-text">PicScribe</h1>
+    <button id="start-button">Start</button>
+    <h2 class="lightning-text1">Finish it within 45 seconds</h2>
+  </div>
+
+  <div id="game-container" style="display:none;">
+    <p id="message"></p>
+    <img id="current-image" src="images/apple.jpg" alt="image" class="image">
+    <div id="options-container"></div>
+  </div>
+
+  <div id="final-score-modal" class="modal">
+    <div class="modal-content">
+      <h2>Game Over</h2>
+      <p id="final-score-message">Your score will appear here.</p>
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+
+<button id="mute-button" class="mute-button">&#128266;</button> <!-- Speaker with sound waves -->
+  <audio id="background-music" loop>Your browser does not support the audio element.</audio>
+
+  <script>
+  document.getElementById("close-modal").addEventListener("click", () => {
+    runGradeCalculation();
+  });
+
+  async function runGradeCalculation() {
+    const user = firebase.auth().currentUser;
+    if (!user) return;
+
+    const db = firebase.firestore();
+    const logsRef = db.collection(`users/${user.uid}/level_logs`);
+
+    try {
+      const snapshot = await logsRef.get();
+
+      snapshot.forEach(async (doc) => {
+        const data = doc.data();
+        const levelMatch = data.level?.match(/Level\s*(\d+)/i);
+        const correctMatch = data.result?.match(/Correct:\s*(\d+)/i);
+
+        if (!levelMatch || !correctMatch) return;
+
+        const levelNum = parseInt(levelMatch[1]);
+        const correct = parseInt(correctMatch[1]);
+
+        // 🎯 Two grades:
+        const multipliedPercentage = Number((((correct * 100) / 12 / 100) * 2).toFixed(10));
+        const rawPercentage = Number(((correct * 100) / 12).toFixed(2));
+
+        const gradeKey = `grade ${levelNum}`;
+        const pureGradeKey = `pure_grade ${levelNum}`;
+
+        await doc.ref.update({
+          [gradeKey]: `${multipliedPercentage}%`,
+          [pureGradeKey]: `${rawPercentage}%`
+        });
+
+        console.log(`✅ ${gradeKey} = ${multipliedPercentage}%, ✅ ${pureGradeKey} = ${rawPercentage}% saved.`);
+      });
+
+      console.log("🎉 All grades processed.");
+    } catch (e) {
+      console.error("❌ Grade calculation error:", e);
+    }
+  }
+</script>
+
+
+
+
+  <!-- ✅ Firebase SDKs (non-modular, version 10+) -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <!-- ✅ Firebase config and initialization -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const currentImage = document.getElementById('current-image1');
+    const usernameElement = document.getElementById('username');
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User is logged in:", user.uid);
+        const userRef = db.collection("users").doc(user.uid);
+
+        userRef.get().then((docSnap) => {
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            usernameElement.textContent = data.username || "Guest";
+          } else {
+            usernameElement.textContent = "Guest";
+            userRef.set({
+              username: user.displayName || "Guest",
+              email: user.email || "",
+              photoURL: user.photoURL || "https://via.placeholder.com/150"
+            });
+          }
+        });
+
+        currentImage.src = user.photoURL || "https://via.placeholder.com/150";
+      } else {
+        currentImage.src = "https://via.placeholder.com/150";
+        usernameElement.textContent = "Guest";
+      }
+    });
+  </script>
+
+  <!-- ✅ Your other scripts (game logic, score, etc.) -->
+  <script src="scriptL1.js"></script>
+ <script type="module" src="scriptBabies2.js"></script>
+
+</body>
+</html>

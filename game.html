@@ -20,7 +20,7 @@
     <!-- Babies -->
     <div class="section-title babies">👶 Babies</div>
     <a href="login1.html" id="Pkg-link" class="category babies">PKG</a>
-    <a href="Lkg.html" class="category babies">LKG</a>
+    <a href="login1.html" id="Lkg-link" class="category babies">LKG</a>
      <a href="Ukg.html" class="category babies">UKG</a>
      
 
@@ -111,6 +111,7 @@
     const auth = getAuth(app);
 
      const PkgLink = document.getElementById("Pkg-link");
+     const LkgLink = document.getElementById("Lkg-link");
     const grade1Link = document.getElementById("grade1-link");
    
 
@@ -118,6 +119,7 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         PkgLink.setAttribute("href","Pkg.html");
+          LkgLink.setAttribute("href","Lkg.html");
         grade1Link.setAttribute("href", "grade1.html");
       }
     });
