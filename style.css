@@ -1519,189 +1519,6 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 }
 
 /* ================================
-   Responsive Styles: Phones
-   ================================ */
-@media (max-width: 366px) {
-  body {
-    transform: scale(0.75);
-    transform-origin: top center;
-  }
-
-  .lightning-text {
-    top: 80px;
-    font-size: 3rem;
-    left: 1%;
-  }
-    .lightning-text1 {
-  margin-top: 50px; /* increase value to push it lower */
-  position: relative;
-  top: 40px; /* adjust this to move it downward more */
-  font-size: 1.5rem; /* optional: adjust text size */
-  color: #020202; /* optional: if you want a pink color */
-  text-align: center;
-}
-
-  #start-button {
-    font-size: 18px;
-    padding: 12px 24px;
-    top: 60px;
-    left: 5px;
-  }
-
-  .image {
-    max-width: 200px;
-    max-height: 200px;
-    top: 40px;
-  }
-
-  #message {
-    top: 50px;
-    font-size: 20px;
-    padding: 8px;
-  }
-  
-
-  .mute-button {
-    right: -30px;
-    padding: 8px 14px;
-    font-size: 11px;
-    width: 15%;
-  }
-
-  .back-button {
-    padding: 8px 14px;
-    font-size: 12px;
-    left: -150px;
-  }
-
-  .word-button {
-    top: 50px;
-    font-size: 14px;
-    padding: 6px 14px;
-  }
-
-  .progress-container {
-    width: 85%;
-    top: 85px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  #timer-container {
-    top: 150px;
-    width: 50px;
-    height: 50px;
-    font-size: 14px;
-    left: 140px;
-  }
-
-  .modal-content {
-    width: 90%;
-    padding: 20px;
-  }
-
-  .modal {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: -35px;
-    width: 350px;
-    height: 600px;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 10000;
-    overflow: auto;
-    padding-top: 60px;
-    transition: opacity 0.5s ease;
-  }
-
-  /* Loading Screen */
-  #loading-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .loading-bar {
-    width: 90%;
-    max-width: 300px;
-    height: 10px;
-    background-color: #ddd;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 30px;
-  }
-
-  .loading-progress {
-    width: 0%;
-    height: 100%;
-    background-color: #ff69b4;
-    border-radius: 5px;
-  }
-
-  #loading-text {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ff69b4;
-    margin-top: 20px;
-    text-align: center;
-  }
-
-  .profile-container1 {
-    position: relative;
-    align-items: center;
-    background-color: #ffcce5;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 200px;
-    height: 30px;
-    left: 7%;
-    top: -2%;
-  }
-
-  .profile-picture1 {
-    width: 45px;
-    height: 45px;
-    margin: 0 auto;
-    top: -12px;
-    right: 85px;
-  }
-
-  .progress-label1,
-  .progress-bar1 {
-    left: 10px;
-    top: -93px;
-    text-align: right;
-  }
-
-  .progress-bar1 {
-    width: 80%;
-    margin-top: 10px;
-    left: 50px;
-  }
-
-  .username {
-    top: -67px;
-    right: 0;
-    text-align: center;
-  }
-
-
-}
-
-/* ================================
    Responsive Styles: 600px
    ================================ */
 @media (max-width: 600px) {
@@ -1765,7 +1582,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 
   .progress-container {
     width: 80%;
-    top: 110px;
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -1775,7 +1592,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   width: 50%; /* Initial value for coins */
   background: linear-gradient(to right, #ff80bf, #ff4d94); /* Gradient for the bar */
   text-align: center;
-  line-height: 28px; /* Match container height */
+  line-height: 38px; /* Match container height */
   font-weight: bold;
   font-size: 18px; /* Slightly larger text */
   color: #fff; /* White text for contrast */
@@ -1900,7 +1717,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 300px;
     height: 30px;
-    left: 12%;
+    left: 9%;
     top: -4%;
   }
   .profile-picture1 {
@@ -1994,7 +1811,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 270px;
     height: 30px;
-    left: 12%;
+    left: 9%;
     top: -4%;
   }
      .lightning-text {
@@ -2096,7 +1913,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 270px;
     height: 30px;
-    left: 12%;
+    left: 9%;
     top: -4%;
   }
      .lightning-text {
@@ -2200,7 +2017,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 270px;
     height: 30px;
-    left: 12%;
+    left: 9%;
     top: -4%;
   }
      .lightning-text {
@@ -2303,7 +2120,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 270px;
     height: 30px;
-    left: 12%;
+    left: 9%;
     top: -4%;
   }
      .lightning-text {
