@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levels Roadmap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="Pstyle.css">
+       
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+       <!-- Shop Button -->
+       <a href="shop.html" class="shop-button">
+        <i class="fas fa-shopping-cart"></i> Shop
+    </a>
+
+    
+
+    <h1>UKG</h1>
+    <div class="roadmap-container">
+        <!-- SVG for Road -->
+        <svg class="road" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
+            <!-- Road path -->
+            <path d="M200 75 C250 125, 350 125, 400 175 
+                     S500 275, 400 325
+                     S300 425, 400 475
+                     S500 575, 400 625
+                     S300 725, 400 775
+                     S500 875, 400 925" class="dashed"></path>
+        </svg>
+
+        <!-- Level and Test Buttons -->
+        <a href="levelU1.html" class="level level1">Level 1</a>
+        <a href="levelU2.html" class="level level2">Level 2</a>
+        <a href="levelU3.html" class="level level3">Level 3</a>
+        <a href="levelU4.html" class="level level4">Level 4</a>
+        <a href="levelU5.html" class="level level5">Level 5</a>
+        <a href="levelU6.html" class="level level6">Level 6</a>
+        <a href="levelU7.html" class="level level7">Level 7</a>
+        <a href="levelU8.html" class="level level8">Level 8</a>
+        <a href="levelU9.html" class="level level9">Level 9</a>
+        <a href="levelU10.html" class="level level10">Level 10</a>
+    </div>
+<div id="energy-feedback" class="energy-feedback">-3 coins</div>
+
+<!-- Glowing Grade Display - Scrollable -->
+<div class="grade-scroll-wrapper">
+  <div id="grade-display" class="glow-grade">
+    Loading your level scores...
+    <!-- You can append more lines here dynamically -->
+  </div>
+</div>
+
+
+
+    <footer>
+        &copy; 2025 Levels Project. All rights reserved.
+    </footer>
+    
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+    authDomain: "wordchoosing.firebaseapp.com",
+    projectId: "wordchoosing",
+    storageBucket: "wordchoosing.appspot.com",
+    messagingSenderId: "11998731462",
+    appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+    measurementId: "G-0JMJRW97WE"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) return;
+
+    try {
+      // ✅ Correct reference to the Level_1 document (not a collection)
+      const level1Ref = db.doc(`users/${user.uid}/level_logs/Level_3`);
+      const docSnap = await level1Ref.get();
+
+      const display = document.getElementById("grade-display");
+
+      if (!docSnap.exists) {
+        display.textContent = "Level 1 data not found.";
+        return;
+      }
+
+      const data = docSnap.data();
+      const grades = Object.entries(data)
+        .filter(([key]) => key.startsWith("pure_grade "))
+        .sort(([a], [b]) => {
+          const numA = parseInt(a.match(/\d+/));
+          const numB = parseInt(b.match(/\d+/));
+          return numA - numB;
+        });
+
+      if (grades.length === 0) {
+        display.textContent = "No Level 1 grades found.";
+        return;
+      }
+
+      display.innerHTML = "";
+      grades.forEach(([key, grade]) => {
+        const level = key.match(/\d+/)[0];
+        const line = document.createElement("div");
+        line.textContent = `Level ${level} Score: ${grade} completed`;
+        display.appendChild(line);
+      });
+    } catch (e) {
+      console.error("Error loading grades:", e);
+      document.getElementById("grade-display").textContent = "Error loading scores.";
+    }
+  });
+</script>
+
+
+
+    <script>
+       function goBack() {
+    window.location.href = 'game.html'; // Directly go to game.html
+}
+    </script>
+<script type="module" src="levelLoggerU.js"></script>
+
+
+    
+</body>
+</html>
+
+
