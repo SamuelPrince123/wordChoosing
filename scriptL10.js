@@ -102,7 +102,7 @@ const words = [
   "Pillow",
   "Curtains",
   "Switch",
-  "Key",
+  "Keys",
   "Stool",
   "Rug",
   "Shelf",
@@ -180,7 +180,7 @@ function checkWord(word) {
       } else {
         showFinalScore(); // Show final score
       }
-    }, 1000);
+    }, 400);
   } else {
     // Play incorrect audio
     incorrectAudio.play();
