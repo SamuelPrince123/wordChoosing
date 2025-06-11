@@ -105,7 +105,7 @@ onAuthStateChanged(auth, async (user) => {
       }
 
       // ✅ Level progress still fetched from Level_1 doc
-      const levelDocRef = doc(db, "users", user.uid, "level_logs", "Level_1");
+      const levelDocRef = doc(db, "users", user.uid, "level_logs", "Level_4");
       const levelDoc = await getDoc(levelDocRef);
 
       if (levelDoc.exists()) {

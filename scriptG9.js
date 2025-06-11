@@ -95,30 +95,33 @@ function playRandomMusic() {
 
 // Define words and image paths
 const words = [
-  "apple",
-  "calm",
-  "comfortable",
-  "Cat",
-  "Dog",
-  "Barrel",
-  "Pendent",
-  "Hammock",
-  "Keys",
-  "Pistol",
-  "Rifel",
+  "Find",
+  "Hide",
+  "Hug",
+  "Kiss",
+  "See",
+  "Hear",
+  "Touch",
+  "Tiny",
+  "Huge",
+  "Tall",
+  "Fat",
+  "Thin",
 ];
+
 const imagePaths = [
-  "images/apple.jpg",
-  "images/calm.jpg",
-  "images/comfortable.jpg",
-  "images/Cat.jpeg",
-  "images/Dog.jpeg",
-  "images/Barrel.jpeg",
-  "images/Pendent.jpeg",
-  "images/Hammock.jpeg",
-  "images/Keys.jpeg",
-  "images/Pistol.jpeg",
-  "images/Rifel.jpg",
+  "images/Find.jpg",
+  "images/Hiding.jpg",
+  "images/Hug.jpg",
+  "images/Kiss.jpg",
+  "images/See.webp",
+  "images/hear.jpg",
+  "images/Touch.jpg",
+  "images/Tiny.jpg",
+  "images/Huge.jpg",
+  "images/Tall.webp",
+  "images/Fat.jpg",
+  "images/Thin.jpg",
 ];
 
 // Create an array of objects combining words and their corresponding image paths
@@ -198,7 +201,7 @@ function checkWord(word) {
       } else {
         showFinalScore(); // Show final score
       }
-    }, 1000); // Delay before moving to the next image
+    }, 500); // Delay before moving to the next image
   }
 }
 
