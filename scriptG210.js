@@ -110,7 +110,7 @@ const words = [
 ];
 
 const imagePaths = [
-  "images/Rarely",
+  "images/Rarely.webp",
   "images/Inside.jpeg",
   "images/Upstairs.jpeg",
   "images/Forward.png",

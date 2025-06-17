@@ -112,7 +112,7 @@ const words = [
 const imagePaths = [
   "images/Envelope.jpeg",
   "images/magnet.jpeg",
-  "images/background.png",
+  "images/backpack.jpeg",
   "images/X-Ray.jpeg",
   "images/Palace.jpeg",
   "images/Telescope.jpeg",

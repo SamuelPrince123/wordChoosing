@@ -118,7 +118,7 @@ const imagePaths = [
   "images/Drop.jpeg",
   "images/Sail.jpeg",
   "images/Flying.jpeg",
-  "images/Paste.webp",
+  "images/Paste.jpeg",
   "images/Break.jpeg",
   "images/Fix.jpeg",
   "images/Stir.jpeg",
