@@ -21,30 +21,34 @@
 
     
 
-    <h1>Grade 1</h1>
+    <h1>Grade 3</h1>
     <div class="roadmap-container">
-        <!-- SVG for Road -->
-        <svg class="road" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
-            <!-- Road path -->
-            <path d="M200 75 C250 125, 350 125, 400 175 
-                     S500 275, 400 325
-                     S300 425, 400 475
-                     S500 575, 400 625
-                     S300 725, 400 775
-                     S500 875, 400 925" class="dashed"></path>
-        </svg>
+     <!-- SVG for Road -->
+<svg class="road" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1300">
+    <!-- Road path -->
+    <path d="M200 75 C250 125, 350 125, 400 175 
+             S500 275, 400 325
+             S300 425, 400 475
+             S500 575, 400 625
+             S300 725, 400 775
+             S500 875, 400 925
+             S300 1025, 400 1075
+             S500 1175, 400 1225   " class="dashed"></path>
+</svg>
 
         <!-- Level and Test Buttons -->
-        <a href="levelG11.html" class="level level1">Level 1</a>
-        <a href="levelG12.html" class="level level2">Level 2</a>
-        <a href="levelG13.html" class="level level3">Level 3</a>
-        <a href="levelG14.html" class="level level4">Level 4</a>
-        <a href="levelG15.html" class="level level5">Level 5</a>
-        <a href="LevelG16.html" class="level level6">Level 6</a>
-        <a href="levelG17.html" class="level level7">Level 7</a>
-        <a href="levelG18.html" class="level level8">Level 8</a>
-        <a href="levelG19.html" class="level level9">Level 9</a>
-        <a href="levelG110.html" class="level level10">Level 10</a>
+        <a href="levelG31.html" class="level level1">Level 1</a>
+        <a href="levelG32.html" class="level level2">Level 2</a>
+        <a href="levelG33.html" class="level level3">Level 3</a>
+        <a href="levelG34.html" class="level level4">Level 4</a>
+        <a href="levelG35.html" class="level level5">Level 5</a>
+        <a href="LevelG36.html" class="level level6">Level 6</a>
+        <a href="levelG37.html" class="level level7">Level 7</a>
+        <a href="levelG38.html" class="level level8">Level 8</a>
+        <a href="levelG39.html" class="level level9">Level 9</a>
+        <a href="levelG310.html" class="level level10">Level 10</a>
+        <a href="levelG311.html" class="level level11">Level 11</a>
+
     </div>
 <div id="energy-feedback" class="energy-feedback">-3 coins</div>
 
@@ -87,13 +91,13 @@
 
     try {
       // ✅ Correct reference to the Level_1 document (not a collection)
-      const level1Ref = db.doc(`users/${user.uid}/level_logs/Level_4`);
+      const level1Ref = db.doc(`users/${user.uid}/level_logs/Level_6`);
       const docSnap = await level1Ref.get();
 
       const display = document.getElementById("grade-display");
 
       if (!docSnap.exists) {
-        display.textContent = "Level 4 data not found.";
+        display.textContent = "Level data not found.";
         return;
       }
 
@@ -107,7 +111,7 @@
         });
 
       if (grades.length === 0) {
-        display.textContent = "No Level 4 grades found.";
+        display.textContent = "No Level grades found.";
         return;
       }
 
@@ -132,7 +136,7 @@
     window.location.href = 'game.html'; // Directly go to game.html
 }
     </script>
-<script type="module" src="levelLoggerG1.js"></script>
+<script type="module" src="levelLoggerG3.js"></script>
 
 
     

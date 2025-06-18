@@ -1,401 +1,46 @@
-<button onclick="checkWord('consequences')" class="word-button">Consequences of fight</button>
-<button onclick="checkWord('curious')" class="word-button">Curious</button>
-<button onclick="checkWord('curve')" class="word-button">Curved line</button>
-<button onclick="checkWord('decide')" class="word-button">Decide/Think/Direction</button>
-<button onclick="checkWord('discover')" class="word-button">Discover</button>
-<button onclick="checkWord('dissapoint')" class="word-button">Dissapoint/Embarrassed</button>
-<button onclick="checkWord('enormous')" class="word-button">Enormous Pineapple</button>
-<button onclick="checkWord('exhausted')" class="word-button">Exhausted</button>
-<button onclick="checkWord('explore')" class="word-button">Explore</button>
-<button onclick="checkWord('facinating')" class="word-button">Fascinating/Excited</button>
-<button onclick="checkWord('feast')" class="word-button">Feast</button>
+ PkgLink.setAttribute("href", "Pkg.html");
+        LkgLink.setAttribute("href", "Lkg.html");
+        UkgLink.setAttribute("href", "Ukg.html");
+        grade1Link.setAttribute("href", "grade1.html");
+        grade2Link.setAttribute("href", "grade2.html");
+        grade2Link.setAttribute("href", "grade3.html");
+        grade2Link.setAttribute("href", "grade4.html");
+        grade2Link.setAttribute("href", "grade5.html");
+        grade2Link.setAttribute("href", "grade6.html");
 
 
-"consequences",
-"curious",
-"curve",
-"decide",
-"discover",
-"dissapoint",
-"enormous",
-"exhausted",
-"banana",
-"cherry",
-"annoy",
-"attention",
-"explore",
-"facinating",
-"feast",
 
 
-"images/consequences.jpg",
-  "images/curious.jpg",
-  "images/curve.jpg",
-  "images/decide.jpg",
-  "images/discover.jpg",
-  "images/dissapoint.jpg",
-  "images/enormous.jpg",
-  "images/exhausted.jpg",
-  "images/banana.jpg",
-  "images/cherry.jpg",
-  "images/annoy.jpg",
-  "images/attention.jpg",
-  "images/explore.jpg",
-  "images/facinating.jpg",
-  "images/feast.jpg",
 
 
+        const PkgLink = document.getElementById("Pkg-link");
+    const LkgLink = document.getElementById("Lkg-link");
+    const UkgLink = document.getElementById("Ukg-link");
+    const grade1Link = document.getElementById("grade1-link");
+    const grade2Link = document.getElementById("grade2-link");
+    const grade3Link = document.getElementById("grade3-link");
+    const grade4Link = document.getElementById("grade4-link");
+    const grade5Link = document.getElementById("grade5-link");
+    const grade6Link = document.getElementById("grade6-link");
 
 
 
+     <!-- Primary (1–6) -->
+    <div class="section-title primary">📚 Primary School</div>
+    <a href="login1.html" id="grade1-link" class="category primary">Grade 1</a>
+        <a href="test1.html" class="category primary">Test 1</a>
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-  
-    <!-- Firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js" type="module"></script>
-  
-    <style>
-      button {
-        margin: 10px;
-        padding: 10px 20px;
-        font-size: 18px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Login Page</h1>
-    <button id="google-login">Login with Google</button>
-    <button id="facebook-login">Login with Facebook</button>
-  
-    <script src="login.js" type="module"></script>
-  </body>
-  </html>
-  
+    <a href="login1.html" id="grade2-link" class="category primary">Grade 2</a>
+        <a href="test2.html" class="category primary">Test 2</a>
 
+    <a href="login1.html" id="grade3-link" class="category primary">Grade 3</a>
+        <a href="test3.html" class="category primary">Test 3</a>
 
+    <a href="login1.html" id="grade4-link" class="category primary">Grade 4</a>
+        <a href="test4.html" class="category primary">Test 4</a>
 
+    <a href="login1.html" id="grade5-link" class="category primary">Grade 5</a>
+        <a href="test5.html" class="category primary">Test 5</a>
 
-
-
-
-
-
-
-
-
-  import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-
-// Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-  authDomain: "wordchoosing.firebaseapp.com",
-  projectId: "wordchoosing",
-  storageBucket: "wordchoosing.appspot.com",
-  messagingSenderId: "11998731462",
-  appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-  measurementId: "G-0JMJRW97WE",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// Coins progress bar setup
-const maxCoins = 200;
-
-function showCoinsFromFirebase(energyValue) {
-  const progressBar = document.getElementById("progress-bar");
-
-  if (!progressBar) {
-    console.error("❌ Element with ID 'progress-bar' not found.");
-    return;
-  }
-
-  const coins = energyValue || 0;
-  const percent = Math.min(100, (coins / maxCoins) * 100);
-
-  console.log("✅ Updating progress bar: ", coins, "/", maxCoins);
-
-  progressBar.style.width = percent + "%";
-  progressBar.textContent = `${coins}/${maxCoins} Coins`;
-}
-
-// Timer logic
-let timeLeft = 60;
-
-function startTimer() {
-  const timerElement = document.getElementById("timer");
-
-  const timerInterval = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      showFinalScore();
-    } else {
-      let minutes = Math.floor(timeLeft / 60);
-      let seconds = timeLeft % 60;
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-      timerElement.textContent = minutes + ":" + seconds;
-      timeLeft--;
-    }
-  }, 1000);
-}
-
-// Start the game on button click
-document.addEventListener("DOMContentLoaded", function () {
-  const startButton = document.getElementById("start-button");
-  if (startButton) {
-    startButton.addEventListener("click", function () {
-      startTimer();
-      document.getElementById("start-screen").style.display = "none";
-      document.getElementById("game-container").style.display = "block";
-    });
-  }
-});
-
-// Load user info from Firestore
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    console.log("✅ User is signed in:", user.uid);
-    const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      const username = userData.name || "User";
-
-      const usernameElement = document.querySelector(".username");
-      if (usernameElement) {
-        usernameElement.textContent = username;
-      } else {
-        console.warn("⚠️ No element with class 'username' found.");
-      }
-
-      // ✅ Energy is now fetched from root user document
-      let energy = 0;
-      if (userData.energy !== undefined) {
-        energy = userData.energy;
-      } else {
-        console.warn("⚠️ Energy not found in root user document.");
-      }
-
-      // ✅ Level progress still fetched from Level_1 doc
-      const levelDocRef = doc(db, "users", user.uid, "level_logs", "Level_1");
-      const levelDoc = await getDoc(levelDocRef);
-
-      if (levelDoc.exists()) {
-        const levelData = levelDoc.data();
-
-        // Update level label (e.g., "Lv. 2") from `level` field
-        if (levelData.level) {
-          const match = levelData.level.match(/Level\s*(\d+)/i);
-          if (match) {
-            const levelNum = match[1];
-            const label = document.querySelector(".progress-label1");
-            if (label) label.textContent = `Lv.${levelNum}`;
-          }
-        }
-
-        // Update progress bar fill from `levelNumber` field
-        if (typeof levelData.levelNumber === "number") {
-          const levelNumber = levelData.levelNumber;
-          const progressPercent = Math.min(100, levelNumber * 10);
-
-          const progressFill = document.getElementById("progressFill1");
-          if (progressFill) {
-            progressFill.style.width = `${progressPercent}%`;
-          }
-
-          console.log(
-            `📊 Level progress set to ${progressPercent}% for levelNumber = ${levelNumber}`
-          );
-        } else {
-          console.warn("⚠️ levelNumber is missing or invalid.");
-        }
-      } else {
-        console.warn("⚠️ No Level_1 document found in level_logs.");
-      }
-
-      showCoinsFromFirebase(energy);
-    } else {
-      console.warn("⚠️ User document not found in Firestore.");
-    }
-  } else {
-    console.log("❌ No user is signed in.");
-  }
-});
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EduLogin - Learn Smarter</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      background-color: #f9fafb;
-      color: #1f2937;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
-    h1 {
-      color: #4f46e5;
-    }
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 1.5rem;
-    }
-    #google-login {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background-color: white;
-      color: #555;
-      border: 1px solid #ddd;
-      padding: 0.75rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-    }
-    #google-login:disabled {
-      background-color: #e5e7eb;
-      cursor: not-allowed;
-      color: #9ca3af;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <h1>Welcome to PicScribe</h1>
-  <p class="subtitle">Enter your username before signing in</p>
-  <input type="text" id="username-input" placeholder="Enter a username..." />
-  <button id="google-login" disabled>
-    <img src="images/google.png" alt="Google" height="20" />
-    Sign in with Google
-  </button>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged,
-  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-    authDomain: "your-project-id.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdefgh"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: "select_account" });
-
-  const loginBtn = document.getElementById("google-login");
-  const usernameInput = document.getElementById("username-input");
-
-  // Check if user is already logged in
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User logged in, redirect to app page
-      window.location.href = "27Coins.html";
-    } else {
-      // No user logged in, enable login button based on input
-      loginBtn.disabled = usernameInput.value.trim() === "";
-    }
-  });
-
-  usernameInput.addEventListener("input", () => {
-    loginBtn.disabled = usernameInput.value.trim() === "";
-  });
-
-  loginBtn.addEventListener("click", async () => {
-    try {
-      const username = usernameInput.value.trim();
-      if (!username) return;
-
-      localStorage.setItem("username", username);
-
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const userDocRef = doc(db, "users", user.uid);
-      const existingUser = await getDoc(userDocRef);
-
-      if (!existingUser.exists()) {
-        await setDoc(userDocRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          username: username,
-          createdAt: new Date().toISOString(),
-        });
-      }
-
-      window.location.href = "27Coins.html";
-
-    } catch (error) {
-      alert("Login failed: " + error.message);
-      console.error("Sign-in error", error);
-    }
-  });
-</script>
-
-</body>
-</html>
+    <a href="login1.html" id="grade6-link" class="category primary">Grade 6</a>
+       <a href="test6.html" class="category primary">Test 6</a>
