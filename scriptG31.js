@@ -96,7 +96,7 @@ function playRandomMusic() {
 // Define words and image paths
 const words = [
   "Volcano",
-  "Planet",
+  "Planets",
   "Cottage",
   "Campsite",
   "Puppet",
@@ -110,18 +110,18 @@ const words = [
 ];
 
 const imagePaths = [
-  "images/Castle.jpeg",
-  "images/Island.jpeg",
-  "images/Museum.jpeg",
-  "images/Dragon.webp",
-  "images/Ocean.jpeg",
-  "images/Kettle.jpg",
-  "images/Vally.jpeg",
-  "images/Parachute.jpeg",
-  "images/Ostrich.jpeg",
-  "images/Engine.jpeg",
-  "images/measuring tape.jpeg",
-  "images/Submarines.jpg",
+  "images/Volcano.jpg",
+  "images/Planet.jpeg",
+  "images/Cottage.jpeg",
+  "images/Campsite.jpeg",
+  "images/Puppet.jpeg",
+  "images/Iceberg.jpeg",
+  "images/Hospital.jpeg",
+  "images/Theater.jpeg",
+  "images/Dinosaur.jpeg",
+  "images/Sandwich.jpeg",
+  "images/Basketball.jpeg",
+  "images/BasketB.jpeg",
 ];
 
 // Create an array of objects combining words and their corresponding image paths

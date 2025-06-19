@@ -110,18 +110,18 @@ const words = [
 ];
 
 const imagePaths = [
-  "images/Castle.jpeg",
-  "images/Island.jpeg",
-  "images/Museum.jpeg",
-  "images/Dragon.webp",
-  "images/Ocean.jpeg",
-  "images/Kettle.jpg",
-  "images/Vally.jpeg",
-  "images/Parachute.jpeg",
-  "images/Ostrich.jpeg",
-  "images/Engine.jpeg",
-  "images/measuring tape.jpeg",
-  "images/Submarines.jpg",
+  "images/Artist.jpeg",
+  "images/Robot.jpeg",
+  "images/Highway.jpeg",
+  "images/Journal.jpeg",
+  "images/Whistle.jpeg",
+  "images/Lighthouse.jpeg",
+  "images/Paddock.jpg",
+  "images/Carousel.jpeg",
+  "images/Cave.jpeg",
+  "images/Dragonfly.jpeg",
+  "images/Pancake.jpeg",
+  "images/Necklace.jpeg",
 ];
 
 // Create an array of objects combining words and their corresponding image paths

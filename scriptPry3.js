@@ -46,7 +46,7 @@ function showCoinsFromFirebase(energyValue) {
 }
 
 // Timer logic
-let timeLeft = 60;
+let timeLeft = 80;
 
 function startTimer() {
   const timerElement = document.getElementById("timer");
