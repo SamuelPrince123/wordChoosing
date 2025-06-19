@@ -180,7 +180,7 @@ function checkWord(word) {
       } else {
         showFinalScore(); // Show final score
       }
-    }, 1000);
+    }, 500);
   } else {
     // Play incorrect audio
     incorrectAudio.play();
