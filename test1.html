@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="test.css" />
 </head>
 <body>
+
   <div id="game-container">
-    <h1>Sentence Builder</h1>
-    <p style="font-size: 1.1rem; color: #555; margin-top: -10px;">
-      Please make two sentences for each word.
-    </p>
+    <div class="header-flex">
+      <button id="back-btn">⬅️ Back</button>
+      <div class="title-container">
+        <h1>Sentence Builder</h1>
+        <p>Please make two sentences for each word.</p>
+      </div>
+    </div>
 
     <!-- Word Prompt -->
     <div id="word-prompt"></div>
 
-    <!-- Three separate sentence inputs -->
+    <!-- Two separate sentence inputs -->
     <div id="sentence-input-container">
       <div class="sentence-line">
         <label for="sentence1">1)</label>
@@ -49,5 +53,10 @@
   </div>
 
   <script src="test.js"></script>
+  <script>
+    document.getElementById("back-btn").addEventListener("click", () => {
+      window.location.href = "game.html"; // Change to your desired URL
+    });
+  </script>
 </body>
 </html>

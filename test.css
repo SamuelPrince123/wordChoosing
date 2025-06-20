@@ -38,19 +38,61 @@ body {
   transition: all 0.3s ease;
 }
 
-/* === Title & Subtitle === */
-h1 {
+/* === Header Flex Container (Back button + Title + Subtitle) === */
+.header-flex {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Back button styling */
+.header-flex #back-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 90px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 8px var(--shadow);
+  z-index: 2; /* keep above title */
+}
+
+.header-flex #back-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Absolutely center the title container */
+.header-flex .title-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  width: max-content;
+}
+
+/* Title styling */
+.header-flex .title-container h1 {
+  margin: 0 0 0.5rem 0; /* Added bottom margin here for spacing */
   font-size: 2.2rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
   color: var(--primary);
 }
 
-h1 + p {
+/* Subtitle styling */
+.header-flex .title-container p {
   font-size: 1.1rem;
+  color: #555;
+  margin-top: 0;  /* Removed negative margin */
+  margin-bottom: 0;
   text-align: center;
-  color: #666;
-  margin-bottom: 1.5rem;
 }
 
 /* === Word Prompt === */
@@ -205,11 +247,12 @@ button:hover {
     padding: 1.5rem;
   }
 
-  h1 {
+  .header-flex .title-container h1 {
     font-size: 1.8rem;
+    margin-bottom: 0.6rem; /* add a bit more spacing */
   }
 
-  h1 + p {
+  .header-flex .title-container p {
     font-size: 1rem;
   }
 
@@ -228,11 +271,12 @@ button:hover {
     border-radius: 1rem;
   }
 
-  h1 {
+  .header-flex .title-container h1 {
     font-size: 1.5rem;
+    margin-bottom: 0.7rem; /* more spacing on smaller */
   }
 
-  h1 + p {
+  .header-flex .title-container p {
     font-size: 0.95rem;
   }
 
@@ -246,5 +290,25 @@ button:hover {
 
   button {
     font-size: 0.9rem;
+  }
+
+  /* Stack back button and title vertically on very small screens */
+  .header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-flex #back-btn {
+    width: 100%;
+    min-width: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-flex .title-container {
+    position: static;
+    width: 100%;
+    transform: none;
+    align-items: center;
+    margin-top: 0.5rem;
   }
 }
