@@ -97,8 +97,8 @@ function playRandomMusic() {
 const words = [
   "Timidly",
   "Crazily",
-  "Oddly",
-  "Strangely",
+  "Fingers Looked Oddly",
+  "Splendorously",
   "Mightily",
   "Adorably",
   "Awkwardly",
@@ -110,9 +110,9 @@ const words = [
 ];
 
 const imagePaths = [
-  "images/Castle.jpeg",
-  "images/Island.jpeg",
-  "images/Museum.jpeg",
+  "images/Timidly.jpg",
+  "images/Crazily.jpg",
+  "images/Oddly.jpg",
   "images/Dragon.webp",
   "images/Ocean.jpeg",
   "images/Kettle.jpg",

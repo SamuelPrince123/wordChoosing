@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentence Builder Game</title>
+  <link rel="stylesheet" href="test.css" />
+</head>
+<body>
+  <div id="game-container">
+    <h1>Sentence Builder</h1>
+    <p style="font-size: 1.1rem; color: #555; margin-top: -10px;">
+      Please make two sentences for each word.
+    </p>
+
+    <!-- Word Prompt -->
+    <div id="word-prompt"></div>
+
+    <!-- Three separate sentence inputs -->
+    <div id="sentence-input-container">
+      <div class="sentence-line">
+        <label for="sentence1">1)</label>
+        <textarea id="sentence1" rows="2" placeholder="Type sentence 1 here..."></textarea>
+      </div>
+      <div class="sentence-line">
+        <label for="sentence2">2)</label>
+        <textarea id="sentence2" rows="2" placeholder="Type sentence 2 here..."></textarea>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div style="margin-top: 1rem;">
+      <button id="prev-btn">⬅️ Previous</button>
+      <button id="next-btn" disabled>➡️ Next</button>
+      <button id="submit-btn">✅ Submit</button>
+    </div>
+
+    <!-- Feedback / Error -->
+    <div id="feedback"></div>
+
+    <!-- Final Scoreboard -->
+    <div id="scoreboard"></div>
+  </div>
+
+  <!-- LOADING SPINNER -->
+  <div id="loader-overlay">
+    <div class="spinner"></div>
+    <p>Analyzing your sentences... please wait</p>
+  </div>
+
+  <script src="test.js"></script>
+</body>
+</html>
