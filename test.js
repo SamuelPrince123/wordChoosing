@@ -12,7 +12,18 @@ const feedback = document.getElementById("feedback");
 const scoreboard = document.getElementById("scoreboard");
 const loader = document.getElementById("loader-overlay");
 
-const words = ["apple", "ball"]; // Your word list here
+const words = [
+  "Basket",
+  "Cheese",
+  "Lamp",
+  "Nut",
+  "Slide",
+  "Vest",
+  "Yawn",
+  "Ride",
+  "Huge",
+  "Messy",
+]; // Your word list here
 let currentWordIndex = 0;
 let inputData = words.map((word) => ({ word, text: ["", ""] }));
 
@@ -264,7 +275,7 @@ async function checkAllSentences() {
   showFinalResults(results, totalScore);
 }
 
-function showFinalResults(results, totalScore) {
+async function showFinalResults(results, totalScore) {
   loader.style.display = "none";
   feedback.innerHTML = "";
   scoreboard.innerHTML = `<h2>🏁 Game Completed</h2><p><strong>Total Score: ${totalScore}/${
@@ -298,4 +309,33 @@ function showFinalResults(results, totalScore) {
 
     scoreboard.appendChild(section);
   }
+
+  // ✅ Wait for login to be confirmed
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) {
+      console.error("User not logged in, cannot save score");
+      return;
+    }
+
+    try {
+      const maxScore = words.length * 20;
+      const score60Percent = (totalScore / maxScore) * 60;
+
+      const docRef = firebase
+        .firestore()
+        .doc(`/users/${user.uid}/level_logs/Level_4`);
+
+      await docRef.set(
+        {
+          finalScore: score60Percent,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      console.log(`Score saved to Firebase: ${score60Percent}`);
+    } catch (error) {
+      console.error("Error saving score to Firebase:", error);
+    }
+  });
 }
