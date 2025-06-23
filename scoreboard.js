@@ -57,7 +57,7 @@ async function loadScoreboard(showAll = false) {
           await logsRef
             .doc(docId)
             .set({ "average marks": `${avg.toFixed(2)}%` }, { merge: true });
-          resultHTML += `<li>📘 ${docId} → Average Marks: <strong>${avg.toFixed(
+          resultHTML += `<li>📚 ${docId} → Average Marks: <strong>${avg.toFixed(
             2
           )}%</strong> (from ${gradeCount} pure_grades)</li>`;
           totalOfAverages += avg;
@@ -84,7 +84,7 @@ async function loadScoreboard(showAll = false) {
           { "Total Average Percentage 1": `${totalAvg1.toFixed(2)}%` },
           { merge: true }
         );
-        resultHTML += `<p><strong>🎯 Total Average Percentage 1 (From Levels):</strong> ${totalAvg1.toFixed(
+        resultHTML += `<p><strong>🎯 Total Average Percentage  (From Levels):</strong> ${totalAvg1.toFixed(
           2
         )}%</p>`;
       }
@@ -95,7 +95,7 @@ async function loadScoreboard(showAll = false) {
           { "Total Average Percentage 2": `${totalAvg2.toFixed(2)}%` },
           { merge: true }
         );
-        resultHTML += `<p><strong>🚀 Total Average Percentage 2 (From Tests):</strong> ${totalAvg2.toFixed(
+        resultHTML += `<p><strong>🚀 Total Average Percentage  (From Tests):</strong> ${totalAvg2.toFixed(
           2
         )}%</p>`;
       } else {
@@ -107,7 +107,10 @@ async function loadScoreboard(showAll = false) {
         const score60 = (totalAvg2 / 100) * 60;
         const finalPercentage = score40 + score60;
         await userDocRef.set(
-          { FinalPercentage: `${finalPercentage.toFixed(2)}%` },
+          {
+            FinalPercentage: `${finalPercentage.toFixed(2)}%`,
+            rankScore: finalPercentage.toFixed(2),
+          },
           { merge: true }
         );
         resultHTML += `<p><strong>🏆 Final Percentage:</strong> ${finalPercentage.toFixed(
@@ -122,7 +125,7 @@ async function loadScoreboard(showAll = false) {
         { "Level Completion": `${completionRatio.toFixed(2)}%` },
         { merge: true }
       );
-      resultHTML += `<p><strong>📈 Grade Completion:</strong> ${completionRatio.toFixed(
+      resultHTML += `<p><strong>📊 Grade Completion:</strong> ${completionRatio.toFixed(
         2
       )}% (based on ${totalLevelsCreated} of 23 Grades)</p>`;
 
@@ -183,14 +186,20 @@ async function loadScoreboard(showAll = false) {
       let html = `<div class="scoreboard-scroll"><div class="scoreboard-header"><div>#</div><div>User</div><div>Rank Score</div><div>Final Marks</div><div>Progress</div></div>`;
       usersData.forEach((user, idx) => {
         html += `
-          <div class="user-info"><div>${idx + 1}</div><div><img src="${
-          user.photoURL
-        }"/><div>${user.name}</div><div>${user.email}</div></div><div>${
-          user.rankScore
-        }</div><div>${user.finalPercentage}</div><div>${
-          user.levelCompletion
-        } completed</div></div>
-        `;
+  <div class="user-info">
+    <div>${idx + 1}</div>
+    <div>
+      <img src="${user.photoURL}" />
+      <div class="text-block">
+        <div class="user-name">${user.name}</div>
+        <div class="user-email">${user.email}</div>
+      </div>
+    </div>
+    <div>${user.rankScore}</div>
+    <div>${user.finalPercentage}</div>
+    <div>${user.levelCompletion} completed</div>
+  </div>
+`;
       });
       html += `</div>`;
       output.innerHTML = html;

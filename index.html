@@ -5,46 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PicScribe</title>
   <link rel="stylesheet" href="dstyle.css" />
-  <style>
-    .scoreboard-scroll {
-      overflow-x: auto;
-      margin-top: 1rem;
-    }
-    .scoreboard-header {
-      font-weight: bold;
-      border-bottom: 2px solid #ccc;
-    }
-    .user-info {
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.5rem 0;
-    }
-    .user-info img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-    .user-info div {
-      display: flex;
-      flex-direction: column;
-      font-size: 0.95em;
-    }
-    .user-info .user-name {
-      font-weight: bold;
-      
-    }
-    .user-info .user-email {
-      font-size: 0.85em;
-      color: #555;
-    }
-    #user-card {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    
-  </style>
+
 </head>
 <body>
   <header>
@@ -65,8 +26,8 @@
 
   <div class="dashboard">
     <nav>
-      <a href="scoreboard.html">Game</a>
-      <a href="#" data-page="scoreboard.html">Scoreboard</a>
+      <a href="game.html">Game</a>
+      <a href="#" data-page="scoreboard.html" id="scoreboard-link">Scoreboard</a>
       <a href="#" data-page="About.html">About</a>
       <a href="#" data-page="Resource.html">Other Resources</a>
     </nav>
@@ -126,15 +87,173 @@
     });
   </script>
 
-  <script>
-    const navLinks = document.querySelectorAll('nav a[data-page]');
-    const mainContent = document.getElementById("main-content");
+<script>
+  const navLinks = document.querySelectorAll('nav a[data-page]');
+  const mainContent = document.getElementById("main-content");
 
-    navLinks.forEach(link => {
-      link.addEventListener("click", async e => {
-        e.preventDefault();
-        const page = link.getAttribute("data-page");
+  function runScriptsFromHTML(doc) {
+    return new Promise((resolve) => {
+      const scripts = doc.querySelectorAll("script");
+      let loaded = 0;
+      if (scripts.length === 0) return resolve();
 
+      scripts.forEach(script => {
+        const newScript = document.createElement("script");
+
+        if (script.src) {
+          newScript.src = script.src;
+          newScript.onload = () => {
+            loaded++;
+            if (loaded === scripts.length) resolve();
+          };
+          newScript.onerror = () => {
+            loaded++;
+            if (loaded === scripts.length) resolve();
+          };
+        } else {
+          newScript.textContent = script.textContent;
+          loaded++;
+          if (loaded === scripts.length) resolve();
+        }
+
+        newScript.async = false;
+        document.body.appendChild(newScript);
+      });
+
+      if (loaded === scripts.length) resolve();
+    });
+  }
+
+  // Preload profile.html and run scripts silently
+  async function preloadProfile() {
+    try {
+      const res = await fetch("profile.html");
+      if (!res.ok) throw new Error("Failed to fetch profile.html");
+
+      const htmlText = await res.text();
+      const doc = new DOMParser().parseFromString(htmlText, "text/html");
+
+      await runScriptsFromHTML(doc);
+
+      console.log("✅ profile.html preloaded and scripts executed");
+    } catch (err) {
+      console.warn("⚠️ Failed to preload profile.html:", err);
+    }
+  }
+
+  // Run preloadProfile when index.html loads
+window.addEventListener("DOMContentLoaded", async () => {
+  preloadProfile();
+
+  // Automatically load About.html into main-content on first load
+  try {
+    const res = await fetch("About.html");
+    if (!res.ok) throw new Error("Failed to load About.html");
+
+    const htmlText = await res.text();
+    const doc = new DOMParser().parseFromString(htmlText, "text/html");
+    const newContent = doc.body.innerHTML;
+
+    document.getElementById("main-content").innerHTML = newContent;
+
+    // Load any scripts inside About.html
+    const scripts = doc.querySelectorAll("script");
+    scripts.forEach(script => {
+      const newScript = document.createElement("script");
+      if (script.src) {
+        newScript.src = script.src;
+        newScript.async = false;
+      } else {
+        newScript.textContent = script.textContent;
+      }
+      document.body.appendChild(newScript);
+    });
+
+    window.scrollTo(0, 0); // Scroll to top after loading
+  } catch (err) {
+    console.error("❌ Error loading About.html by default:", err);
+    document.getElementById("main-content").innerHTML = "<p>⚠️ Failed to load About section.</p>";
+  }
+});
+
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", async e => {
+      e.preventDefault();
+      let page = link.getAttribute("data-page");
+
+      if (link.id === "scoreboard-link") {
+        // Show loading spinner
+        mainContent.innerHTML = `
+          <div class="spinner-container">
+            <div class="spinner" aria-label="Loading..."></div>
+          </div>
+        `;
+
+        try {
+          // Load profile.html first (as before)
+          const profileRes = await fetch("profile.html");
+          if (!profileRes.ok) throw new Error("Failed to load profile.html");
+
+          const profileHTML = await profileRes.text();
+          const profileDoc = new DOMParser().parseFromString(profileHTML, "text/html");
+
+          await runScriptsFromHTML(profileDoc);
+
+          console.log("✅ profile.html loaded and scripts finished");
+
+          await new Promise(resolve => setTimeout(resolve, 1500)); // Keep your original delay
+
+          // Load scoreboard.html
+          const res = await fetch(page);
+          if (!res.ok) throw new Error("Page not found");
+
+          const htmlText = await res.text();
+          const doc = new DOMParser().parseFromString(htmlText, "text/html");
+          let newContent = doc.body.innerHTML;
+
+          if (page === "scoreboard.html") {
+            newContent = `<div class="scoreboard-scroll">${newContent}</div>`;
+          }
+
+          mainContent.innerHTML = newContent;
+
+          // Inject scoreboard scripts except Firebase SDKs
+          const scripts = Array.from(doc.querySelectorAll("script")).filter(script =>
+            !(script.src && (
+              script.src.includes("firebase-app.js") ||
+              script.src.includes("firebase-auth.js") ||
+              script.src.includes("firebase-firestore.js")
+            ))
+          );
+
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement("script");
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+              newScript.async = false;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+
+          // WAIT for scoreboard to signal it's fully loaded
+          await new Promise(resolve => {
+            window.addEventListener('scoreboardLoaded', () => {
+              resolve();
+            }, { once: true });
+          });
+
+          window.scrollTo(0, 0);
+
+        } catch (err) {
+          mainContent.innerHTML = "<p>⚠️ Error loading page content.</p>";
+          console.error("Load error:", err);
+        }
+
+      } else {
+        // Normal loading for other pages (unchanged)
         try {
           mainContent.innerHTML = `
             <div class="spinner-container">
@@ -146,8 +265,7 @@
           if (!res.ok) throw new Error("Page not found");
 
           const htmlText = await res.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(htmlText, "text/html");
+          const doc = new DOMParser().parseFromString(htmlText, "text/html");
           let newContent = doc.body.innerHTML;
 
           if (page === "scoreboard.html") {
@@ -177,14 +295,32 @@
 
           window.scrollTo(0, 0);
 
+          if (page === "index.html" || page === null) {
+            preloadProfile();
+          }
         } catch (err) {
           mainContent.innerHTML = "<p>⚠️ Error loading page content.</p>";
           console.error("Load error:", err);
         }
-      });
+      }
     });
-  </script>
+  });
+</script>
 
-  <script src="scoreboard.js"></script>
+
+<script>
+  // Once Firebase user is confirmed and profile setup is done
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      // Run your profile logic...
+
+      // Signal profile is ready
+      window.dispatchEvent(new Event("profileReady"));
+    }
+  });
+</script>
+
+
+<script src="scoreboard.js"></script>
 </body>
 </html>

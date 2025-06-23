@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image to Text Scanner</title>
+
+  <!-- ✅ Use newer Tesseract.js version -->
+  <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    input[type="file"] {
+      margin: 20px 0;
+    }
+
+    #preview {
+      max-width: 300px;
+      margin-top: 10px;
+      display: none;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    #scanBtn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #scanBtn:hover {
+      background-color: #45a049;
+    }
+
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Upload an Image to Scan Text</h1>
+
+  <!-- 📸 Upload Button -->
+  <input type="file" id="imageInput" accept="image/*">
+
+  <!-- 🔍 Image Preview -->
+  <img id="preview" src="#" alt="Image Preview" />
+
+  <!-- 🔘 Scan Button -->
+  <button id="scanBtn">Scan Text</button>
+
+  <!-- 📋 Output Text -->
+  <div id="output"></div>
+
+  <!-- 📜 Script for preview -->
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+
+    imageInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+
+  <!-- 🤖 Tesseract OCR Script -->
+  <script>
+    const scanBtn = document.getElementById('scanBtn');
+    const output = document.getElementById('output');
+
+    scanBtn.addEventListener('click', function () {
+      const file = imageInput.files[0];
+
+      if (!file) {
+        output.innerText = 'Please upload an image first.';
+        return;
+      }
+
+      output.innerText = 'Scanning... Please wait.';
+
+      Tesseract.recognize(
+        file,
+        'eng',
+        {
+          logger: m => {
+            output.innerText = `Progress: ${Math.round(m.progress * 100)}%`;
+          }
+        }
+      ).then(({ data: { text } }) => {
+        output.innerText = 'Scanned Text:\n\n' + text;
+      }).catch(err => {
+        output.innerText = 'Error: ' + err.message;
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -21,9 +21,9 @@ header {
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.back-button {
+.back-button,
+.shop-button {
   position: absolute;
-  left: 20px;
   top: 20px;
   background-color: transparent;
   border: 2px solid var(--neon);
@@ -34,11 +34,21 @@ header {
   cursor: pointer;
 }
 
-.back-button:hover {
+.back-button {
+  left: 20px;
+}
+
+.shop-button {
+  right: 20px;
+}
+
+.back-button:hover,
+.shop-button:hover {
   background-color: var(--neon);
   color: black;
   box-shadow: 0 0 15px var(--neon);
 }
+
 
 h1 {
   font-size: 2.5rem;

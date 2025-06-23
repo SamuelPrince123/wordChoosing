@@ -173,24 +173,7 @@ footer {
   padding: 2rem;
 }
 
-/* ✅ On small screens: make nav vertical, and content appear beside it */
-@media (max-width: 768px) {
-  .dashboard-container {
-    flex-direction: row; /* horizontal layout */
-    align-items: flex-start;
-  }
 
-  nav {
-    flex-direction: column;
-    width: auto;
-    min-width: 100px;
-  }
-
-  #main-content {
-    padding: 1rem;
-    flex-grow: 1;
-  }
-}
 @media (max-width: 768px) {
   #main-content {
     font-size: 14px;
@@ -207,95 +190,6 @@ footer {
     line-height: 1.4;
   }
 }
-html, body {
-  overflow-x: hidden;  /* NO horizontal scroll on page */
-  width: 100vw;        /* prevent viewport overflow */
-  position: relative;  /* avoid weird shifts */
-}
-
-
-#output {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.scoreboard-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-  padding-bottom: 1rem;
-  box-sizing: border-box;
-}
-
-
-.scoreboard-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-  padding-bottom: 1rem;
-}
-
-
-#output, .scoreboard-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 75%;  /* or max-width as needed */
-  box-sizing: border-box;
-  /* optional: add a horizontal scrollbar if needed */
-}
-
-
-
-
-.scoreboard-header,
-.user-info {
-  min-width: 600px; /* width wider than typical mobile viewport */
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.scoreboard-header > div,
-.user-info > div {
-  box-sizing: border-box;
-}
-
-/* Column widths */
-.scoreboard-header > div:nth-child(1),
-.user-info > div:nth-child(1) {
-  width: 30px;
-  font-weight: bold;
-}
-
-.scoreboard-header > div:nth-child(2),
-.user-info > div:nth-child(2) {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.scoreboard-header > div:nth-child(3),
-.user-info > div:nth-child(3) {
-  width: 80px;
-  text-align: right;
-  font-weight: bold;
-}
-
-.scoreboard-header > div:nth-child(4),
-.user-info > div:nth-child(4) {
-  width: 100px;
-  text-align: right;
-}
-
-.scoreboard-header > div:nth-child(5),
-.user-info > div:nth-child(5) {
-  width: 120px;
-  text-align: right;
-}
-
-
 
 
 
@@ -391,6 +285,114 @@ html, body {
 
     }
     
+}
+@media (max-width: 613px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+        align-items: center;
+        padding: 10px;
+        text-align: center;
+        position: relative;
+        width: 100%;
+    }
+    header .logo img {
+        width: 55px;
+        height: auto;
+    }
+    header .logo h1 {
+        font-size: 20px;
+        font-weight: bold;
+        position: relative;
+        top:-10px
+
+       
+    }
+
+    .logo {
+        grid-column: 1 / 2;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        position: relative;
+        top: 12px;
+    }
+    .logo img {
+        max-width: 100%; /* prevent overflow */
+    }
+
+    .logo h1 {
+        grid-column: 2 / 3;
+        font-size: 20px;
+        margin: 0 auto;
+        justify-self: center;
+    }
+
+    .profile {
+        grid-column: 3 / 4;
+        justify-self: end;
+        font-size: 16px;
+    }
+
+    .language {
+        grid-column: 2 / 3;
+        grid-row: 2;
+        justify-self: center;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .language-options {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    header .language {
+        font-size: 14px;
+    }
+    header .login-lin {
+        font-size: 16px;
+    }
+    header .login-lin {
+        position: relative;
+        left: 75px;
+    }
+    header .language {
+        position: relative;
+       left: -60px;
+        top: -8px;
+    }
+    header .profile{
+        font-size: 16px;
+        position: relative;
+        left: -40px;
+
+    }
+  
+
+    .login-lin {
+        display: none; /* Optional: hide login link if profile is showing */
+       
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 10px;
+        gap: 10px;
+    }
+
+    .dashboard {
+        padding: 20px;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    footer {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 30px;
+    }
 }
 
 @media (max-width: 568px) {
@@ -501,3 +503,203 @@ html, body {
         margin-top: 30px;
     }
 }
+
+html, body {
+    overflow-x: hidden;
+    width: 100vw;
+    position: relative;
+  }
+
+  #output {
+    width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+
+    /* Hide scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  #output::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+
+.scoreboard-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;  /* Default for large screens */
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+  margin-top: 1rem;
+
+  /* Hide scrollbar */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+
+/* Very large screens (TVs, Ultra-wide monitors ≥1800px) */
+@media (min-width: 1800px) {
+  .scoreboard-scroll {
+    width: 120%;
+  }
+}
+
+/* Large desktops (1440px–1799px) */
+@media (min-width: 1440px) and (max-width: 1799px) {
+  .scoreboard-scroll {
+    width: 110%;
+  }
+}
+
+/* Standard desktops (1200px–1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .scoreboard-scroll {
+    width: 100%;
+  }
+}
+
+/* Small desktops & large tablets (992px–1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .scoreboard-scroll {
+    width: 100%;
+  }
+}
+
+/* Tablets (768px–991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .scoreboard-scroll {
+    width: 100%;
+  }
+}
+
+/* Large phones / small tablets (600px–767px) */
+@media (min-width: 601px) and (max-width: 767px) {
+  .scoreboard-scroll {
+    width: 100%;
+  }
+}
+
+/* Phones (below 600px) */
+@media (max-width: 600px) {
+  .scoreboard-scroll {
+    width: 95%;
+  }
+}
+@media (max-width: 550px) {
+  .scoreboard-scroll {
+    width: 85%;
+  }
+}
+@media (max-width: 500px) {
+  .scoreboard-scroll {
+    width: 80%;
+  }
+}
+@media (max-width: 450px) {
+  .scoreboard-scroll {
+    width: 75%;
+  }
+}
+@media (max-width: 400px) {
+  .scoreboard-scroll {
+    width: 70%;
+  }
+}
+@media (max-width: 350px) {
+  .scoreboard-scroll {
+    width: 65%;
+  }
+}
+@media (max-width: 300px) {
+  .scoreboard-scroll {
+    width: 60%;
+  }
+}
+
+  .scoreboard-scroll::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+
+  .scoreboard-header,
+  .user-info {
+    min-width: 600px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem 0;
+  }
+
+  .scoreboard-header {
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+  }
+
+  .scoreboard-header > div,
+  .user-info > div {
+    box-sizing: border-box;
+  }
+
+  .scoreboard-header > div:nth-child(1),
+  .user-info > div:nth-child(1) {
+    width: 30px;
+    font-weight: bold;
+  }
+
+  .scoreboard-header > div:nth-child(2),
+  .user-info > div:nth-child(2) {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .scoreboard-header > div:nth-child(3),
+  .user-info > div:nth-child(3) {
+    width: 80px;
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .scoreboard-header > div:nth-child(4),
+  .user-info > div:nth-child(4) {
+    width: 100px;
+    text-align: right;
+  }
+
+  .scoreboard-header > div:nth-child(5),
+  .user-info > div:nth-child(5) {
+    width: 120px;
+    text-align: right;
+  }
+
+  .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-info .text-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 0.95em;
+  }
+
+  .user-info .user-name {
+    font-weight: bold;
+  }
+
+  .user-info .user-email {
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  #user-card {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+

@@ -11,12 +11,18 @@
 
 <body>
 
-  <header>
-    <button class="back-button" onclick="goBack()">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-    <h1>Grade Categories</h1>
-  </header>
+<header>
+  <button class="back-button" onclick="goBack()">
+    <i class="fas fa-arrow-left"></i> Back
+  </button>
+  
+  <h1>Grade Categories</h1>
+  
+  <button class="shop-button" onclick="goToShop()">
+    Shop <i class="fas fa-store"></i>
+  </button>
+</header>
+
 
   <div class="categories">
     <!-- Babies -->
@@ -100,6 +106,9 @@
   <script>
     function goBack() {
       window.location.href = 'index.html';
+    }
+     function goToShop() {
+      window.location.href = 'shop.html';
     }
   </script>
 

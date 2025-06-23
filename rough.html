@@ -1,42 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Scoreboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PicScribe</title>
+  <link rel="stylesheet" href="dstyle.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 1rem;
+    .scoreboard-scroll {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+    .scoreboard-header {
+      font-weight: bold;
+      border-bottom: 2px solid #ccc;
     }
     .user-info {
+      border-bottom: 1px solid #eee;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
+      gap: 1rem;
+      padding: 0.5rem 0;
     }
-    .left {
-      display: flex;
-      align-items: center;
-    }
-    img {
+    .user-info img {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      margin-right: 10px;
     }
-    .right {
-      text-align: right;
+    .user-info div {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95em;
+    }
+    .user-info .user-name {
+      font-weight: bold;
+    }
+    .user-info .user-email {
+      font-size: 0.85em;
+      color: #555;
+    }
+    #user-card {
+      text-align: center;
+      margin-bottom: 2rem;
     }
   </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="./images/logo/logoWord.png" alt="Logo" />
+      <h1>Dashboard</h1>
+    </div>
+    <div class="language" id="language-toggle">
+      Languages
+      <div class="language-options" id="language-options" style="display:none;">
+        <div class="lang-option" onclick="window.location.href='index.html'">English</div>
+        <div class="lang-option" onclick="window.location.href='dzongkha.html'">Dzongkha</div>
+      </div>
+    </div>
+    <div class="profile" id="profile-section" style="display: none; cursor:pointer;">Profile</div>
+    <a class="login-lin" href="login1.html" id="login-link">Sign Up</a>
+  </header>
+
+  <div class="dashboard">
+    <nav>
+      <a href="scoreboard.html">Game</a>
+      <a href="#" data-page="scoreboard.html" id="scoreboard-link">Scoreboard</a>
+      <a href="#" data-page="About.html">About</a>
+      <a href="#" data-page="Resource.html">Other Resources</a>
+    </nav>
+
+    <div id="main-content" style="padding: 2rem;">
+      <h2>🏅 Welcome to the Dashboard</h2>
+      <p>Select a section from the menu to get started.</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Game Dashboard. All rights reserved.
+  </footer>
+
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-</head>
-<body>
-  <h1>🏅 Scoreboard</h1>
-  <div id="user-card">Loading...</div>
 
   <script>
     const firebaseConfig = {
@@ -46,76 +92,202 @@
       storageBucket: "wordchoosing.appspot.com",
       messagingSenderId: "11998731462",
       appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-      measurementId: "G-0JMJRW97WE",
+      measurementId: "G-0JMJRW97WE"
     };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const loginLink = document.getElementById("login-link");
+    const profileSection = document.getElementById("profile-section");
 
-    const userCard = document.getElementById("user-card");
+    firebase.auth().onAuthStateChanged(user => {
+      loginLink.style.display = user ? "none" : "block";
+      profileSection.style.display = user ? "block" : "none";
+    });
 
-    firebase.auth().onAuthStateChanged(async (user) => {
-      if (!user) {
-        userCard.innerHTML = "<p>Please log in to view your scoreboard.</p>";
-        return;
-      }
+    profileSection.addEventListener("click", () => {
+      window.location.href = "profile.html";
+    });
 
-      try {
-        const doc = await db.doc(`/users/${user.uid}`).get();
-        const data = doc.data();
+    const languageToggle = document.getElementById("language-toggle");
+    const languageOptions = document.getElementById("language-options");
 
-        const finalPercentage = data.FinalPercentage || "N/A";
-        const levelCompletion = data["Level Completion"] || "N/A";
-        const name = data.name || "Unnamed";
+    languageToggle.addEventListener("click", () => {
+      languageOptions.style.display = languageOptions.style.display === "block" ? "none" : "block";
+    });
 
-        userCard.innerHTML = `
-          <div class="user-info">
-            <div class="left">
-              <img src="${user.photoURL}" alt="User Photo">
-              <div>
-                <div><strong>${name}</strong></div>
-                <div>${user.email}</div>
-              </div>
-            </div>
-            <div class="right">
-              <div><strong>Final Marks:</strong> ${finalPercentage}</div>
-              <div><strong>Progress:</strong> ${levelCompletion} completed</div>
-            </div>
-          </div>
-        `;
-      } catch (err) {
-        console.error(err);
-        userCard.innerHTML = "<p>Error loading scoreboard.</p>";
+    document.addEventListener("click", (e) => {
+      if (!languageToggle.contains(e.target)) {
+        languageOptions.style.display = "none";
       }
     });
   </script>
-</body>
-</html>
 
+<script>
+  const navLinks = document.querySelectorAll('nav a[data-page]');
+  const mainContent = document.getElementById("main-content");
 
+  function runScriptsFromHTML(doc) {
+    return new Promise((resolve) => {
+      const scripts = doc.querySelectorAll("script");
+      let loaded = 0;
+      if (scripts.length === 0) return resolve();
 
+      scripts.forEach(script => {
+        const newScript = document.createElement("script");
 
+        if (script.src) {
+          newScript.src = script.src;
+          newScript.onload = () => {
+            loaded++;
+            if (loaded === scripts.length) resolve();
+          };
+          newScript.onerror = () => {
+            loaded++;
+            if (loaded === scripts.length) resolve();
+          };
+        } else {
+          newScript.textContent = script.textContent;
+          loaded++;
+          if (loaded === scripts.length) resolve();
+        }
 
+        newScript.async = false;
+        document.body.appendChild(newScript);
+      });
 
+      if (loaded === scripts.length) resolve();
+    });
+  }
 
+  navLinks.forEach(link => {
+    link.addEventListener("click", async e => {
+      e.preventDefault();
+      let page = link.getAttribute("data-page");
 
+      if (link.id === "scoreboard-link") {
+        mainContent.innerHTML = `
+          <div class="spinner-container">
+            <div class="spinner" aria-label="Preparing scoreboard..."></div>
+            <p>Loading profile data...</p>
+          </div>
+        `;
 
+        try {
+          // Load profile.html and run scripts
+          const profileRes = await fetch("profile.html");
+          if (!profileRes.ok) throw new Error("Failed to load profile.html");
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Score Calculation & Summary</title>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="scoreboard.js" defer></script>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 1rem; }
-    #output { margin-top: 20px; padding: 1rem; border: 1px solid #ccc; border-radius: 10px; }
-  </style>
-</head>
-<body>
-  <h1>📊 Scoreboard Average</h1>
-  <div id="output">Loading summary...</div>
+          const profileHTML = await profileRes.text();
+          const profileDoc = new DOMParser().parseFromString(profileHTML, "text/html");
+
+          await runScriptsFromHTML(profileDoc);
+
+          console.log("✅ profile.html loaded and scripts finished");
+
+          // Wait 1.5 seconds delay before loading scoreboard
+          await new Promise(resolve => setTimeout(resolve, 2000));
+
+          // Now load scoreboard.html content and scripts
+          const res = await fetch(page);
+          if (!res.ok) throw new Error("Page not found");
+
+          const htmlText = await res.text();
+          const doc = new DOMParser().parseFromString(htmlText, "text/html");
+          let newContent = doc.body.innerHTML;
+
+          if (page === "scoreboard.html") {
+            newContent = `<div class="scoreboard-scroll">${newContent}</div>`;
+          }
+
+          mainContent.innerHTML = newContent;
+
+          const scripts = Array.from(doc.querySelectorAll("script")).filter(script =>
+            !(script.src && (
+              script.src.includes("firebase-app.js") ||
+              script.src.includes("firebase-auth.js") ||
+              script.src.includes("firebase-firestore.js")
+            ))
+          );
+
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement("script");
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+              newScript.async = false;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+
+          window.scrollTo(0, 0);
+        } catch (err) {
+          mainContent.innerHTML = "<p>⚠️ Error loading page content.</p>";
+          console.error("Load error:", err);
+        }
+      } else {
+        // For other links, normal loading behavior
+        try {
+          mainContent.innerHTML = `
+            <div class="spinner-container">
+              <div class="spinner" aria-label="Loading..."></div>
+            </div>
+          `;
+
+          const res = await fetch(page);
+          if (!res.ok) throw new Error("Page not found");
+
+          const htmlText = await res.text();
+          const doc = new DOMParser().parseFromString(htmlText, "text/html");
+          let newContent = doc.body.innerHTML;
+
+          if (page === "scoreboard.html") {
+            newContent = `<div class="scoreboard-scroll">${newContent}</div>`;
+          }
+
+          mainContent.innerHTML = newContent;
+
+          const scripts = Array.from(doc.querySelectorAll("script")).filter(script =>
+            !(script.src && (
+              script.src.includes("firebase-app.js") ||
+              script.src.includes("firebase-auth.js") ||
+              script.src.includes("firebase-firestore.js")
+            ))
+          );
+
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement("script");
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+              newScript.async = false;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+
+          window.scrollTo(0, 0);
+        } catch (err) {
+          mainContent.innerHTML = "<p>⚠️ Error loading page content.</p>";
+          console.error("Load error:", err);
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      // Run your profile logic...
+
+      window.dispatchEvent(new Event("profileReady"));
+    }
+  });
+</script>
+
+<script src="scoreboard.js"></script>
 </body>
 </html>
