@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Select Your Bank</title>
+  <title>Local Banks</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
@@ -34,7 +34,6 @@
       background-color: rgba(0, 0, 0, 0.6);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-      /* FLEXBOX for layout */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -42,10 +41,9 @@
       gap: 20px;
     }
 
-    /* Back button stays at the left */
     .back-button {
       position: absolute;
-      left: 40px; /* matches header horizontal padding */
+      left: 40px;
       top: 50%;
       transform: translateY(-50%);
       background-color: transparent;
@@ -61,7 +59,7 @@
       font-size: 0.9rem;
       transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
       user-select: none;
-      z-index: 10; /* above h1 */
+      z-index: 10;
     }
 
     .back-button:hover {
@@ -70,12 +68,11 @@
       box-shadow: 0 0 15px var(--neon);
     }
 
-    /* Center the heading, flexbox lets us center it perfectly */
     header h1 {
       font-size: 2rem;
       color: var(--neon);
-      margin: 0 auto; /* center horizontally */
-      max-width: 600px; /* optional max width */
+      margin: 0 auto;
+      max-width: 600px;
       text-align: center;
       pointer-events: none;
     }
@@ -179,30 +176,30 @@
 <body>
 
   <header>
-    <button class="back-button" onclick="location.href='game.html'">
+    <button class="back-button" onclick="location.href='shop.html'">
       <i class="fas fa-arrow-left"></i> Back
     </button>
-    <h1><i class="fas fa-landmark"></i>Banking Hub</h1>
+    <h1><i class="fas fa-landmark"></i> Local Banks</h1>
   </header>
 
   <section class="hero">
-    <h2>Select Your Banking Option</h2>
-    <p>We connect you to trusted financial institutions locally and globally. Choose your path below and manage your finances securely.</p>
+    <h2>Choose Your Local Bank</h2>
+    <p>Select from trusted Bhutanese banks for personalized banking services close to home.</p>
   </section>
 
   <div class="container">
-    <div class="card" onclick="location.href='local-bank.html'">
+    <div class="card" onclick="location.href='bank-of-bhutan.html'">
       <i class="fas fa-university"></i>
-      <h2>Local Bank</h2>
-      <p>Access neighborhood banks, credit unions, and cooperatives. Enjoy personalized service and fast in-person support.</p>
-      <span>Secure • Trusted • Nearby</span>
+      <h2>Bank of Bhutan</h2>
+      <p>The oldest and leading commercial bank of Bhutan, offering a wide range of banking solutions.</p>
+      <span>Reliable • Secure • Community Focused</span>
     </div>
 
-    <div class="card" onclick="location.href='international-bank.html'">
-      <i class="fas fa-globe"></i>
-      <h2>International Bank</h2>
-      <p>Connect with global financial services across borders. Ideal for travel, remote work, study, and international transfers.</p>
-      <span>Global • Efficient • Powerful</span>
+    <div class="card" onclick="location.href='bhutan-national-bank.html'">
+      <i class="fas fa-university"></i>
+      <h2>Bhutan National Bank</h2>
+      <p>A modern bank providing innovative financial products with excellent customer service.</p>
+      <span>Innovative • Trusted • Customer Oriented</span>
     </div>
   </div>
 

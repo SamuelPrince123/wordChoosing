@@ -1,53 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="shopstyle.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Your Bank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --neon: #00ffe7;
+      --bg-dark: #0a0a0a;
+      --card-bg: #111;
+      --gradient: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gradient);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      /* FLEXBOX for layout */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      gap: 20px;
+    }
+
+    /* Back button stays at the left */
+    .back-button {
+      position: absolute;
+      left: 40px; /* matches header horizontal padding */
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: 2px solid var(--neon);
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--neon);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+      user-select: none;
+      z-index: 10; /* above h1 */
+    }
+
+    .back-button:hover {
+      background-color: var(--neon);
+      color: black;
+      box-shadow: 0 0 15px var(--neon);
+    }
+
+    /* Center the heading, flexbox lets us center it perfectly */
+    header h1 {
+      font-size: 2rem;
+      color: var(--neon);
+      margin: 0 auto; /* center horizontally */
+      max-width: 600px; /* optional max width */
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    .hero h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--neon);
+      border-radius: 15px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 15px rgba(0, 255, 231, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 25px var(--neon);
+    }
+
+    .card i {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: var(--neon);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #bbb;
+      margin-bottom: 15px;
+    }
+
+    .card span {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--neon);
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .hero h2 {
+        font-size: 1.4rem;
+      }
+
+      .card h2 {
+        font-size: 1.2rem;
+      }
+
+      .card i {
+        font-size: 32px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Back Button -->
-    <a href="game.html" class="back-button">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
+  <header>
+    <button class="back-button" onclick="location.href='Product.html'">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <h1><i class="fas fa-landmark"></i>Banking Hub</h1>
+  </header>
 
-    <h1>Buy Coins</h1>
+  <section class="hero">
+    <h2>Select Your Banking Option</h2>
+    <p>We connect you to trusted financial institutions locally and globally. Choose your path below and manage your finances securely.</p>
+  </section>
 
-    <!-- Explanation -->
-    <p>These coins are used to unlock educational games and activities on our platform. Users can purchase coin packages below and use them to enhance their learning experience.</p>
-
-    <!-- Coins Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar">50/100 Coins</div>
+  <div class="container">
+    <div class="card" onclick="location.href='local-bank.html'">
+      <i class="fas fa-university"></i>
+      <h2>Local Bank</h2>
+      <p>Access neighborhood banks, credit unions, and cooperatives. Enjoy personalized service and fast in-person support.</p>
+      <span>Secure • Trusted • Nearby</span>
     </div>
 
-    <!-- Coin Purchase Options -->
-    <div class="coin-shop">
-        <h2>Get More Coins</h2>
-        <div class="coin-options">
-            <button class="coin-button" onclick="buyCoins(10)">💰 10 Coins - $0.99</button>
-            <button class="coin-button" onclick="buyCoins(25)">💰 25 Coins - $1.99</button>
-            <button class="coin-button" onclick="buyCoins(55)">💰 55 Coins - $2.99</button>
-            <button class="coin-button" onclick="buyCoins(100)">💰 100 Coins - $3.99</button>
-            <button class="coin-button" onclick="buyCoins(200)">💰 200 Coins - $5.99</button>
-        </div>
+    <div class="card" onclick="location.href='international-bank.html'">
+      <i class="fas fa-globe"></i>
+      <h2>International Bank</h2>
+      <p>Connect with global financial services across borders. Ideal for travel, remote work, study, and international transfers.</p>
+      <span>Global • Efficient • Powerful</span>
     </div>
+  </div>
 
-    <!-- Refund & Contact Info -->+
-    <h3>Refund Policy</h3>
-    <p>All coin purchases are final and non-refundable.</p>
-
-    <h3>Contact</h3>
-    <p>Email: samuelprincegod@gmail.com</p>
-
-    <script>
-        function buyCoins(amount) {
-            alert("You bought " + amount + " coins! 🎉");
-        }
-    </script>
+  <footer>
+    © 2025 Universal Banking Hub. All rights reserved.
+  </footer>
 
 </body>
 </html>
