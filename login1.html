@@ -239,9 +239,12 @@
         // New user: create document
 await setDoc(userRef, {
   name: username,
+  email: user.email || "No Email",
+  photoURL: user.photoURL || "https://via.placeholder.com/48",
   energy: 40,
   timestamp: new Date().toISOString()
 });
+
 
 // Show modal with success message
 modal.querySelector('h2').textContent = "Account Created";

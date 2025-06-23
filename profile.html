@@ -1,20 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profile - Logout</title>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js" type="module"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js" type="module"></script>
-</head>
-<body>
-  <h2>Welcome to your Profile</h2>
-  <button id="logout">Logout</button>
+  <title>Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    #user-card {
+      display: none;
+      margin-bottom: 2rem;
+    }
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .user-info img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    .user-info .left {
+      display: flex;
+      align-items: center;
+    }
+    .right div {
+      margin-bottom: 4px;
+    }
+    #logoutBtn {
+      background-color: #ff4444;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: auto;
+    }
+    .loader {
+      text-align: center;
+      margin: 2rem;
+    }
+  </style>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
       authDomain: "wordchoosing.firebaseapp.com",
@@ -22,22 +76,54 @@
       storageBucket: "wordchoosing.appspot.com",
       messagingSenderId: "11998731462",
       appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-      measurementId: "G-0JMJRW97WE",
+      measurementId: "G-0JMJRW97WE"
     };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  <script src="scoreboard.js" defer></script>
+</head>
+<body>
+  <header><h1>📊 Current Status</h1></header>
 
-    const logoutBtn = document.getElementById("logout");
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        alert("You have been logged out.");
-        window.location.href = "index.html"; // Go back to login
-      } catch (error) {
-        console.error("Logout failed:", error);
+  <div class="container">
+    <div class="loader" id="loader">Loading...</div>
+    <div id="user-card"></div>
+    <div id="output"></div>
+  </div>
+
+  <button id="logoutBtn">Logout</button>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      const loader = document.getElementById("loader");
+      const card   = document.getElementById("user-card");
+      const output = document.getElementById("output");
+
+      if (user) {
+        loadScoreboard(false); // show current user only
+      } else {
+        loader.style.display = "none";
+        card.innerHTML = "<p>⚠️ Please log in to view your stats.</p>";
+        card.style.display = "block";
       }
     });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await firebase.auth().signOut();
+      window.location.href = "index.html";
+    });
+
+    const obs = new MutationObserver(() => {
+      const card = document.getElementById("user-card");
+      if (card.innerHTML.trim()) {
+        document.getElementById("loader").style.display = "none";
+        card.style.display  = "block";
+        document.getElementById("output").style.display = "block";
+        obs.disconnect();
+      }
+    });
+    obs.observe(document.getElementById("user-card"), { childList: true, subtree: true });
   </script>
 </body>
 </html>

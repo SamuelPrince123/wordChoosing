@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Scoreboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .scoreboard-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .scoreboard-header,
+    .user-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      min-width: 600px;
+      padding: 0.75rem 0;
+    }
+    .scoreboard-header {
+      font-weight: bold;
+      border-bottom: 2px solid #ccc;
+    }
+    .user-info {
+      border-bottom: 1px solid #eee;
+    }
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .user-info div {
+      font-size: 0.95em;
+    }
+    #user-card {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🏅 Scoreboard</h1>
+
+  <div id="user-card">
+    <div class="spinner-container">
+      <div class="spinner" aria-label="Loading..."></div>
+    </div>
+  </div>
+
+  <div id="output"></div>
+
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script>
+   if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+    authDomain: "wordchoosing.firebaseapp.com",
+    projectId: "wordchoosing",
+    storageBucket: "wordchoosing.appspot.com",
+    messagingSenderId: "11998731462",
+    appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+    measurementId: "G-0JMJRW97WE"
+  });
+}
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="scoreboard.js" defer></script>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        loadScoreboard(true); // show all users
+      } else {
+        document.getElementById("user-card").innerHTML =
+          "<p>⚠️ Please log in to view the scoreboard.</p>";
+      }
+    });
+  </script>
+</body>
+</html>

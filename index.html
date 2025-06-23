@@ -1,95 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PicScribe</title>
-    <link rel="stylesheet" href="dstyle.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PicScribe</title>
+  <link rel="stylesheet" href="dstyle.css" />
+  <style>
+    .scoreboard-scroll {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+    .scoreboard-header {
+      font-weight: bold;
+      border-bottom: 2px solid #ccc;
+    }
+    .user-info {
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0;
+    }
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .user-info div {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95em;
+    }
+    .user-info .user-name {
+      font-weight: bold;
+      
+    }
+    .user-info .user-email {
+      font-size: 0.85em;
+      color: #555;
+    }
+    #user-card {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="./images/logo/logoWord.png" alt="Logo">
-            <h1>Dashboard</h1>
-        </div>
-        <div class="language" id="language-toggle">Languages
-            <div class="language-options" id="language-options">
-                <div class="lang-option" onclick="window.location.href='index.html'">English</div>
-                <div class="lang-option" onclick="window.location.href='dzongkha.html'">Dzongkha</div>
-            </div>
-        </div>
-        
-        <div class="profile" id="profile-section" style="display: none;">Profile</div>
-        <a class="login-lin" href="login1.html" id="login-link">Sign Up</a>
-    </header>
-
-    <div class="dashboard">
-        <nav>
-            <a href="game.html">Game</a>
-            <a href="scoreboard.html">Scoreboard</a>
-            <a href="settings.html">Settings</a>
-        </nav>
+  <header>
+    <div class="logo">
+      <img src="./images/logo/logoWord.png" alt="Logo" />
+      <h1>Dashboard</h1>
     </div>
+    <div class="language" id="language-toggle">
+      Languages
+      <div class="language-options" id="language-options" style="display:none;">
+        <div class="lang-option" onclick="window.location.href='index.html'">English</div>
+        <div class="lang-option" onclick="window.location.href='dzongkha.html'">Dzongkha</div>
+      </div>
+    </div>
+    <div class="profile" id="profile-section" style="display: none; cursor:pointer;">Profile</div>
+    <a class="login-lin" href="login1.html" id="login-link">Sign Up</a>
+  </header>
 
-    <footer>
-        &copy; 2025 Game Dashboard. All rights reserved.
-    </footer>
+  <div class="dashboard">
+    <nav>
+      <a href="scoreboard.html">Game</a>
+      <a href="#" data-page="scoreboard.html">Scoreboard</a>
+      <a href="#" data-page="About.html">About</a>
+      <a href="#" data-page="Resource.html">Other Resources</a>
+    </nav>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    <div id="main-content" style="padding: 2rem;">
+      <h2>🏅 Welcome to the Dashboard</h2>
+      <p>Select a section from the menu to get started.</p>
+    </div>
+  </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-            authDomain: "wordchoosing.firebaseapp.com",
-            projectId: "wordchoosing",
-            storageBucket: "wordchoosing.appspot.com",
-            messagingSenderId: "11998731462",
-            appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-            measurementId: "G-0JMJRW97WE"
-        };
+  <footer>
+    &copy; 2025 Game Dashboard. All rights reserved.
+  </footer>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-        const loginLink = document.getElementById("login-link");
-        const profileSection = document.getElementById("profile-section");
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is logged in
-                loginLink.style.display = "none";
-                profileSection.style.display = "block"; // Show profile
+    const loginLink = document.getElementById("login-link");
+    const profileSection = document.getElementById("profile-section");
+
+    firebase.auth().onAuthStateChanged(user => {
+      loginLink.style.display = user ? "none" : "block";
+      profileSection.style.display = user ? "block" : "none";
+    });
+
+    profileSection.addEventListener("click", () => {
+      window.location.href = "profile.html";
+    });
+
+    const languageToggle = document.getElementById("language-toggle");
+    const languageOptions = document.getElementById("language-options");
+
+    languageToggle.addEventListener("click", () => {
+      languageOptions.style.display = languageOptions.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!languageToggle.contains(e.target)) {
+        languageOptions.style.display = "none";
+      }
+    });
+  </script>
+
+  <script>
+    const navLinks = document.querySelectorAll('nav a[data-page]');
+    const mainContent = document.getElementById("main-content");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", async e => {
+        e.preventDefault();
+        const page = link.getAttribute("data-page");
+
+        try {
+          mainContent.innerHTML = `
+            <div class="spinner-container">
+              <div class="spinner" aria-label="Loading..."></div>
+            </div>
+          `;
+
+          const res = await fetch(page);
+          if (!res.ok) throw new Error("Page not found");
+
+          const htmlText = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlText, "text/html");
+          let newContent = doc.body.innerHTML;
+
+          if (page === "scoreboard.html") {
+            newContent = `<div class="scoreboard-scroll">${newContent}</div>`;
+          }
+
+          mainContent.innerHTML = newContent;
+
+          const scripts = Array.from(doc.querySelectorAll("script")).filter(script =>
+            !(script.src && (
+              script.src.includes("firebase-app.js") ||
+              script.src.includes("firebase-auth.js") ||
+              script.src.includes("firebase-firestore.js")
+            ))
+          );
+
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement("script");
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+              newScript.async = false;
             } else {
-                // User is not logged in
-                loginLink.style.display = "block";
-                profileSection.style.display = "none"; // Hide profile
+              newScript.textContent = oldScript.textContent;
             }
-        });
-    </script>
+            document.body.appendChild(newScript);
+          });
 
-    <script>
-        const languageToggle = document.getElementById("language-toggle");
-        const languageOptions = document.getElementById("language-options");
-    
-        languageToggle.addEventListener("click", () => {
-            languageOptions.style.display = 
-                languageOptions.style.display === "block" ? "none" : "block";
-        });
-    
-        // Optional: Hide dropdown if clicked outside
-        document.addEventListener("click", (e) => {
-            if (!languageToggle.contains(e.target)) {
-                languageOptions.style.display = "none";
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('profile-section').addEventListener('click', function () {
-            window.location.href = 'profile.html';
-        });
-    </script>
-    
-    
+          window.scrollTo(0, 0);
+
+        } catch (err) {
+          mainContent.innerHTML = "<p>⚠️ Error loading page content.</p>";
+          console.error("Load error:", err);
+        }
+      });
+    });
+  </script>
+
+  <script src="scoreboard.js"></script>
 </body>
 </html>

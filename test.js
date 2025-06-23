@@ -319,7 +319,7 @@ async function showFinalResults(results, totalScore) {
 
     try {
       const maxScore = words.length * 20;
-      const score60Percent = (totalScore / maxScore) * 60;
+      const score100Percent = (totalScore / maxScore) * 100;
 
       const docRef = firebase
         .firestore()
@@ -327,13 +327,13 @@ async function showFinalResults(results, totalScore) {
 
       await docRef.set(
         {
-          finalScore: score60Percent,
+          finalScore: score100Percent,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         },
         { merge: true }
       );
 
-      console.log(`Score saved to Firebase: ${score60Percent}`);
+      console.log(`Score saved to Firebase: ${score100Percent}`);
     } catch (error) {
       console.error("Error saving score to Firebase:", error);
     }
