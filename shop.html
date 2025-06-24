@@ -33,8 +33,6 @@
       padding: 20px 40px;
       background-color: rgba(0, 0, 0, 0.6);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      /* FLEXBOX for layout */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -42,10 +40,9 @@
       gap: 20px;
     }
 
-    /* Back button stays at the left */
     .back-button {
       position: absolute;
-      left: 40px; /* matches header horizontal padding */
+      left: 40px;
       top: 50%;
       transform: translateY(-50%);
       background-color: transparent;
@@ -61,7 +58,7 @@
       font-size: 0.9rem;
       transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
       user-select: none;
-      z-index: 10; /* above h1 */
+      z-index: 10;
     }
 
     .back-button:hover {
@@ -70,19 +67,18 @@
       box-shadow: 0 0 15px var(--neon);
     }
 
-    /* Center the heading, flexbox lets us center it perfectly */
     header h1 {
       font-size: 2rem;
       color: var(--neon);
-      margin: 0 auto; /* center horizontally */
-      max-width: 600px; /* optional max width */
+      margin: 0 auto;
+      max-width: 600px;
       text-align: center;
       pointer-events: none;
     }
 
     .hero {
       text-align: center;
-      padding: 40px 20px 20px;
+      padding: 40px 20px 10px;
     }
 
     .hero h2 {
@@ -95,6 +91,13 @@
       color: #ccc;
       max-width: 700px;
       margin: 0 auto;
+    }
+
+    .coin-summary {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--neon);
+      margin-top: 10px;
     }
 
     .container {
@@ -188,17 +191,18 @@
   <section class="hero">
     <h2>Select Your Banking Option</h2>
     <p>We connect you to trusted financial institutions locally and globally. Choose your path below and manage your finances securely.</p>
+    <div class="coin-summary" id="coinSummary">You selected: —</div>
   </section>
 
   <div class="container">
-    <div class="card" onclick="location.href='local-bank.html'">
+    <div class="card" onclick="goToBank('local-bank.html')">
       <i class="fas fa-university"></i>
       <h2>Local Bank</h2>
       <p>Access neighborhood banks, credit unions, and cooperatives. Enjoy personalized service and fast in-person support.</p>
       <span>Secure • Trusted • Nearby</span>
     </div>
 
-    <div class="card" onclick="location.href='international-bank.html'">
+    <div class="card" onclick="goToBank('international-bank.html')">
       <i class="fas fa-globe"></i>
       <h2>International Bank</h2>
       <p>Connect with global financial services across borders. Ideal for travel, remote work, study, and international transfers.</p>
@@ -209,6 +213,50 @@
   <footer>
     © 2025 Universal Banking Hub. All rights reserved.
   </footer>
+
+  <script>
+    // Prices map
+    const prices = { 20: 15, 50: 30, 100: 55, 200: 100 };
+
+    // Function to update display based on coins & price
+    function updateDisplay(coins, price) {
+      document.getElementById('coinSummary').textContent = `You selected: ${coins} Coins — Nu.${price}`;
+    }
+
+    // Try to get coins and price from URL
+    const query = new URLSearchParams(window.location.search);
+    let coins = query.get('coins');
+    let price = coins ? prices[coins] : null;
+
+    // If no coins in URL, try localStorage fallback
+    if (!coins) {
+      coins = localStorage.getItem('selectedCoins');
+      price = coins ? prices[coins] : null;
+    } else {
+      // Update localStorage if coins in URL
+      localStorage.setItem('selectedCoins', coins);
+    }
+
+    // Update localStorage price as well (in case)
+    if (coins) {
+      localStorage.setItem('selectedPrice', price);
+    }
+
+    // Update the summary display if coins found
+    if (coins && price) {
+      updateDisplay(coins, price);
+    }
+
+    // Function to navigate to next page, passing coins param
+    function goToBank(page) {
+      const selectedCoins = localStorage.getItem('selectedCoins');
+      if (selectedCoins) {
+        window.location.href = `${page}?coins=${selectedCoins}`;
+      } else {
+        window.location.href = page;
+      }
+    }
+  </script>
 
 </body>
 </html>

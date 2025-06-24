@@ -33,7 +33,6 @@
       padding: 20px 40px;
       background-color: rgba(0, 0, 0, 0.6);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
       display: flex;
       align-items: center;
       justify-content: center;
@@ -79,7 +78,7 @@
 
     .hero {
       text-align: center;
-      padding: 40px 20px 20px;
+      padding: 40px 20px 10px;
     }
 
     .hero h2 {
@@ -92,6 +91,13 @@
       color: #ccc;
       max-width: 700px;
       margin: 0 auto;
+    }
+
+    .coin-summary {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--neon);
+      margin-top: 10px;
     }
 
     .container {
@@ -185,17 +191,18 @@
   <section class="hero">
     <h2>Choose Your Local Bank</h2>
     <p>Select from trusted Bhutanese banks for personalized banking services close to home.</p>
+    <div class="coin-summary" id="coinSummary">You selected: —</div>
   </section>
 
   <div class="container">
-    <div class="card" onclick="location.href='bank-of-bhutan.html'">
+    <div class="card" id="bob-card">
       <i class="fas fa-university"></i>
       <h2>Bank of Bhutan</h2>
       <p>The oldest and leading commercial bank of Bhutan, offering a wide range of banking solutions.</p>
       <span>Reliable • Secure • Community Focused</span>
     </div>
 
-    <div class="card" onclick="location.href='bhutan-national-bank.html'">
+    <div class="card" id="bnb-card">
       <i class="fas fa-university"></i>
       <h2>Bhutan National Bank</h2>
       <p>A modern bank providing innovative financial products with excellent customer service.</p>
@@ -206,6 +213,35 @@
   <footer>
     © 2025 Universal Banking Hub. All rights reserved.
   </footer>
+
+  <script>
+    const prices = { 20: 15, 50: 30, 100: 55, 200: 100 };
+
+    // Try to get coins from URL
+    const query = new URLSearchParams(window.location.search);
+    let coins = query.get('coins');
+
+    // Fallback to localStorage if coins not in URL
+    if (!coins) {
+      coins = localStorage.getItem('selectedCoins');
+    } else {
+      // Save to localStorage if coins from URL
+      localStorage.setItem('selectedCoins', coins);
+    }
+
+    // Display coins & price
+    if (coins && prices[coins]) {
+      document.getElementById('coinSummary').textContent = `You selected: ${coins} Coins — Nu.${prices[coins]}`;
+    }
+
+    // On card click, navigate passing coins param
+    document.getElementById('bob-card').onclick = function () {
+      window.location.href = `bob.html?coins=${coins}`;
+    };
+    document.getElementById('bnb-card').onclick = function () {
+      window.location.href = `bnb.html?coins=${coins}`;
+    };
+  </script>
 
 </body>
 </html>

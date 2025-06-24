@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coin Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="shopstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="shopstyle.css" />
     <style>
         /* This will remove animations & transitions from ALL elements, but preserve layout */
         * {
@@ -35,10 +35,10 @@
     <div class="coin-shop">
         <h2>Get More Coins</h2>
         <div class="coin-options">
-            <button class="coin-button" onclick="redirectToShop()">💰 20 Coins - Nu.15 OR $0.99</button>
-            <button class="coin-button" onclick="redirectToShop()">💰 50 Coins - Nu.30 OR $1.99</button>
-            <button class="coin-button" onclick="redirectToShop()">💰 100 Coins - Nu.55 OR $2.99</button>
-            <button class="coin-button" onclick="redirectToShop()">💰 200 Coins - Nu.100 OR $3.99</button>
+            <button class="coin-button" onclick="redirectToShop(20, 15)">💰 20 Coins - Nu.15 OR $0.99</button>
+            <button class="coin-button" onclick="redirectToShop(50, 30)">💰 50 Coins - Nu.30 OR $1.99</button>
+            <button class="coin-button" onclick="redirectToShop(100, 55)">💰 100 Coins - Nu.55 OR $2.99</button>
+            <button class="coin-button" onclick="redirectToShop(200, 100)">💰 200 Coins - Nu.100 OR $3.99</button>
         </div>
     </div>
 
@@ -50,8 +50,13 @@
     <p>Email: samuelprincegod@gmail.com</p>
 
     <script>
-        function redirectToShop() {
-            window.location.href = "shop.html";
+        function redirectToShop(coins, price) {
+            // Save selection to localStorage
+            localStorage.setItem('selectedCoins', coins);
+            localStorage.setItem('selectedPrice', price);
+
+            // Redirect with URL params
+            window.location.href = `shop.html?coins=${coins}&price=${price}`;
         }
     </script>
 

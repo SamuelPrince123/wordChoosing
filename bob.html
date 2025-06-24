@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bank of Bhutan - Payment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <style>
+    :root {
+      --neon: #00ffe7;
+      --bg-dark: #0a0a0a;
+      --card-bg: #111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Blur overlay behind spinner */
+    #blurOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9998;
+      display: none;
+    }
+
+    /* When loading, blur main content */
+    .blurred {
+      filter: blur(6px);
+      pointer-events: none;
+      user-select: none;
+      transition: filter 0.3s ease;
+    }
+
+    header {
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: 2px solid var(--neon);
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--neon);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .back-button:hover {
+      background-color: var(--neon);
+      color: black;
+      box-shadow: 0 0 15px var(--neon);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--neon);
+      text-align: center;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: var(--card-bg);
+      border: 2px solid var(--neon);
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 231, 0.1);
+    }
+
+    .payment-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .payment-info h2 {
+      color: var(--neon);
+      margin-bottom: 10px;
+    }
+
+    .payment-info p {
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px 0;
+    }
+
+    .qr-section img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border: 2px solid var(--neon);
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .account-number {
+      font-size: 1.1rem;
+      color: #ccc;
+      background-color: #1a1a1a;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid var(--neon);
+    }
+
+    .upload-section {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .upload-section label {
+      display: block;
+      font-weight: 600;
+      color: var(--neon);
+    }
+
+    .upload-section input[type="file"] {
+      background-color: #1a1a1a;
+      border: 2px solid var(--neon);
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+      width: 100%;
+    }
+
+    .upload-section button {
+      align-self: flex-start;
+      background-color: transparent;
+      border: 2px solid var(--neon);
+      color: var(--neon);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .upload-section button:hover {
+      background-color: var(--neon);
+      color: black;
+      box-shadow: 0 0 15px var(--neon);
+    }
+
+    #ocrOutput {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      background: #000000aa;
+      border: 1px solid var(--neon);
+      padding: 15px;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      color: var(--neon);
+    }
+
+    /* Spinner styles */
+    #loadingSpinner {
+      display: none;
+      margin-top: 20px;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #00ffe7;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: auto;
+      margin-right: auto;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+    }
+
+    /* Loading text below spinner */
+    #loadingText {
+      display: none;
+      position: fixed;
+      top: calc(50% + 40px);
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--neon);
+      font-weight: 600;
+      font-size: 1.1rem;
+      z-index: 10000;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #confirmationModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: var(--neon);
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: 40%;
+      background-color: #111;
+      border: 2px solid var(--neon);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      color: var(--neon);
+      box-shadow: 0 0 20px var(--neon);
+      position: relative;
+    }
+
+    .modal-box .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--neon);
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    .modal-box .close-modal:hover {
+      color: #ff007f;
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 0.85rem;
+      margin-top: 40px;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 500px) {
+      header h1 {
+        font-size: 1.3rem;
+      }
+
+      .qr-section img {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="blurOverlay"></div>
+
+  <!-- Wrap all content to blur except spinner & loading text -->
+  <div id="contentWrapper">
+    <header id="pageContent">
+      <a href="shop.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <h1>Payment</h1>
+    </header>
+
+    <main id="pageContent">
+      <div class="payment-info">
+        <h2 id="coinAmount">You selected: — Coins</h2>
+        <p id="coinPrice">Amount to Pay: Nu. —</p>
+      </div>
+
+      <div class="qr-section">
+        <img src="your-qr-code.png" alt="QR Code for Payment" />
+        <div class="account-number">Account Number: 1234567890123456 (BhutanPay)</div>
+      </div>
+
+      <div class="upload-section">
+        <label for="paymentProof">Upload Screenshot of Payment:</label>
+        <input type="file" id="paymentProof" name="paymentProof" accept="image/*" />
+        <button type="button" id="submitPayment">Submit Payment Proof</button>
+      </div>
+
+      <div id="ocrOutput" aria-live="polite" role="region" style="display:none;"></div>
+    </main>
+
+    <footer id="pageContent">
+      © 2025 Universal Banking Hub. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Spinner and loading text outside blur wrapper -->
+  <div id="loadingSpinner"></div>
+  <div id="loadingText">Loading...</div>
+
+  <div id="confirmationModal">
+    <div class="modal-box">
+      <button class="close-modal" onclick="document.getElementById('confirmationModal').style.display='none'">&times;</button>
+      <p>✅ Message sent successfully!<br>You have received <span id="modalCoins">—</span> coins.</p>
+    </div>
+  </div>
+
+  <script>
+    const prices = { 20: 15, 50: 30, 100: 55, 200: 100 };
+    const query = new URLSearchParams(window.location.search);
+    let coins = query.get('coins');
+
+    if (!coins) {
+      coins = localStorage.getItem('selectedCoins');
+    } else {
+      localStorage.setItem('selectedCoins', coins);
+    }
+
+    const price = prices[coins] || "—";
+    document.getElementById('coinAmount').textContent = `You selected: ${coins || '—'} Coins`;
+    document.getElementById('coinPrice').textContent = `Amount to Pay: Nu. ${price}`;
+
+    const submitBtn = document.getElementById('submitPayment');
+    const fileInput = document.getElementById('paymentProof');
+    const ocrOutput = document.getElementById('ocrOutput');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const loadingText = document.getElementById('loadingText');
+    const modal = document.getElementById('confirmationModal');
+    const modalCoins = document.getElementById('modalCoins');
+    const blurOverlay = document.getElementById('blurOverlay');
+
+    // Blur wrapper container
+    const contentWrapper = document.getElementById('contentWrapper');
+
+    submitBtn.addEventListener('click', () => {
+      if (fileInput.files.length === 0) {
+        alert('Please upload a payment screenshot before submitting.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      ocrOutput.style.display = 'block';
+      ocrOutput.textContent = 'Scanning image, please wait...';
+
+      // Show spinner, loading text and blur overlay
+      loadingSpinner.style.display = 'block';
+      loadingText.style.display = 'block';
+      blurOverlay.style.display = 'block';
+
+      // Blur only the main content wrapper, spinner & loading text not blurred
+      contentWrapper.classList.add('blurred');
+
+      Tesseract.recognize(
+        file,
+        'eng',
+        {
+          logger: m => {
+            const progressPercent = Math.round(m.progress * 100);
+            ocrOutput.textContent = `Scanning image: ${progressPercent}%`;
+          }
+        }
+      ).then(({ data: { text } }) => {
+        ocrOutput.textContent = 'Scanned Text:\n\n' + text;
+
+        const formData = new FormData();
+        formData.append("name", "Sonu Tiwari");
+        formData.append("message", text);
+        formData.append("email", "st659136@gmail.com");
+
+        fetch("https://script.google.com/macros/s/AKfycby3w823YAvtLU_bJlIECm-qeJvilZ_juMxhxsMjuevJVVF7RrGszAeyPE8KQGvfXEdd/exec", {
+          method: "POST",
+          body: formData
+        })
+        .then(res => res.text())
+        .then(data => {
+          loadingSpinner.style.display = 'none';
+          loadingText.style.display = 'none';
+          blurOverlay.style.display = 'none';
+          contentWrapper.classList.remove('blurred');
+
+          modalCoins.textContent = coins;
+          modal.style.display = 'flex';
+        })
+        .catch(err => {
+          loadingSpinner.style.display = 'none';
+          loadingText.style.display = 'none';
+          blurOverlay.style.display = 'none';
+          contentWrapper.classList.remove('blurred');
+
+          alert("❌ Failed to send message: " + err.message);
+        });
+
+      }).catch(err => {
+        ocrOutput.textContent = 'Error scanning image: ' + err.message;
+        loadingSpinner.style.display = 'none';
+        loadingText.style.display = 'none';
+        blurOverlay.style.display = 'none';
+        contentWrapper.classList.remove('blurred');
+      });
+    });
+  </script>
+</body>
+</html>
