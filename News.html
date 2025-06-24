@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World News - BBC, CNN, Reuters, Al Jazeera</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #003566;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .news-container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 1rem;
+    }
+
+    .news-card {
+      background: white;
+      margin-bottom: 15px;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: scale(1.01);
+    }
+
+    .news-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #001d3d;
+    }
+
+    .news-desc {
+      color: #444;
+      margin: 0.5rem 0;
+    }
+
+    .news-link {
+      text-decoration: none;
+      color: #0077b6;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .news-title {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>🌐 World Headlines: BBC, CNN, Reuters, Al Jazeera</header>
+
+  <div class="news-container" id="news-container">
+    <p>Loading global news...</p>
+  </div>
+
+  <script>
+    const feeds = [
+      'https://feeds.bbci.co.uk/news/rss.xml',
+      'http://rss.cnn.com/rss/edition.rss',
+      'http://feeds.reuters.com/reuters/topNews',
+      'https://www.aljazeera.com/xml/rss/all.xml'
+    ];
+
+    const corsProxy = 'https://api.allorigins.win/get?url=';
+
+    const container = document.getElementById('news-container');
+    let seenTitles = new Set();
+    let allNews = [];
+
+    function parseFeed(xml, sourceName) {
+      const items = xml.querySelectorAll('item');
+      items.forEach(item => {
+        const title = item.querySelector('title')?.textContent.trim();
+        const description = item.querySelector('description')?.textContent.trim();
+        const link = item.querySelector('link')?.textContent.trim();
+
+        if (title && !seenTitles.has(title)) {
+          seenTitles.add(title);
+          allNews.push({
+            title,
+            description,
+            link,
+            source: sourceName
+          });
+        }
+      });
+    }
+
+    async function fetchFeeds() {
+      const promises = feeds.map(url => {
+        return fetch(corsProxy + encodeURIComponent(url))
+          .then(res => res.json())
+          .then(data => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, 'text/xml');
+            const source = new URL(url).hostname.replace('www.', '');
+            parseFeed(xml, source);
+          })
+          .catch(err => console.error(`Error loading feed from ${url}`, err));
+      });
+
+      await Promise.all(promises);
+
+      // Shuffle news
+      allNews = allNews.sort(() => Math.random() - 0.5);
+
+      // Limit to top 20
+      allNews.slice(0, 20).forEach(news => {
+        const card = document.createElement('div');
+        card.className = 'news-card';
+        card.innerHTML = `
+          <div class="news-title">${news.title}</div>
+          <div class="news-desc">${news.description}</div>
+          <a class="news-link" href="${news.link}" target="_blank">Read more → (${news.source})</a>
+        `;
+        container.appendChild(card);
+      });
+
+      if (allNews.length === 0) {
+        container.innerHTML = "<p>Couldn't load any news. Try again later.</p>";
+      }
+    }
+
+    fetchFeeds();
+  </script>
+</body>
+</html>

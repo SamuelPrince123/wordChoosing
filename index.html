@@ -5,6 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PicScribe</title>
   <link rel="stylesheet" href="dstyle.css" />
+<style>
+.news-box-auto {
+  position: absolute;
+  top: 170px;
+  right: 20px;
+  width: 270px;
+  height: 160px;
+  overflow: hidden;
+  background: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.6);
+  padding: 10px;
+  color: white;
+  font-size: 0.9rem;
+  z-index: 999;
+}
+
+.news-scroll {
+  display: flex;
+  flex-direction: column;
+  animation: scroll-news 70s linear infinite;
+}
+
+.news-item {
+  margin-bottom: 1rem;
+}
+
+.news-item a {
+  color: #7ec8e3;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.news-item a:hover {
+  text-decoration: underline;
+}
+
+@keyframes scroll-news {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@media (max-width: 613px) {
+  .news-box-auto {
+    top: 110px;
+    right: 10px;
+    width: 45%;
+    height: 170px;
+    font-size: 0.8rem;
+  }
+}
+</style>
+
 
 </head>
 <body>
@@ -31,6 +85,16 @@
       <a href="#" data-page="About.html">About</a>
       <a href="#" data-page="Resource.html">Other Resources</a>
     </nav>
+
+<!-- Place inside <body> just below your <nav> -->
+<div class="news-box-auto" id="news-box-auto">
+  <div class="news-scroll" id="news-scroll">
+    <p>Loading news...</p>
+  </div>
+</div>
+
+
+
 
     <div id="main-content" style="padding: 2rem;">
       <h2>🏅 Welcome to the Dashboard</h2>
@@ -319,6 +383,73 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 </script>
+<script>
+  const feeds = [
+    'https://feeds.bbci.co.uk/news/rss.xml',
+    'http://rss.cnn.com/rss/edition.rss',
+    'http://feeds.reuters.com/reuters/topNews',
+    'https://www.aljazeera.com/xml/rss/all.xml'
+  ];
+
+  const corsProxy = 'https://api.allorigins.win/get?url=';
+  const newsBox = document.getElementById("news-scroll");
+  const seenTitles = new Set();
+  let newsItems = [];
+
+  function parseFeed(xml, sourceName) {
+    const items = xml.querySelectorAll("item");
+    items.forEach(item => {
+      const title = item.querySelector("title")?.textContent.trim();
+      const link = item.querySelector("link")?.textContent.trim();
+      if (title && !seenTitles.has(title)) {
+        seenTitles.add(title);
+        newsItems.push({ title, link, source: sourceName });
+      }
+    });
+  }
+
+  async function loadNews() {
+    const fetches = feeds.map(url =>
+      fetch(corsProxy + encodeURIComponent(url))
+        .then(res => res.json())
+        .then(data => {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(data.contents, "text/xml");
+          const source = new URL(url).hostname.replace("www.", "");
+          parseFeed(xml, source);
+        })
+        .catch(err => console.warn("News fetch error:", err))
+    );
+
+    await Promise.all(fetches);
+
+    // Shuffle and limit to 10 headlines
+    newsItems = newsItems.sort(() => Math.random() - 0.5).slice(0, 10);
+
+    if (newsItems.length === 0) {
+      newsBox.innerHTML = "<p>⚠️ No news loaded.</p>";
+      return;
+    }
+
+    // Duplicate the list to make infinite scrolling smooth
+    const newsHTML = newsItems.map(n => `
+      <div class="news-item">
+        <div style="font-weight:bold;">${n.title}</div>
+        <a href="${n.link}" target="_blank" rel="noopener">Read → (${n.source})</a>
+      </div>
+    `).join("");
+
+    newsBox.innerHTML = newsHTML + newsHTML; // duplicated for smooth infinite scroll
+  }
+
+  window.addEventListener("DOMContentLoaded", loadNews);
+</script>
+
+
+
+
+
+
 
 
 <script src="scoreboard.js"></script>
