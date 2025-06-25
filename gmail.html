@@ -2,191 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bank of Bhutan - Payment</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form</title>
   <style>
-    :root {
-      --neon: #00ffe7;
-      --bg-dark: #0a0a0a;
-      --card-bg: #111;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      color: white;
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
       display: flex;
-      flex-direction: column;
-      padding: 0;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
 
-    header {
-      padding: 20px 40px;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    form {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #0ff;
+      width: 100%;
+      max-width: 400px;
       position: relative;
     }
 
-    .back-button {
-      position: absolute;
-      left: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: transparent;
-      border: 2px solid var(--neon);
-      padding: 8px 14px;
-      border-radius: 10px;
-      color: var(--neon);
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .back-button:hover {
-      background-color: var(--neon);
-      color: black;
-      box-shadow: 0 0 15px var(--neon);
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      color: var(--neon);
-      text-align: center;
-    }
-
-    main {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: var(--card-bg);
-      border: 2px solid var(--neon);
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0, 255, 231, 0.1);
-      text-align: center;
-    }
-
-    input[type="file"], button {
-      margin: 15px 0;
-    }
-
-    input[type="file"] {
-      background: #1a1a1a;
-      color: white;
-      padding: 10px;
-      border-radius: 10px;
-      border: 2px solid var(--neon);
+    input, textarea, button {
       width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    input, textarea {
+      background: #333;
+      color: #fff;
     }
 
     button {
-      background: transparent;
-      border: 2px solid var(--neon);
-      color: var(--neon);
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-weight: 600;
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
     }
 
     button:hover {
-      background: var(--neon);
-      color: black;
-      box-shadow: 0 0 15px var(--neon);
+      background: #0cc;
     }
 
-    .spinner {
-      margin-top: 30px;
-      border: 5px solid rgba(0, 255, 231, 0.1);
-      border-top: 5px solid var(--neon);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-left: auto;
-      margin-right: auto;
+    #loading-bar {
+      display: none;
+      margin-top: 10px;
+      width: 100%;
+      height: 8px;
+      background: #222;
+      border-radius: 4px;
+      overflow: hidden;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    #loading-bar-inner {
+      width: 0%;
+      height: 100%;
+      background: #0ff;
+      animation: loading 1.5s infinite;
     }
 
-    #confirmation {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: var(--neon);
+    @keyframes loading {
+      0% { width: 0%; }
+      50% { width: 80%; }
+      100% { width: 0%; }
+    }
+
+    #status-text {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #0ff;
       display: none;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="shop.html" class="back-button">
-      <i class="fas fa-arrow-left"></i> Back
-    </a>
-    <h1>Payment</h1>
-  </header>
+  <form id="contact-form">
+    <h2>Send Message</h2>
+    <input type="text" name="name" placeholder="Your Name" required />
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit">Send</button>
 
-  <main>
-    <h2 id="coinInfo">You selected: — Coins</h2>
-    <input type="file" id="paymentProof" accept="image/*" />
-    <button id="submitPayment">Submit Payment Proof</button>
-    <div id="spinner" class="spinner" style="display: none;"></div>
-    <div id="confirmation">✅ Payment proof received. You have been credited with <span id="coinCount"></span> coins!</div>
-  </main>
+    <div id="loading-bar">
+      <div id="loading-bar-inner"></div>
+    </div>
+    <div id="status-text">Sending your message...</div>
+  </form>
 
   <script>
-    const prices = { 20: 15, 50: 30, 100: 55, 200: 100 };
-    const query = new URLSearchParams(window.location.search);
-    let coins = query.get('coins') || localStorage.getItem('selectedCoins');
-    document.getElementById('coinInfo').textContent = `You selected: ${coins || '—'} Coins`;
+    const form = document.getElementById('contact-form');
+    const loadingBar = document.getElementById('loading-bar');
+    const statusText = document.getElementById('status-text');
 
-    document.getElementById('submitPayment').addEventListener('click', () => {
-      const fileInput = document.getElementById('paymentProof');
-      if (!fileInput.files.length) return alert('Please upload an image.');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      const file = fileInput.files[0];
-      document.getElementById('spinner').style.display = 'block';
+      // Show loading bar and message
+      loadingBar.style.display = 'block';
+      statusText.style.display = 'block';
 
-      Tesseract.recognize(file, 'eng', {
-        logger: m => console.log(m)
-      }).then(({ data: { text } }) => {
-        // Send to Gmail page backend
-        const formData = new FormData();
-        formData.append('name', 'Sonu Tiwari');
-        formData.append('message', text);
-        formData.append('email', 'st659136@gmail.com');
+      const formData = new FormData(form);
+      formData.append("email", "st659136@gmail.com"); // Fixed recipient email
 
-        return fetch('https://script.google.com/macros/s/AKfycby3w823YAvtLU_bJlIECm-qeJvilZ_juMxhxsMjuevJVVF7RrGszAeyPE8KQGvfXEdd/exec', {
-          method: 'POST',
-          body: formData
-        });
-      }).then(() => {
-        document.getElementById('spinner').style.display = 'none';
-        document.getElementById('confirmation').style.display = 'block';
-        document.getElementById('coinCount').textContent = coins;
-      }).catch(err => {
-        document.getElementById('spinner').style.display = 'none';
-        alert('Error sending message: ' + err.message);
+      fetch("https://script.google.com/macros/s/AKfycby3w823YAvtLU_bJlIECm-qeJvilZ_juMxhxsMjuevJVVF7RrGszAeyPE8KQGvfXEdd/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert("✅ Message sent successfully!");
+        form.reset();
+      })
+      .catch(error => {
+        console.error("Error!", error.message);
+        alert("❌ Failed to send message.");
+      })
+      .finally(() => {
+        // Hide loading after delay
+        setTimeout(() => {
+          loadingBar.style.display = 'none';
+          statusText.style.display = 'none';
+        }, 1000);
       });
     });
   </script>

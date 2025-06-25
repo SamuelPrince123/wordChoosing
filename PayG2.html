@@ -1,0 +1,35 @@
+<h2>OCR Scanner</h2>
+<input type="file" id="imageInput">
+<br>
+<img id="preview" style="max-width:300px; margin-top:10px;">
+<br>
+<button onclick="upload()">Scan Text</button>
+
+<pre id="output" style="background:#f4f4f4; padding:10px; margin-top:10px;"></pre>
+
+<script>
+function upload() {
+  const fileInput = document.getElementById('imageInput').files[0];
+  const preview = document.getElementById('preview');
+  const output = document.getElementById('output');
+
+  const reader = new FileReader();
+  reader.onloadend = function () {
+    const base64 = reader.result.split(',')[1];
+    preview.src = reader.result;
+
+    output.textContent = 'Scanning...';
+
+    fetch('https://script.google.com/macros/s/AKfycbyUEYmqvGCEre_VnDsSwnL5aRZinztEnLjYAtWbV0GPMMCtGfFZdIZsmp6o3agWz5MNYA/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/octet-stream' },
+      body: base64
+    })
+    .then(res => res.text())
+    .then(text => output.textContent = text)
+    .catch(err => output.textContent = 'Error: ' + err);
+  };
+
+  if (fileInput) reader.readAsDataURL(fileInput);
+}
+</script>
