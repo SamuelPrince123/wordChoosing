@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Azure OCR Demo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #fff;
+      padding: 2rem;
+    }
+    input, button {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: none;
+    }
+    button {
+      background-color: #e91e63;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c2185b;
+    }
+    pre {
+      background: #222;
+      padding: 1rem;
+      border-radius: 6px;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Azure OCR Demo</h1>
+  <p>Select an image file to extract text using Azure Computer Vision OCR:</p>
+
+  <input type="file" id="fileInput" accept="image/*" />
+  <br />
+  <button onclick="doOCR()">Scan Image</button>
+
+  <h2>OCR Result:</h2>
+  <pre id="output">No results yet.</pre>
+
+  <script>
+    const endpoint = "https://ocr-vision-sonu.cognitiveservices.azure.com/vision/v3.2/read/analyze";
+    const subscriptionKey = "4IirSEHGytWAlA0KkJpMqr7bUmxm8zG6guvyMXo7Qhfd5B6UfON0JQQJ99BFACGhslBXJ3w3AAAFACOG6aEw";
+
+    async function scanImage(file) {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": subscriptionKey,
+          "Content-Type": "application/octet-stream"
+        },
+        body: file
+      });
+
+      if (response.status !== 202) {
+        const errorData = await response.json();
+        throw new Error(`Error ${response.status}: ${errorData.error.message}`);
+      }
+
+      const operationLocation = response.headers.get("Operation-Location");
+      return operationLocation;
+    }
+
+    async function getResult(operationLocation) {
+      while (true) {
+        const response = await fetch(operationLocation, {
+          headers: { "Ocp-Apim-Subscription-Key": subscriptionKey }
+        });
+        const result = await response.json();
+
+        if (result.status === "succeeded") {
+          return result.analyzeResult.readResults;
+        } else if (result.status === "failed") {
+          throw new Error("OCR processing failed");
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+
+    async function doOCR() {
+      const fileInput = document.getElementById("fileInput");
+      if (!fileInput.files.length) {
+        alert("Please select an image file first.");
+        return;
+      }
+
+      document.getElementById("output").textContent = "Processing...";
+
+      try {
+        const operationLocation = await scanImage(fileInput.files[0]);
+        const results = await getResult(operationLocation);
+
+        // Format results nicely
+        let text = "";
+        results.forEach(page => {
+          page.lines.forEach(line => {
+            text += line.text + "\n";
+          });
+          text += "\n";
+        });
+
+        document.getElementById("output").textContent = text || "No text detected.";
+      } catch (error) {
+        document.getElementById("output").textContent = "Error: " + error.message;
+      }
+    }
+  </script>
+
+</body>
+</html>

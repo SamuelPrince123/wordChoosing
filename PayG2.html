@@ -15,19 +15,21 @@ function upload() {
 
   const reader = new FileReader();
   reader.onloadend = function () {
-    const base64 = reader.result.split(',')[1];
+    const base64 = reader.result.split(',')[1]; // Remove base64 header
     preview.src = reader.result;
 
     output.textContent = 'Scanning...';
 
-    fetch('https://script.google.com/macros/s/AKfycbyUEYmqvGCEre_VnDsSwnL5aRZinztEnLjYAtWbV0GPMMCtGfFZdIZsmp6o3agWz5MNYA/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwySr5Y1NnZC8-enXi5ZmA-aHoPCIoO83PF1JjkkGN4I14i-3rCW9jMPh1wsmgkXjaeEQ/exec', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/octet-stream' },
+      headers: {
+        'Content-Type': 'text/plain' // ✅ CORS-safe: no preflight
+      },
       body: base64
     })
     .then(res => res.text())
     .then(text => output.textContent = text)
-    .catch(err => output.textContent = 'Error: ' + err);
+    .catch(err => output.textContent = 'Error: ' + err.message);
   };
 
   if (fileInput) reader.readAsDataURL(fileInput);
