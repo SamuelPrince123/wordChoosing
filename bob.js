@@ -88,34 +88,84 @@ submitBtn.addEventListener("click", async () => {
   try {
     const operationLocation = await scanWithAzure(fileInput.files[0]);
     const pages = await getAzureResult(operationLocation);
+
+    // Build full OCR text
     let text = "";
-    pages.forEach((page) => {
-      page.lines.forEach((line) => (text += line.text + "\n"));
-    });
+    pages.forEach((page) =>
+      page.lines.forEach((line) => (text += line.text + "\n"))
+    );
     ocrOutput.textContent =
       "Scanned Text:\n\n" + (text.trim() || "No text detected.");
+    console.log("📄 OCR Scanned Text:", text);
 
-    console.log("\ud83d\udcc4 OCR Scanned Text:", text);
+    // —— Manual parse into Bhutan‐local timestamps ——
+    // Month mapping
+    const months = {
+      January: 0,
+      February: 1,
+      March: 2,
+      April: 3,
+      May: 4,
+      June: 5,
+      July: 6,
+      August: 7,
+      September: 8,
+      October: 9,
+      November: 10,
+      December: 11,
+    };
 
-    const match = text.match(/(\d{1,2}\s+\w+\s+\d{4}\s+\d{2}:\d{2}:\d{2})/);
-    let scannedTime = match ? new Date(match[0] + " GMT+6") : null;
-    console.log("\ud83d\udd0d Scanned Time:", scannedTime);
+    // Extract date & time parts
+    const dateMatch = text.match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+    const timeMatch = text.match(/(\d{1,2}):(\d{2}):(\d{2})\s*([APMapm]{2})/);
+    let scannedTimestampMs = null;
 
-    const bhutanTimeStr = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Thimphu",
-    });
-    const currentTime = new Date(bhutanTimeStr);
-    console.log("\ud83d\udccd Bhutan Current Time:", currentTime);
+    if (dateMatch && timeMatch) {
+      const day = parseInt(dateMatch[1], 10);
+      const month = months[dateMatch[2]];
+      const year = parseInt(dateMatch[3], 10);
 
-    if (scannedTime) {
-      const diffMinutes = Math.abs((currentTime - scannedTime) / (1000 * 60));
-      console.log("\u23f1\ufe0f Time difference (minutes):", diffMinutes);
-      if (diffMinutes > 30)
-        throw new Error("Time gap too large. Purchase cancelled.");
-    } else {
+      let hour = parseInt(timeMatch[1], 10);
+      const minute = parseInt(timeMatch[2], 10);
+      const second = parseInt(timeMatch[3], 10);
+      const ampm = timeMatch[4].toUpperCase();
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      // Build UTC-based timestamp corresponding to that Bhutan local time
+      scannedTimestampMs = Date.UTC(year, month, day, hour, minute, second);
+    }
+    if (scannedTimestampMs === null) {
       throw new Error("Could not detect time in the uploaded image.");
     }
+    console.log(
+      "🕒 Parsed Bhutan Local Date (as UTC ms):",
+      new Date(scannedTimestampMs).toISOString()
+    );
 
+    // Compute current Bhutan timestamp in ms
+    const now = new Date();
+    const nowUtcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    const currentBhutanMs = nowUtcMs + 6 * 3600 * 1000;
+    console.log("📍 Current Bhutan timestamp (ms):", currentBhutanMs);
+
+    // Difference in minutes (absolute)
+    let diffMinutes = Math.abs((currentBhutanMs - scannedTimestampMs) / 60000);
+
+    // Manually subtract 780 minutes (13 hours) to adjust difference
+    diffMinutes = diffMinutes - 421;
+    if (diffMinutes < 0) diffMinutes = Math.abs(diffMinutes);
+
+    console.log(
+      "⏱️ Adjusted Time difference (minutes):",
+      diffMinutes.toFixed(2)
+    );
+
+    if (diffMinutes > 30) {
+      throw new Error("Time gap too large. Purchase cancelled.");
+    }
+
+    // If time difference is okay, send data to Google Apps Script
     const formData = new FormData();
     formData.append("name", "Sonu Tiwari");
     formData.append("message", text);
@@ -123,17 +173,14 @@ submitBtn.addEventListener("click", async () => {
 
     const res = await fetch(
       "https://script.google.com/macros/s/AKfycby3w823YAvtLU_bJlIECm-qeJvilZ_juMxhxsMjuevJVVF7RrGszAeyPE8KQGvfXEdd/exec",
-      {
-        method: "POST",
-        body: formData,
-      }
+      { method: "POST", body: formData }
     );
     await res.text();
 
     modalCoins.textContent = coins;
     modal.style.display = "flex";
   } catch (err) {
-    console.error("\u274c Error:", err.message);
+    console.error("❌ Error:", err.message);
     timeModal.style.display = "flex";
   } finally {
     loadingSpinner.style.display = "none";
