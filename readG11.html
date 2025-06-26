@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Words and Meanings</title>
 <style>
-  /* Import Google Font */
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-  /* Reset and base */
   * {
     box-sizing: border-box;
   }
   body {
     margin: 0;
-    background: linear-gradient(135deg, #f8c8dc, #ffc0cb);
+    background: linear-gradient(135deg, #d0f0c0, #a3d9a5);
     font-family: 'Poppins', sans-serif;
-    color: #330033;
+    color: #1b3a1a;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,9 +23,9 @@
   }
 
   main {
-    background: #fff0f6;
+    background: #e6f4e6;
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 128, 0, 0.25);
     padding: 2.5rem 3rem;
     width: 100%;
     max-width: 600px;
@@ -41,8 +39,8 @@
     text-align: center;
     margin-bottom: 2rem;
     font-weight: 600;
-    color: #d6336c;
-    text-shadow: 0 2px 5px rgba(255, 105, 180, 0.5);
+    color: #2e7d32;
+    text-shadow: 0 2px 5px rgba(46, 125, 50, 0.4);
     font-size: clamp(1.8rem, 4vw, 2.5rem);
   }
 
@@ -54,28 +52,28 @@
   }
 
   .word-item {
-    background: #ffd6e8;
+    background: #b9e5b9;
     margin-bottom: 1rem;
     padding: 1rem 1.5rem;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.15);
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.15);
     transition: transform 0.3s ease;
   }
   .word-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
   }
 
   .word {
     font-weight: 600;
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    color: #a30052;
+    color: #145214;
   }
 
   .meaning {
     margin-top: 0.3rem;
     font-size: clamp(0.9rem, 2vw, 1.1rem);
-    color: #6a0a39;
+    color: #2f5d2f;
     font-style: italic;
   }
 
@@ -83,7 +81,7 @@
     align-self: center;
     width: 180px;
     margin-top: 2rem;
-    background: linear-gradient(45deg, #ff63a5, #d6336c);
+    background: linear-gradient(45deg, #4caf50, #2e7d32);
     border: none;
     border-radius: 40px;
     padding: 0.75rem 0;
@@ -91,7 +89,7 @@
     font-weight: 600;
     color: white;
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(214, 51, 108, 0.6);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.6);
     transition: background 0.3s ease, transform 0.2s ease;
     text-align: center;
     text-decoration: none;
@@ -100,21 +98,19 @@
 
   .btn-next:hover,
   .btn-next:focus {
-    background: linear-gradient(45deg, #d6336c, #ff63a5);
+    background: linear-gradient(45deg, #2e7d32, #4caf50);
     transform: scale(1.05);
     outline: none;
   }
 
-  /* Scrollbar for overflow on smaller screens */
   main::-webkit-scrollbar {
     width: 8px;
   }
   main::-webkit-scrollbar-thumb {
-    background: #d6336c;
+    background: #2e7d32;
     border-radius: 4px;
   }
 
-  /* Responsive tweaks */
   @media (max-width: 480px) {
     main {
       padding: 2rem 1.5rem;
@@ -132,56 +128,56 @@
   <h1>12 Words and Their Meanings</h1>
   <ul class="word-list">
     <li class="word-item">
-      <div class="word">Euphoria</div>
-      <div class="meaning">A feeling or state of intense excitement and happiness.</div>
+      <div class="word">Airplane</div>
+      <div class="meaning">A flying vehicle with wings.</div>
     </li>
     <li class="word-item">
-      <div class="word">Serendipity</div>
-      <div class="meaning">The occurrence of events by chance in a happy or beneficial way.</div>
+      <div class="word">Bee</div>
+      <div class="meaning">A small insect that makes honey.</div>
     </li>
     <li class="word-item">
-      <div class="word">Luminous</div>
-      <div class="meaning">Emitting or reflecting light, glowing brightly.</div>
+      <div class="word">Bell</div>
+      <div class="meaning">A round object that makes sound.</div>
     </li>
     <li class="word-item">
-      <div class="word">Ephemeral</div>
-      <div class="meaning">Lasting for a very short time.</div>
+      <div class="word">Boat</div>
+      <div class="meaning">A vehicle that moves on water.</div>
     </li>
     <li class="word-item">
-      <div class="word">Quintessential</div>
-      <div class="meaning">Representing the most perfect or typical example of a quality or class.</div>
+      <div class="word">Bike</div>
+      <div class="meaning">A two-wheeled vehicle you pedal.</div>
     </li>
     <li class="word-item">
-      <div class="word">Solace</div>
-      <div class="meaning">Comfort or consolation in a time of distress or sadness.</div>
+      <div class="word">Bread</div>
+      <div class="meaning">Food made from flour and water.</div>
     </li>
     <li class="word-item">
-      <div class="word">Resilience</div>
-      <div class="meaning">The capacity to recover quickly from difficulties; toughness.</div>
+      <div class="word">Brush</div>
+      <div class="meaning">A tool for cleaning or painting.</div>
     </li>
     <li class="word-item">
-      <div class="word">Tranquil</div>
-      <div class="meaning">Free from disturbance; calm.</div>
+      <div class="word">Basket</div>
+      <div class="meaning">A container made of woven material.</div>
     </li>
     <li class="word-item">
-      <div class="word">Melancholy</div>
-      <div class="meaning">A feeling of pensive sadness, typically with no obvious cause.</div>
+      <div class="word">Bear</div>
+      <div class="meaning">A large wild animal with fur.</div>
     </li>
     <li class="word-item">
-      <div class="word">Effervescent</div>
-      <div class="meaning">Vivacious and enthusiastic; giving off bubbles.</div>
+      <div class="word">Balloon</div>
+      <div class="meaning">A colorful inflatable object.</div>
     </li>
     <li class="word-item">
-      <div class="word">Nostalgia</div>
-      <div class="meaning">A sentimental longing for the past.</div>
+      <div class="word">Biscuit</div>
+      <div class="meaning">A small baked sweet or savory snack.</div>
     </li>
     <li class="word-item">
-      <div class="word">Serene</div>
-      <div class="meaning">Calm, peaceful, and untroubled.</div>
+      <div class="word">Bun</div>
+      <div class="meaning">A small round bread roll.</div>
     </li>
   </ul>
 
-  <a href="levelP1.html" class="btn-next" role="button" tabindex="0">Next</a>
+  <a href="levelG11.html" class="btn-next" role="button" tabindex="0">Next</a>
 </main>
 
 </body>
