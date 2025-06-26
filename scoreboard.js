@@ -102,32 +102,51 @@ async function loadScoreboard(showAll = false) {
         resultHTML += `<p>⚠️ No finalScore values found in Level_4 or higher.</p>`;
       }
 
-      if (totalAvg1 !== null && totalAvg2 !== null) {
-        const score40 = (totalAvg1 / 100) * 40;
-        const score60 = (totalAvg2 / 100) * 60;
-        const finalPercentage = score40 + score60;
-        await userDocRef.set(
-          {
-            FinalPercentage: `${finalPercentage.toFixed(2)}%`,
-            rankScore: finalPercentage.toFixed(2),
-          },
-          { merge: true }
-        );
-        resultHTML += `<p><strong>🏆 Final Percentage:</strong> ${finalPercentage.toFixed(
-          2
-        )}%</p>`;
+      // ✅ Compute level completion based on pure_grade count
+      let totalPureGradesFound = 0;
+      const totalExpectedPureGrades = 310;
+
+      for (const doc of levelsSnapshot.docs) {
+        const data = doc.data();
+        for (const key in data) {
+          if (/^pure_grade \d+$/.test(key)) {
+            const value = data[key];
+            if (typeof value === "string" && value.trim().endsWith("%")) {
+              totalPureGradesFound++;
+            }
+          }
+        }
       }
 
-      const totalLevelsCreated = levelsSnapshot.docs.length;
-      const totalAvailableLevels = 23;
-      const completionRatio = (totalLevelsCreated / totalAvailableLevels) * 100;
+      const completionRatio =
+        (totalPureGradesFound / totalExpectedPureGrades) * 100;
       await userDocRef.set(
         { "Level Completion": `${completionRatio.toFixed(2)}%` },
         { merge: true }
       );
       resultHTML += `<p><strong>📊 Grade Completion:</strong> ${completionRatio.toFixed(
         2
-      )}% (based on ${totalLevelsCreated} of 23 Grades)</p>`;
+      )}% (based on ${totalPureGradesFound} of ${totalExpectedPureGrades} pure grades)</p>`;
+
+      if (totalAvg1 !== null && totalAvg2 !== null) {
+        const score40 = (totalAvg1 / 100) * 40;
+        const score60 = (totalAvg2 / 100) * 60;
+        const finalPercentage = score40 + score60;
+
+        const rankScore = (finalPercentage * completionRatio) / 100;
+
+        await userDocRef.set(
+          {
+            FinalPercentage: `${finalPercentage.toFixed(2)}%`,
+            rankScore: rankScore.toFixed(2),
+          },
+          { merge: true }
+        );
+
+        resultHTML += `<p><strong>🏆 Final Percentage:</strong> ${finalPercentage.toFixed(
+          2
+        )}%</p>`;
+      }
 
       output.innerHTML = resultHTML;
 
@@ -177,7 +196,7 @@ async function loadScoreboard(showAll = false) {
           photoURL: data.photoURL || "default-avatar.png",
           finalPercentage: data.FinalPercentage || "N/A",
           levelCompletion: data["Level Completion"] || "N/A",
-          rankScore: data.rankScore || "0%",
+          rankScore: data.rankScore || "0",
         });
       });
       usersData.sort(
