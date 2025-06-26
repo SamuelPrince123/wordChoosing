@@ -21,32 +21,53 @@
     .container {
       position: relative;
       max-width: 900px;
-      margin: auto;
+      margin: 40px auto;
       background: #ffffff;
-      padding: 20px;
+      padding: 30px 40px;
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
     }
 
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       color: #e91e63;
       text-align: center;
-      
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
     }
 
     h2 {
       color: #3f51b5;
-      margin-top: 30px;
+      margin-top: 40px;
+      margin-bottom: 15px;
     }
 
     p {
       font-size: 1.1rem;
-      margin: 15px 0;
+      margin: 18px 0;
+      line-height: 1.6;
     }
 
+    strong {
+      color: #c2185b;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-top: 12px;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
+      .container {
+        padding: 25px 20px;
+        margin: 20px 10px;
+      }
       h1 {
         font-size: 2rem;
       }
@@ -57,13 +78,12 @@
 
     @media (max-width: 480px) {
       .container {
-        padding: 20px;
+        padding: 20px 15px;
+        margin: 15px 10px;
       }
-
       h1 {
         font-size: 1.7rem;
       }
-
       p {
         font-size: 0.95rem;
       }
@@ -74,16 +94,19 @@
   <div class="container">
     <h1>Welcome to PicLingua</h1>
 
-   <p>
-  <strong>PicLingua</strong> is your complete language learning companion — covering all four essential skills:
-  <ul>
-    <li><strong>Reading</strong> — through the engaging start of the photo-reading game and also by exploring the live news section, helping you absorb vocabulary in real-world and visual contexts.</li>
-    <li><strong>Writing</strong> — via tests where you create meaningful sentences and receive intelligent feedback.</li>
-    <li><strong>Speaking</strong> — (Coming soon) an advanced AI model will interact with your voice to improve pronunciation and fluency.</li>
-    <li><strong>Listening</strong> — (Coming soon) immersive audio features will help you develop sharp listening skills in natural contexts.</li>
-  </ul>
-</p>
+    <p style="font-weight: bold; font-size: 1.2rem; color: #ad1457; margin-bottom: 30px; text-align: center;">
+      The challenge is clear: countless people around the world struggle to speak and truly understand English — not just in casual conversation, but even when listening to professionals on BBC, CNN, or other global platforms. This language barrier can hold back opportunities and confidence.
+    </p>
 
+    <p>
+      <strong>PicLingua</strong> is your complete language learning companion — covering all four essential skills:
+    </p>
+    <ul>
+      <li><strong>Reading</strong> — through the engaging start of the photo-reading game and also by exploring the live news section, helping you absorb vocabulary in real-world and visual contexts.</li>
+      <li><strong>Writing</strong> — via tests where you create meaningful sentences and receive intelligent feedback.</li>
+      <li><strong>Speaking</strong> — (Coming soon) an advanced AI model will interact with your voice to improve pronunciation and fluency.</li>
+      <li><strong>Listening</strong> — (Coming soon) immersive audio features will help you develop sharp listening skills in natural contexts.</li>
+    </ul>
 
     <p>
       <strong>PicLingua</strong> is not just another English platform — it's a revolution in how words are learned and remembered. Here, you’ll explore the power of <strong>photo-reading</strong>, a proven method that helps learners of all ages retain vocabulary faster, longer, and more meaningfully. At PicLingua, we believe that learning should not just be effective — it should be unforgettable.
@@ -110,7 +133,7 @@
       The journey doesn’t stop here. In the near future, <strong>PicLingua</strong> will introduce an advanced AI model that actively engages with you — adapting to your grade and level. This AI will ask questions, guide your responses, correct your speech, and boost your fluency — helping you become a confident speaker of English, naturally and effortlessly.
     </p>
 
-    <p style="text-align:center; margin-top: 40px; font-weight: bold;">
+    <p style="text-align:center; margin-top: 40px; font-weight: bold; color: #ad1457;">
       🌟 With <strong>PicLingua</strong>, you’re not just learning vocabulary —<br> you’re building a future through language.
     </p>
   </div>
