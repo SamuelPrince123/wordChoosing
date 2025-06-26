@@ -103,7 +103,7 @@ header .login-lin:hover {
 
 /* NAVIGATION */
 nav {
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -378,7 +378,7 @@ footer {
     nav {
         flex-direction: column;
         align-items: flex-start;
-        padding-left: 10px;
+        padding-left: 0px;
         gap: 10px;
     }
 
@@ -537,6 +537,7 @@ html, body {
 }
 
 
+
 /* Very large screens (TVs, Ultra-wide monitors ≥1800px) */
 @media (min-width: 1800px) {
   .scoreboard-scroll {
@@ -584,6 +585,12 @@ html, body {
   .scoreboard-scroll {
     width: 95%;
   }
+   nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 0px;
+        gap: 10px;
+    }
 }
 @media (max-width: 550px) {
   .scoreboard-scroll {
