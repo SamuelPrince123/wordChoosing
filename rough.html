@@ -1,214 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Select Your Bank</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <style>
-    :root {
-      --neon: #00ffe7;
-      --bg-dark: #0a0a0a;
-      --card-bg: #111;
-      --gradient: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+// File: bob.js
+
+function logBhutanTime() {
+  const bhutanTime = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Thimphu",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  });
+  console.log("⏰ Bhutan Time:", bhutanTime);
+}
+setInterval(logBhutanTime, 5000);
+
+const prices = { 20: 15, 50: 30, 100: 55, 200: 100 };
+const query = new URLSearchParams(window.location.search);
+let coins = query.get("coins");
+if (!coins) {
+  coins = localStorage.getItem("selectedCoins");
+} else {
+  localStorage.setItem("selectedCoins", coins);
+}
+const price = prices[coins] || "—";
+document.getElementById("coinAmount").textContent = `You selected: ${
+  coins || "—"
+} Coins`;
+document.getElementById(
+  "coinPrice"
+).textContent = `Amount to Pay: Nu. ${price}`;
+
+const endpoint =
+  "https://ocr-vision-sonu.cognitiveservices.azure.com/vision/v3.2/read/analyze";
+const subscriptionKey =
+  "4IirSEHGytWAlA0KkJpMqr7bUmxm8zG6guvyMXo7Qhfd5B6UfON0JQQJ99BFACGhslBXJ3w3AAAFACOG6aEw"; // Masked for security
+
+async function scanWithAzure(file) {
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": subscriptionKey,
+      "Content-Type": "application/octet-stream",
+    },
+    body: file,
+  });
+  if (response.status !== 202) {
+    const errorData = await response.json();
+    throw new Error(`Error ${response.status}: ${errorData.error.message}`);
+  }
+  return response.headers.get("Operation-Location");
+}
+
+async function getAzureResult(operationLocation) {
+  while (true) {
+    const resp = await fetch(operationLocation, {
+      headers: { "Ocp-Apim-Subscription-Key": subscriptionKey },
+    });
+    const result = await resp.json();
+    if (result.status === "succeeded") return result.analyzeResult.readResults;
+    if (result.status === "failed") throw new Error("OCR processing failed");
+    await new Promise((r) => setTimeout(r, 1000));
+  }
+}
+
+const submitBtn = document.getElementById("submitPayment");
+const fileInput = document.getElementById("paymentProof");
+const ocrOutput = document.getElementById("ocrOutput");
+const loadingSpinner = document.getElementById("loadingSpinner");
+const loadingText = document.getElementById("loadingText");
+const modal = document.getElementById("confirmationModal");
+const modalCoins = document.getElementById("modalCoins");
+const timeModal = document.getElementById("timeMismatchModal");
+const blurOverlay = document.getElementById("blurOverlay");
+const contentWrapper = document.getElementById("contentWrapper");
+
+submitBtn.addEventListener("click", async () => {
+  if (!fileInput.files.length) {
+    alert("Please upload a payment screenshot before submitting.");
+    return;
+  }
+
+  ocrOutput.style.display = "block";
+  ocrOutput.textContent = "Scanning image, please wait...";
+  loadingSpinner.style.display = "block";
+  loadingText.style.display = "block";
+  blurOverlay.style.display = "block";
+  contentWrapper.classList.add("blurred");
+
+  try {
+    const operationLocation = await scanWithAzure(fileInput.files[0]);
+    const pages = await getAzureResult(operationLocation);
+
+    let text = "";
+    pages.forEach((page) =>
+      page.lines.forEach((line) => (text += line.text + "\n"))
+    );
+    ocrOutput.textContent =
+      "Scanned Text:\n\n" + (text.trim() || "No text detected.");
+    console.log("📄 OCR Scanned Text:", text);
+
+    const months = {
+      January: 0,
+      February: 1,
+      March: 2,
+      April: 3,
+      May: 4,
+      June: 5,
+      July: 6,
+      August: 7,
+      September: 8,
+      October: 9,
+      November: 10,
+      December: 11,
+    };
+
+    const dateMatch = text.match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+    const timeMatch = text.match(/(\d{1,2}):(\d{2}):(\d{2})\s*([APMapm]{2})/);
+    let scannedTimestampMs = null;
+
+    if (dateMatch && timeMatch) {
+      const day = parseInt(dateMatch[1], 10);
+      const month = months[dateMatch[2]];
+      const year = parseInt(dateMatch[3], 10);
+      let hour = parseInt(timeMatch[1], 10);
+      const minute = parseInt(timeMatch[2], 10);
+      const second = parseInt(timeMatch[3], 10);
+      const ampm = timeMatch[4].toUpperCase();
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      scannedTimestampMs = Date.UTC(year, month, day, hour, minute, second);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    if (scannedTimestampMs === null) {
+      throw new Error("Could not detect time in the uploaded image.");
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--gradient);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    const nowMs = Date.now();
+    const currentBhutanMs = nowMs + 6 * 60 * 60 * 1000;
+    const diffMinutes = Math.abs(
+      (currentBhutanMs - scannedTimestampMs) / 60000
+    );
+
+    if (diffMinutes > 30) {
+      throw new Error("Time gap too large. Purchase cancelled.");
     }
 
-    header {
-      padding: 20px 40px;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    const formData = new FormData();
+    formData.append("name", "Sonu Tiwari");
+    formData.append("message", text);
+    formData.append("email", "st659136@gmail.com");
 
-      /* FLEXBOX for layout */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      gap: 20px;
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycby3w823YAvtLU_bJlIECm-qeJvilZ_juMxhxsMjuevJVVF7RrGszAeyPE8KQGvfXEdd/exec",
+      { method: "POST", body: formData }
+    );
+    await res.text();
+
+    // ✅ Store scanned data without redirecting
+    localStorage.setItem("scannedMessage", text.trim());
+    localStorage.setItem("receivedCoins", coins);
+    // window.location.href = "bankFirebase.html"; // <-- Redirect disabled to stay on page
+
+    modalCoins.textContent = coins;
+    modal.style.display = "flex";
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error("❌ Error:", err.message);
+    } else {
+      console.warn("⚠️ Non-error caught:", err);
     }
-
-    /* Back button stays at the left */
-    .back-button {
-      position: absolute;
-      left: 40px; /* matches header horizontal padding */
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: transparent;
-      border: 2px solid var(--neon);
-      padding: 8px 14px;
-      border-radius: 10px;
-      color: var(--neon);
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-      user-select: none;
-      z-index: 10; /* above h1 */
-    }
-
-    .back-button:hover {
-      background-color: var(--neon);
-      color: black;
-      box-shadow: 0 0 15px var(--neon);
-    }
-
-    /* Center the heading, flexbox lets us center it perfectly */
-    header h1 {
-      font-size: 2rem;
-      color: var(--neon);
-      margin: 0 auto; /* center horizontally */
-      max-width: 600px; /* optional max width */
-      text-align: center;
-      pointer-events: none;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 40px 20px 20px;
-    }
-
-    .hero h2 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 1rem;
-      color: #ccc;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      width: 100%;
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 2px solid var(--neon);
-      border-radius: 15px;
-      padding: 30px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 0 15px rgba(0, 255, 231, 0.1);
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 25px var(--neon);
-    }
-
-    .card i {
-      font-size: 40px;
-      margin-bottom: 15px;
-      color: var(--neon);
-    }
-
-    .card h2 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      font-size: 0.95rem;
-      color: #bbb;
-      margin-bottom: 15px;
-    }
-
-    .card span {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: var(--neon);
-      font-style: italic;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      color: #888;
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      .hero h2 {
-        font-size: 1.4rem;
-      }
-
-      .card h2 {
-        font-size: 1.2rem;
-      }
-
-      .card i {
-        font-size: 32px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <button class="back-button" onclick="location.href='game.html'">
-      <i class="fas fa-arrow-left"></i> Back
-    </button>
-    <h1><i class="fas fa-landmark"></i>Banking Hub</h1>
-  </header>
-
-  <section class="hero">
-    <h2>Select Your Banking Option</h2>
-    <p>We connect you to trusted financial institutions locally and globally. Choose your path below and manage your finances securely.</p>
-  </section>
-
-  <div class="container">
-    <div class="card" onclick="location.href='local-bank.html'">
-      <i class="fas fa-university"></i>
-      <h2>Local Bank</h2>
-      <p>Access neighborhood banks, credit unions, and cooperatives. Enjoy personalized service and fast in-person support.</p>
-      <span>Secure • Trusted • Nearby</span>
-    </div>
-
-    <div class="card" onclick="location.href='international-bank.html'">
-      <i class="fas fa-globe"></i>
-      <h2>International Bank</h2>
-      <p>Connect with global financial services across borders. Ideal for travel, remote work, study, and international transfers.</p>
-      <span>Global • Efficient • Powerful</span>
-    </div>
-  </div>
-
-  <footer>
-    © 2025 Universal Banking Hub. All rights reserved.
-  </footer>
-
-</body>
-</html>
+    timeModal.style.display = "flex";
+  } finally {
+    loadingSpinner.style.display = "none";
+    loadingText.style.display = "none";
+    blurOverlay.style.display = "none";
+    contentWrapper.classList.remove("blurred");
+  }
+});

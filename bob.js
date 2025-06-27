@@ -72,6 +72,21 @@ const timeModal = document.getElementById("timeMismatchModal");
 const blurOverlay = document.getElementById("blurOverlay");
 const contentWrapper = document.getElementById("contentWrapper");
 
+// Add this CSS class dynamically for blur effect
+const style = document.createElement("style");
+style.textContent = `
+  .blurred-text {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    white-space: pre-wrap;
+    cursor: default;
+  }
+`;
+document.head.appendChild(style);
+
 submitBtn.addEventListener("click", async () => {
   if (!fileInput.files.length) {
     alert("Please upload a payment screenshot before submitting.");
@@ -93,8 +108,12 @@ submitBtn.addEventListener("click", async () => {
     pages.forEach((page) =>
       page.lines.forEach((line) => (text += line.text + "\n"))
     );
+
+    // Set blurred scanned text here
     ocrOutput.textContent =
       "Scanned Text:\n\n" + (text.trim() || "No text detected.");
+    ocrOutput.classList.add("blurred-text"); // <-- This line adds blur to the scanned text
+
     console.log("📄 OCR Scanned Text:", text);
 
     const months = {

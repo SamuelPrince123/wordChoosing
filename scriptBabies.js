@@ -42,7 +42,7 @@ function showCoinsFromFirebase(energyValue) {
   console.log("✅ Updating progress bar: ", coins, "/", maxCoins);
 
   progressBar.style.width = percent + "%";
-  progressBar.textContent = `${coins}/${maxCoins} Coins`;
+  progressBar.textContent = `${coins}/${maxCoins} `;
 }
 
 // Timer logic

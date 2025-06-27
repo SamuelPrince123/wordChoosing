@@ -379,7 +379,7 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
 /* The actual progress bar */
 .progress-bar {
   height: 100%;
-  width: 50%; /* Initial value for coins */
+  width: 0%; /* Initial value for coins */
   background: linear-gradient(to right, #ff80bf, #ff4d94); /* Gradient for the bar */
   text-align: center;
   line-height: 30px; /* Match container height */
@@ -389,6 +389,11 @@ box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffff33; /* Intense glow for focus */
   border-radius: 20px; /* Rounded corners for bar */
   transition: width 0.4s ease-in-out; /* Smooth animation */
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15); /* Inner shadow for depth */
+     text-shadow:
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+     -1px  1px 0 #000,
+      1px  1px 0 #000;
 }
 
       /* Timer Styles */

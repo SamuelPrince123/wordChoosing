@@ -1,9 +1,46 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     text-align: center;
     background-color: #ffe6f2;
-    color: #333;
+    color: #3a0e2c; /* Darker pink-ish for main text */
+    margin: 0;
+    padding: 2rem 1rem;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ff4d91; /* Bright pink */
+    text-shadow: 0 0 8px #ff66b2;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 2.5rem;
+}
+
+/* Paragraphs */
+p {
+    max-width: 600px;
+    margin: 0 auto 1.8rem auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #4c154b;
+    font-weight: 500;
+    text-shadow: 0 0 5px #f0a6d5;
 }
 
 /* Back Button */
@@ -16,16 +53,18 @@ body {
     text-decoration: none;
     padding: 10px 15px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     border-radius: 20px;
     display: inline-block;
-    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.4);
+    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.6);
     transition: all 0.3s ease;
+    user-select: none;
+    z-index: 100;
 }
 
 .back-button:hover {
     background: linear-gradient(135deg, #ff75b5, #ff5f9e);
-    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.6);
+    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.8);
     transform: translateY(-3px);
 }
 
@@ -35,59 +74,104 @@ body {
     max-width: 400px;
     background-color: #ffd6e8;
     border-radius: 30px;
-    margin: 20px auto;
+    margin: 20px auto 30px auto;
     padding: 5px;
     box-shadow: 0 4px 10px rgba(255, 94, 141, 0.3);
 }
 
 .progress-bar {
-    width: 50%;
+    width: 0%;
     background: linear-gradient(135deg, #ff5f9e, #ff75b5);
     color: white;
-    padding: 10px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 1.2rem;
     border-radius: 30px;
     transition: width 0.3s ease;
+    text-shadow: 0 0 5px #fff;
+     text-shadow:
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+     -1px  1px 0 #000,
+      1px  1px 0 #000;
 }
 
 /* Coin Shop */
 .coin-shop {
     background: white;
-    padding: 20px;
+    padding: 30px 25px;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 94, 141, 0.25);
     width: 80%;
     max-width: 500px;
-    margin: 20px auto;
+    margin: 0 auto 40px auto;
 }
 
 .coin-shop h2 {
     color: #ff5f9e;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff8cc6;
 }
 
 /* Coin Purchase Buttons */
 .coin-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .coin-button {
     background: linear-gradient(135deg, #ff5f9e, #ff75b5);
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 14px 20px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
     border-radius: 25px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 94, 141, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 94, 141, 0.5);
     transition: all 0.3s ease;
+    user-select: none;
+    text-shadow: 0 0 6px #fff;
 }
 
 .coin-button:hover {
     background: linear-gradient(135deg, #ff75b5, #ff5f9e);
-    box-shadow: 0 6px 15px rgba(255, 94, 141, 0.6);
-    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 94, 141, 0.8);
+    transform: scale(1.08);
+}
+
+/* Refund & Contact Section */
+h3 + p {
+    max-width: 480px;
+    margin: 0 auto 15px auto;
+    font-style: italic;
+    color: #772144;
+    text-shadow: 0 0 5px #e297bf;
+    font-weight: 600;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+        font-size: 14px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.6rem;
+    }
+    .coin-button {
+        font-size: 16px;
+        padding: 12px 18px;
+    }
+    .progress-container {
+        width: 95%;
+    }
+    .coin-shop {
+        width: 95%;
+        padding: 20px 15px;
+    }
 }
