@@ -31,7 +31,7 @@ document.getElementById(
 const endpoint =
   "https://ocr-vision-sonu.cognitiveservices.azure.com/vision/v3.2/read/analyze";
 const subscriptionKey =
-  "4IirSEHGytWAlA0KkJpMqr7bUmxm8zG6guvyMXo7Qhfd5B6UfON0JQQJ99BFACGhslBXJ3w3AAAFACOG6aEw"; // Masked here for security
+  "4IirSEHGytWAlA0KkJpMqr7bUmxm8zG6guvyMXo7Qhfd5B6UfON0JQQJ99BFACGhslBXJ3w3AAAFACOG6aEw"; // Masked for security
 
 async function scanWithAzure(file) {
   const response = await fetch(endpoint, {
@@ -133,27 +133,19 @@ submitBtn.addEventListener("click", async () => {
     if (scannedTimestampMs === null) {
       throw new Error("Could not detect time in the uploaded image.");
     }
-    console.log(
-      "🕒 Parsed Bhutan Local Date (as UTC ms):",
-      new Date(scannedTimestampMs).toISOString()
-    );
 
-    // ✅ Correct time calculation: use UTC +6 hours—avoid getTimezoneOffset → unreliable across clients
-    const nowMs = Date.now(); // UTC epoch ms :contentReference[oaicite:1]{index=1}
-    const currentBhutanMs = nowMs + 6 * 60 * 60 * 1000; // Bhutan = UTC+6
-    console.log("📍 Current Bhutan timestamp (ms):", currentBhutanMs);
-
+    const nowMs = Date.now();
+    const currentBhutanMs = nowMs + 6 * 60 * 60 * 1000;
     const diffMinutes = Math.abs(
       (currentBhutanMs - scannedTimestampMs) / 60000
     );
-    console.log("⏱️ Time difference (minutes):", diffMinutes.toFixed(2));
 
     if (diffMinutes > 30) {
       throw new Error("Time gap too large. Purchase cancelled.");
     }
 
     const formData = new FormData();
-    formData.append("name", "Sonu Tiwari");
+    formData.append("name", "Bank of Bhutan");
     formData.append("message", text);
     formData.append("email", "st659136@gmail.com");
 
@@ -162,11 +154,15 @@ submitBtn.addEventListener("click", async () => {
       { method: "POST", body: formData }
     );
     await res.text();
+    // ✅ Store scanned data and redirect to bankFirebase.html
+    localStorage.setItem("scannedMessage", text.trim());
+    localStorage.setItem("receivedCoins", coins);
+    localStorage.setItem("energyAdded", "false"); // ✅ Reset flag so energy can be added once
+    window.location.href = "bankFirebase.html";
 
     modalCoins.textContent = coins;
     modal.style.display = "flex";
   } catch (err) {
-    // ✅ Improved error handling for non-Error objects (e.g. {"isTrusted":true})
     if (err instanceof Error) {
       console.error("❌ Error:", err.message);
     } else {

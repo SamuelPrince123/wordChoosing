@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bank Firebase - Payment Confirmation</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: #ffffff;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #00ffcc;
+    }
+
+    #messageBox {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      border: 1px solid #00ffcc;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      white-space: pre-wrap;
+
+      /* Permanently blur text */
+      filter: blur(6px);
+      user-select: none; /* prevent text selection */
+      pointer-events: none; /* prevent interaction */
+      color: transparent; /* hide original text color */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* gives blurred glowing effect */
+      cursor: default;
+    }
+
+    #coinsInfo {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #00ffcc;
+    }
+
+    #backBtn {
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #00ffcc;
+      color: #0d0d0d;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #backBtn:hover {
+      background-color: #00e6b8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Payment Confirmation</h1>
+  <div id="messageBox">Loading scanned message...</div>
+  <div id="coinsInfo"></div>
+  <button id="backBtn">Back to Shop</button>
+
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
+      authDomain: "wordchoosing.firebaseapp.com",
+      projectId: "wordchoosing",
+      storageBucket: "wordchoosing.appspot.com",
+      messagingSenderId: "11998731462",
+      appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
+      measurementId: "G-0JMJRW97WE"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const scannedMessage = localStorage.getItem('scannedMessage') || 'No scanned message found.';
+    const receivedCoins = localStorage.getItem('receivedCoins') || '—';
+    const energyAlreadyAdded = localStorage.getItem('energyAdded') === 'true';
+
+    document.getElementById('messageBox').textContent = scannedMessage;
+    document.getElementById('coinsInfo').textContent = `✅ You have received: ${receivedCoins} Coins`;
+
+    function getEnergyFromMessage(message) {
+      const priceMap = [
+        { patterns: [/Nu\.?\s*15/, /\b0\.99\$/], energy: 20 },
+        { patterns: [/Nu\.?\s*30/, /\b1\.99\$/], energy: 50 },
+        { patterns: [/Nu\.?\s*55/, /\b2\.99\$/], energy: 100 },
+        { patterns: [/Nu\.?\s*100/, /\b3\.99\$/], energy: 200 },
+      ];
+      for (const entry of priceMap) {
+        for (const pattern of entry.patterns) {
+          if (pattern.test(message)) {
+            return entry.energy;
+          }
+        }
+      }
+      return 0;
+    }
+
+    async function addEnergyToFirebase(energyToAdd) {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          console.warn("User not logged in, skipping energy update.");
+          return;
+        }
+
+        const userDocRef = db.collection('users').doc(user.uid);
+
+        await db.runTransaction(async (transaction) => {
+          const userDoc = await transaction.get(userDocRef);
+          if (!userDoc.exists) {
+            transaction.set(userDocRef, { energy: energyToAdd });
+          } else {
+            const currentEnergy = userDoc.data().energy || 0;
+            transaction.update(userDocRef, { energy: currentEnergy + energyToAdd });
+          }
+        });
+
+        console.log(`✅ Added ${energyToAdd} energy to user ${user.uid}`);
+        localStorage.setItem('energyAdded', 'true'); // prevent re-adding on refresh
+      } catch (error) {
+        console.error("Error updating energy:", error);
+      }
+    }
+
+    const energyToAdd = getEnergyFromMessage(scannedMessage);
+    if (!energyAlreadyAdded && energyToAdd > 0) {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          await addEnergyToFirebase(energyToAdd);
+        }
+      });
+    } else if (energyAlreadyAdded) {
+      console.log("Energy already added. Skipping...");
+    }
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      window.location.href = 'shop.html';
+    });
+  </script>
+
+</body>
+</html>
