@@ -1,0 +1,147 @@
+ 
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      color: #4f46e5;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    #google-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: white;
+      color: #555;
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    #google-login:hover:not(:disabled) {
+      background-color: #f3f4f6;
+    }
+    #google-login:disabled {
+      background-color: #e5e7eb;
+      cursor: not-allowed;
+      color: #9ca3af;
+    }
+    #google-login img {
+      height: 20px;
+    }
+
+    /* Modal background */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.5);
+      display: none; /* Hidden by default */
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    /* Modal content box */
+    .modal {
+      background: white;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      color: #111827;
+    }
+    .modal h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #4f46e5;
+    }
+    .modal p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: #374151;
+      word-break: break-word;
+    }
+    .modal button {
+      background-color: #4f46e5;
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .modal button:hover {
+      background-color: #4338ca;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+      .modal {
+        padding: 1.5rem;
+      }
+      .modal h2 {
+        font-size: 1.25rem;
+      }
+      .modal p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 450px;
+      }
+      .modal {
+        max-width: 450px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 400px;
+      }
+      .modal {
+        max-width: 400px;
+      }
+    }
+  

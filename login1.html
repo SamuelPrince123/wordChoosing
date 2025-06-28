@@ -4,161 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EduLogin - Learn Smarter</title>
-  <style>
-    /* Basic page styling */
-    body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      background-color: #f9fafb;
-      color: #1f2937;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      padding: 1rem;
-    }
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
-    h1 {
-      color: #4f46e5;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 1.5rem;
-      font-size: 1rem;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-    #google-login {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background-color: white;
-      color: #555;
-      border: 1px solid #ddd;
-      padding: 0.75rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-    #google-login:hover:not(:disabled) {
-      background-color: #f3f4f6;
-    }
-    #google-login:disabled {
-      background-color: #e5e7eb;
-      cursor: not-allowed;
-      color: #9ca3af;
-    }
-    #google-login img {
-      height: 20px;
-    }
-
-    /* Modal background */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0,0,0,0.5);
-      display: none; /* Hidden by default */
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
-    }
-    /* Modal content box */
-    .modal {
-      background: white;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 100%;
-      padding: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      text-align: center;
-      color: #111827;
-    }
-    .modal h2 {
-      margin-top: 0;
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      color: #4f46e5;
-    }
-    .modal p {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-      color: #374151;
-      word-break: break-word;
-    }
-    .modal button {
-      background-color: #4f46e5;
-      border: none;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .modal button:hover {
-      background-color: #4338ca;
-    }
-
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      .container {
-        padding: 1.5rem;
-      }
-      .modal {
-        padding: 1.5rem;
-      }
-      .modal h2 {
-        font-size: 1.25rem;
-      }
-      .modal p {
-        font-size: 1rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .container {
-        max-width: 450px;
-      }
-      .modal {
-        max-width: 450px;
-      }
-    }
-    @media (min-width: 1024px) {
-      .container {
-        max-width: 400px;
-      }
-      .modal {
-        max-width: 400px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="login1.css" />
 </head>
 <body>
 
 <div class="container">
   <h1>Welcome to PicScribe</h1>
   <p class="subtitle">Enter your username before signing in</p>
-<input type="text" id="username-input" placeholder="Enter a username..." maxlength="14" />
+  <input type="text" id="username-input" placeholder="Enter a username..." maxlength="14" />
   <button id="google-login" disabled>
     <img src="images/google.png" alt="Google" />
     Sign in with Google
@@ -176,34 +29,96 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult
+  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
-    authDomain: "wordchoosing.firebaseapp.com",
-    projectId: "wordchoosing",
-    storageBucket: "wordchoosing.appspot.com",
-    messagingSenderId: "11998731462",
-    appId: "1:11998731462:web:fa6494cfc027896b6d8bc7",
-    measurementId: "G-0JMJRW97WE",
-  };
-
+  // ─── FIREBASE SETUP ─────────────────────────────────────────────────────────
+  const firebaseConfig = { /* your config */ };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const loginBtn = document.getElementById('google-login');
+  // ─── UI ELEMENTS ────────────────────────────────────────────────────────────
+  const loginBtn      = document.getElementById('google-login');
   const usernameInput = document.getElementById('username-input');
-  const modal = document.getElementById('existing-account-modal');
-  const modalMessage = document.getElementById('modal-message');
-  const modalProceedBtn = document.getElementById('modal-proceed-btn');
+  const modal         = document.getElementById('existing-account-modal');
+  const modalMessage  = document.getElementById('modal-message');
+  const modalProceed  = document.getElementById('modal-proceed-btn');
 
-  // Enable button only if username entered
+  // Enable button only when username is non‑empty
   usernameInput.addEventListener('input', () => {
     loginBtn.disabled = usernameInput.value.trim() === "";
   });
 
+  // ─── HELPERS ────────────────────────────────────────────────────────────────
+  function isInAppBrowser() {
+    const ua = navigator.userAgent || "";
+    return ua.includes('FBAN') || ua.includes('FBAV') || ua.includes('Instagram');
+  }
+
+  function storageAvailable(type) {
+    try {
+      const storage = window[type], x = "__s";
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function handleUser(user) {
+    const username = usernameInput.value.trim();
+    const userRef  = doc(db, `users/${user.uid}`);
+    const snap     = await getDoc(userRef);
+
+    if (snap.exists()) {
+      // ── EXISTING ACCOUNT ──────────────────────────────────────────────
+      const data = snap.data();
+      modal.querySelector('h2').textContent = "Account Exists";
+      modalMessage.textContent =
+        `An account already exists with username "${data.name}". You already have an account.`;
+      modal.style.display = "flex";
+      modalProceed.onclick = () => {
+        modal.style.display = "none";
+        window.location.href = "index.html";
+      };
+    } else {
+      // ── NEW USER ────────────────────────────────────────────────────────
+      await setDoc(userRef, {
+        name:     username,
+        email:    user.email || "No Email",
+        photoURL: user.photoURL || "https://via.placeholder.com/48",
+        energy:   40,
+        timestamp: new Date().toISOString()
+      });
+
+      modal.querySelector('h2').textContent = "Account Created";
+      modalMessage.textContent = `Welcome, ${username}! Your account has been created successfully.`;
+      modal.style.display = "flex";
+      modalProceed.onclick = () => {
+        modal.style.display = "none";
+        window.location.href = "27Coins.html";
+      };
+    }
+  }
+
+  // ─── HANDLE REDIRECT RESULT (if any) ───────────────────────────────────────
+  getRedirectResult(auth)
+    .then(result => {
+      if (result && result.user) {
+        handleUser(result.user);
+      }
+    })
+    .catch(err => console.error("Redirect error:", err));
+
+  // ─── LOGIN CLICK ──────────────────────────────────────────────────────────
   loginBtn.addEventListener('click', async () => {
     const username = usernameInput.value.trim();
     if (!username) {
@@ -214,54 +129,27 @@
     const provider = new GoogleAuthProvider();
 
     try {
-      // Sign in popup
-      let result = await signInWithPopup(auth, provider);
-      let user = result.user;
-      const userRef = doc(db, `users/${user.uid}`);
-      let docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        // Existing account detected
-
-        const existingData = docSnap.data();
-        modalMessage.textContent = `An account already exists with username "${existingData.name}". You already have an account.`;
-
-        // Show modal
-        modal.style.display = "flex";
-
-        modalProceedBtn.onclick = () => {
-          // Proceed to index.html
-          modal.style.display = "none";
-          window.location.href = "index.html";
-        };
+      // Decide popup vs redirect
+      if ( isInAppBrowser() || !storageAvailable('sessionStorage') ) {
+        // in-app: popup always works better
+        const result = await signInWithPopup(auth, provider);
+        await handleUser(result.user);
 
       } else {
-        // New user: create document
-await setDoc(userRef, {
-  name: username,
-  email: user.email || "No Email",
-  photoURL: user.photoURL || "https://via.placeholder.com/48",
-  energy: 40,
-  timestamp: new Date().toISOString()
-});
-
-
-// Show modal with success message
-modal.querySelector('h2').textContent = "Account Created";
-modalMessage.textContent = `Welcome, ${username}! Your account has been created successfully.`;
-
-modal.style.display = "flex";
-
-modalProceedBtn.onclick = () => {
-  modal.style.display = "none";
-  window.location.href = "27Coins.html";
-};
-
-       
+        // normal browser: redirect flow
+        await signInWithRedirect(auth, provider);
+        // page will reload and be caught by getRedirectResult above
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Login failed: " + error.message);
+
+    } catch(error) {
+      console.error("Login flow failed:", error);
+      // fallback: if popup is blocked, try redirect
+      if ( error.code === 'auth/popup-blocked' ||
+           error.code === 'auth/operation-not-supported-in-this-environment' ) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        alert("Login failed: " + error.message);
+      }
     }
   });
 </script>
