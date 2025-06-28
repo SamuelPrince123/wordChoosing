@@ -13,12 +13,22 @@
     <p class="subtitle">Enter your username before signing in</p>
     <input type="text" id="username-input" placeholder="Enter a username..." maxlength="14" />
 
+    <!-- Normal Google button (hidden in in-app browsers) -->
     <button id="google-login" disabled>
       <img src="images/google.png" alt="Google" />
       Sign in with Google
     </button>
+
+    <!-- Fallback banner for in-app browsers -->
+    <div id="inapp-banner" style="display:none; margin-top:1rem; padding:1rem; background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px;">
+      <p style="margin:0 0 .5rem;">It looks like you’re inside Facebook’s app browser, which blocks our login. Please open this page in your device’s browser to continue.</p>
+      <button id="open-external" style="padding:.5rem 1rem; font-size:1rem; border:none; border-radius:6px; background:#4F46E5; color:white; cursor:pointer;">
+        Open in Browser
+      </button>
+    </div>
   </div>
 
+  <!-- Modal -->
   <div id="existing-account-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
       <h2 id="modal-title">Account Exists</h2>
@@ -29,9 +39,16 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+    import { 
+      getAuth, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signInWithRedirect, 
+      getRedirectResult 
+    } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
+    // ─── YOUR ACTUAL FIREBASE CONFIG ─────────────────────────────────────────
     const firebaseConfig = {
       apiKey: "AIzaSyCxyhobAIxWsTPRGjAiTpYywsWBA4MkAj8",
       authDomain: "wordchoosing.firebaseapp.com",
@@ -42,32 +59,85 @@
       measurementId: "G-0JMJRW97WE"
     };
 
+    // ─── INITIALIZE FIREBASE ─────────────────────────────────────────────────
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db   = getFirestore(app);
 
+    // ─── UI ELEMENTS ───────────────────────────────────────────────────────────
     const loginBtn      = document.getElementById('google-login');
     const usernameInput = document.getElementById('username-input');
+    const banner        = document.getElementById('inapp-banner');
+    const openExternal  = document.getElementById('open-external');
     const modal         = document.getElementById('existing-account-modal');
     const modalMessage  = document.getElementById('modal-message');
     const modalProceed  = document.getElementById('modal-proceed-btn');
 
+    // ─── DETECT IN-APP BROWSER ────────────────────────────────────────────────
     function isInAppBrowser() {
       const ua = navigator.userAgent || "";
       return ua.includes('FBAN') || ua.includes('FBAV') || ua.includes('Instagram');
     }
 
+    // On page load, swap in-app UI if needed
     window.addEventListener('DOMContentLoaded', () => {
       if (isInAppBrowser()) {
-        window.location.href = window.location.href;
-        window.open(window.location.href, '_blank');
+        loginBtn.style.display = 'none';
+        banner.style.display   = 'block';
       }
     });
 
+    // “Open externally” launches system browser
+    openExternal.addEventListener('click', () => {
+      window.open(window.location.href, '_blank');
+    });
+
+    // ─── ENABLE LOGIN BUTTON ──────────────────────────────────────────────────
     usernameInput.addEventListener('input', () => {
       loginBtn.disabled = usernameInput.value.trim() === "";
     });
 
+    // ─── COMMON USER HANDLING AFTER LOGIN ────────────────────────────────────
+    async function handleUser(user) {
+      const username = usernameInput.value.trim();
+      const userRef = doc(db, `users/${user.uid}`);
+      const snap = await getDoc(userRef);
+
+      if (snap.exists()) {
+        // Existing user
+        modal.querySelector('h2').textContent = "Account Exists";
+        modalMessage.textContent = `An account already exists with username "${snap.data().name}".`;
+        modal.style.display = 'flex';
+        modalProceed.onclick = () => window.location.href = 'index.html';
+
+      } else {
+        // New user
+        await setDoc(userRef, {
+          name:      username,
+          email:     user.email || "No Email",
+          photoURL:  user.photoURL || "https://via.placeholder.com/48",
+          energy:    40,
+          timestamp: new Date().toISOString()
+        });
+        modal.querySelector('h2').textContent = "Account Created";
+        modalMessage.textContent = `Welcome, ${username}! Your account has been created.`;
+        modal.style.display = 'flex';
+        modalProceed.onclick = () => window.location.href = '27Coins.html';
+      }
+    }
+
+    // ─── HANDLE REDIRECT RESULT (FOR REDIRECT FLOW) ──────────────────────────
+    getRedirectResult(auth)
+      .then(result => {
+        if (result && result.user) {
+          handleUser(result.user);
+        }
+      })
+      .catch(err => {
+        console.error("Redirect login error:", err);
+      });
+
+    // ─── GOOGLE SIGN-IN FLOW ─────────────────────────────────────────────────
     loginBtn.addEventListener('click', async () => {
       const username = usernameInput.value.trim();
       if (!username) {
@@ -75,33 +145,18 @@
         return;
       }
 
+      const provider = new GoogleAuthProvider();
+
       try {
-        const provider = new GoogleAuthProvider();
-        const result   = await signInWithPopup(auth, provider);
-        const user     = result.user;
-
-        const userRef = doc(db, `users/${user.uid}`);
-        const snap    = await getDoc(userRef);
-
-        if (snap.exists()) {
-          modal.querySelector('h2').textContent = "Account Exists";
-          modalMessage.textContent = `An account already exists with username "${snap.data().name}".`;
-          modal.style.display = 'flex';
-          modalProceed.onclick = () => window.location.href = 'index.html';
+        if (isInAppBrowser()) {
+          // Use redirect login in Facebook/Instagram app browser
+          await signInWithRedirect(auth, provider);
+          // The page will reload and getRedirectResult will handle user next
         } else {
-          await setDoc(userRef, {
-            name:      username,
-            email:     user.email || "No Email",
-            photoURL:  user.photoURL || "https://via.placeholder.com/48",
-            energy:    40,
-            timestamp: new Date().toISOString()
-          });
-          modal.querySelector('h2').textContent = "Account Created";
-          modalMessage.textContent = `Welcome, ${username}! Your account has been created.`;
-          modal.style.display = 'flex';
-          modalProceed.onclick = () => window.location.href = '27Coins.html';
+          // Use popup login everywhere else (normal browsers)
+          const result = await signInWithPopup(auth, provider);
+          await handleUser(result.user);
         }
-
       } catch (err) {
         console.error("Login failed:", err);
         alert("Login failed: " + err.message);
